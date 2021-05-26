@@ -88,13 +88,13 @@
         </a>
     </li>
 
-    <li class="nav-item <?= makeLinkActive('user.read.find_matches') ?>">
+    <!-- <li class="nav-item <?= makeLinkActive('user.read.find_matches') ?>">
         <a class="nav-link"
             href="<?= route('user.read.find_matches') ?>">
             <i class="fas fa-search"></i>
             <span><?= __tr('Find Matches') ?></span>
         </a>
-    </li>
+    </li> -->
     <li class="nav-item <?= makeLinkActive('user.profile_view') ?>">
         <a class="nav-link"
             href="<?= route('user.profile_view', ['username' => getUserAuthInfo('profile.username')]) ?>">
@@ -110,7 +110,7 @@
         </a>
     </li>
     <!-- Divider -->
-    <hr class="sidebar-divider mt-2 mb-2">
+    <!-- <hr class="sidebar-divider mt-2 mb-2">
     <li class="nav-item <?= makeLinkActive('user.who_liked_me_view') ?>">
         <a class="nav-link" href="<?= route('user.who_liked_me_view') ?>">
             <i class="fa fa-thumbs-up" aria-hidden="true"></i>
@@ -159,9 +159,9 @@
             <i class="fas fa-ban"></i>
             <span><?= __tr('Blocked Users') ?></span>
         </a>
-    </li>
+    </li> -->
 	<!-- Divider -->
-    <hr class="sidebar-divider d-none d-md-block">
+    <!-- <hr class="sidebar-divider d-none d-md-block"> -->
 	<!-- Featured Users -->
 	@if(!__isEmpty(getFeatureUserList()))
 	<div class="card">

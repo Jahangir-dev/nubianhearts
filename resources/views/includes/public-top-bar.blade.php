@@ -75,64 +75,64 @@
 	<!-- Topbar Navbar -->
 	
     <ul class="navbar-nav">
-        <li class="nav-item d-none d-sm-none d-md-block">
+        <!-- <li class="nav-item d-none d-sm-none d-md-block">
             <a class="nav-link" onclick="getChatMessenger('<?= route('user.read.all_conversation') ?>', true)" id="lwAllMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog">
                 <i class="far fa-comments"></i>
             </a>
-		</li>
+		</li> -->
 		<!-- Notification Link -->
-        <li class="nav-item dropdown no-arrow mx-1 d-none d-sm-none d-md-block">
+        <!-- li class="nav-item dropdown no-arrow mx-1 d-none d-sm-none d-md-block">
 			<a class="nav-link dropdown-toggle lw-ajax-link-action" href="<?= route('user.notification.write.read_all_notification') ?>" data-callback="onReadAllNotificationCallback" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-method="post">
                 <i class="fas fa-bell fa-fw"></i>
 				<span class="badge badge-danger badge-counter" data-model="totalNotificationCount"><?= (getNotificationList()['notificationCount'] > 0) ? getNotificationList()['notificationCount'] : '' ?></span>
             </a>
-            <!-- Dropdown - Alerts -->
+            
             <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
                 <h6 class="dropdown-header">
                 	<?= __tr('Notification') ?>
 				</h6>
-				<!-- Notification block -->		
+				
 				<div id="lwNotificationContent"></div>
 				<script type="text/_template" id="lwNotificationListTemplate">
 					<% if(!_.isEmpty(__tData.notificationList)) { %>
 						<% _.forEach(__tData.notificationList, function(notification) { %>
-							<!-- show all notification list -->
+							
 							<a class="dropdown-item d-flex align-items-center" href="<%- notification['actionUrl'] %>">
 								<div>
 									<div class="small text-gray-500"><%- notification['created_at'] %></div>
 									<span class="font-weight-bold"><%- notification['message'] %></span>
 								</div>
 							</a>
-							<!-- show all notification list -->
+							
 						<% }); %>
-						<!-- show all notification link -->
+						
 						<a class="dropdown-item text-center small text-gray-500" href="<?= route('user.notification.read.view') ?>" id="lwShowAllNotifyLink" data-show-if="showAllNotifyLink"><?= __tr('Show All Notifications.') ?></a>
-						<!-- /show all notification link -->
+						
 					<% } else { %>
-						<!-- info message -->
+						
 						<a class="dropdown-item text-center small text-gray-500"><?= __tr('There are no notification.') ?></a>
-						<!-- /info message -->
+						
 					<% } %>
 				</script>
-                <!-- /Notification block -->
+                
             </div>
-        </li>
+        </li> -->
 		<!-- /Notification Link -->
 
         <!-- Nav Item - Messages -->
-        <li class="nav-item d-none d-sm-none d-md-block">
+       <!--  <li class="nav-item d-none d-sm-none d-md-block">
             <a class="nav-link" href="<?= route('user.credit_wallet.read.view') ?>">
                 <i class="fas fa-coins fa-fw mr-2"></i>
                 <span class="badge badge-success badge-counter" id="lwTotalCreditWalletAmt"><?= totalUserCredits() ?></span>
             </a>
-        </li>
+        </li> -->
         
         <!-- Nav Item - Messages -->
-        <li class="nav-item d-none d-sm-none d-md-block">
+<!--         <li class="nav-item d-none d-sm-none d-md-block">
             <a class="nav-link lw-ajax-link-action" method="get" data-callback="updateBoosterPrice" href="<?= route('user.read.booster_data') ?>" data-toggle="modal" data-target="#boosterModal">
                 <i class="fas fa-bolt fa-fw mr-2"></i> <span id="lwBoosterTimerCountDown"></span>
             </a>
-        </li>
+        </li> -->
 
         <?php
             $translationLanguages = getStoreSettings('translation_languages');
@@ -185,10 +185,10 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     <?= __tr('Profile') ?>
                 </a>
-                <a class="dropdown-item" href="<?= route('user.read.setting', ['pageType' => 'notification']) ?>">
+              <!--   <a class="dropdown-item" href="<?= route('user.read.setting', ['pageType' => 'notification']) ?>">
                     <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                     <?= __tr('Settings') ?>
-				</a>
+				</a> -->
 				<a class="dropdown-item" href="<?= route('user.change_password') ?>">
                     <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                    <?= __tr('Change Password') ?>
@@ -203,13 +203,13 @@
                     <?= __tr('Delete Account') ?>
                 </a>
                 @endif
-                @if(isAdmin())
+               <!--  @if(isAdmin())
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-primary" target="_blank" href="<?= route('manage.dashboard') ?>">
                         <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
                         <?= __tr('Admin Panel') ?>
                     </a>
-                @endif
+                @endif -->
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
