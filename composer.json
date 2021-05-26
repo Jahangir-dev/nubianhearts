@@ -7,7 +7,7 @@
     ],
     "license": "NA",
     "require": {
-    	"php": "^7.2.5",
+        "php": "^7.2.5",
         "fideloper/proxy": "^4.2",
         "fruitcake/laravel-cors": "^1.0",
         "guzzlehttp/guzzle": "^6.3",
@@ -27,8 +27,8 @@
         "pusher/pusher-php-server": "~4.1.1",
         "stripe/stripe-php": "7.2.2",
         "vemcogroup/laravel-sparkpost-driver": "^3.0.1",
-		"razorpay/razorpay": "2.5.0",
-        "paypal/rest-api-sdk-php":"1.14.0"
+        "razorpay/razorpay": "2.5.0",
+        "paypal/rest-api-sdk-php": "1.14.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
