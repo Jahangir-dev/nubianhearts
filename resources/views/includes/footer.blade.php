@@ -52,8 +52,24 @@
     'dist/js/vendorlibs-public.js',
     'dist/js/vendorlibs-datatable.js',
     'dist/js/vendorlibs-photoswipe.js',
-    'dist/js/vendorlibs-smartwizard.js'
+    'dist/js/vendorlibs-smartwizard.js',
+    "theme/js/jquery-3.3.1.min.js",
+    "theme/js/modernizr-3.6.0.min.js",
+    "theme/js/plugins.js",
+    "theme/js/bootstrap.min.js",
+    "theme/js/heandline.js",
+    "theme/js/isotope.pkgd.min.js",
+    "theme/js/magnific-popup.min.js",
+    "theme/js/owl.carousel.min.js",
+    "theme/js/wow.min.js",
+    "theme/js/countdown.min.js",
+    "theme/js/odometer.min.js",
+    "theme/js/viewport.jquery.js",
+    "theme/js/nice-select.js",
+    "theme/js/main.js",
 ], true) ?>
+
+
 <script>
         (function () {
             $.validator.messages = $.extend({}, $.validator.messages, {

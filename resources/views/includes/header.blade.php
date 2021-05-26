@@ -45,7 +45,22 @@
             "dist/css/vendorlibs-smartwizard.css",
 			'dist/css/custom*.css',
 			'dist/css/messenger*.css',
-			'dist/css/login-register*.css'            
+			'dist/css/login-register*.css',
+			'theme/css/bootstrap.min.css',
+			'theme/css/all.min.css',
+			'theme/css/animate.css',
+			'theme/css/flaticon.css',
+			'theme/css/magnific-popup.css',
+			'theme/css/odometer.css',
+			'theme/css/owl.carousel.min.css',
+			'theme/css/owl.theme.default.min.css',
+			'theme/css/nice-select.css',
+			'theme/css/jquery.animatedheadline.css',
+			'theme/css/main.css',
+			'theme/css/responsive.css'            
 		], true) ?>
+
+
+
         @stack('header')
 	</head>
