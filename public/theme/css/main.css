@@ -1482,7 +1482,7 @@ input[type=submit] {
   }
 }
 .footer-section {
-  padding: 120px 0px 25px;
+  padding: 25px 0px 25px;
   position: relative;
   background: #3b2196;
   overflow: hidden;
@@ -1587,6 +1587,9 @@ input[type=submit] {
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   display: block;
   margin: 80px 0px 122px;
+}
+.footer-section .copyright  {
+  color: #fff !important;
 }
 .footer-section .copyright-wrapper .hr2 {
   margin: 108px 0px 24px;

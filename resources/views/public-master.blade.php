@@ -1,50 +1,48 @@
 <!-- include header -->
 @include('includes.header')
 <!-- /include header -->
-<body id="page-top" class="lw-page-bg lw-public-master">
-    <!-- Page Wrapper -->
-    <div id="wrapper" class="container-fluid">
-        <!-- include sidebar -->
+<body>
+	
+	<!-- include sidebar -->
         @if(isLoggedIn())
-        @include('includes.public-sidebar')
+        @include('includes.public-top-bar')
         @endif
-        <!-- /include sidebar -->
+    <!-- /include sidebar -->
+	<!-- ==========Breadcrumb-Section========== -->
+    <section class="breadcrumb-area profile-bc-area">
+        <div class="container">
+            <div class="content">
+                <h2 class="title extra-padding">
+                    Single Profile
+                </h2>
+                <ul class="breadcrumb-list extra-padding">
+                    <li>
+                        <a href="index.html">
+                            Home
+                        </a>
+                    </li>
 
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column lw-page-bg">
-            <div id="content">
-                <!-- include top bar -->
-                @if(isLoggedIn())
-                @include('includes.public-top-bar')
-                @endif
-                <!-- /include top bar -->
-
-                <!-- Begin Page Content -->
-                <div class="lw-page-content">
-                    <!-- header advertisement -->
-                    @if(!getFeatureSettings('no_adds') and getStoreSettings('header_advertisement')['status'] == 'true')
-                    <div class="lw-ad-block-h90">
-                        <?= getStoreSettings('header_advertisement')['content'] ?>
-                    </div>
-                    @endif
-                    <!-- /header advertisement -->
-                    @if(isset($pageRequested))
-                    <?php echo $pageRequested; ?>
-                    @endif
-                    <!-- footer advertisement -->
-                    @if(!getFeatureSettings('no_adds') and getStoreSettings('footer_advertisement')['status'] == 'true')
-                    <div class="lw-ad-block-h90">
-                        <?= getStoreSettings('footer_advertisement')['content'] ?>
-                    </div>
-                    @endif
-                    <!-- /footer advertisement -->
-                </div>
-                <!-- /.container-fluid -->
+                    <li>
+                        Single Profile
+                    </li>
+                </ul>
             </div>
         </div>
-        <!-- End of Content Wrapper -->
-    </div>
-    <!-- End of Page Wrapper -->
+    </section>
+    <!-- ==========Breadcrumb-Section========== -->
+    <!-- ========= Profile Section Start -->
+    <section class="profile-section">
+        <div class="container">
+            <div class="row">
+			    <!-- include sidebar -->
+			        @if(isLoggedIn())
+			        @include('includes.public-sidebar')
+			        @endif
+			    <!-- /include sidebar -->
+			</div>
+		</div>
+	</section>	
+     <!-- End of Page Wrapper -->
 
 	<div class="lw-cookie-policy-container row p-4" id="lwCookiePolicyContainer">
 		<div class="col-sm-11">
@@ -56,13 +54,7 @@
     @include('includes.footer')
     <!-- /include footer -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-    <!-- /Scroll to Top Button-->
-
-    <!-- Logout Modal-->
+     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -85,4 +77,3 @@
     </div>
     <!-- /Logout Modal-->
 </body>
-</html>

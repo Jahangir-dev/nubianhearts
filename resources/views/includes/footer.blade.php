@@ -1,5 +1,5 @@
 <!-- Footer -->
-<footer class="sticky-footer bg-white">
+<footer class="footer-section">
     <div class="container my-auto">
         <div class="copyright text-center my-auto">
             <span><?= __tr('Copyright © __storeName__ __copyrightYear__', [

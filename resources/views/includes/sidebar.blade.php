@@ -20,36 +20,36 @@
         </a>
     </li>
     <li class="nav-item <?= makeLinkActive('manage.page.view') ?>">
-		<a class="nav-link" href="<?= route('manage.page.view') ?>">
-			<i class="fas fa-file"></i>
+      <a class="nav-link" href="<?= route('manage.page.view') ?>">
+         <i class="fas fa-file"></i>
             <span><?= __tr( 'Pages' ) ?></span>
-		</a>
-	</li>
-	<li class="nav-item <?= makeLinkActive('manage.item.gift.view') ?>">
-		<a class="nav-link" href="<?= route('manage.item.gift.view') ?>">
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.item.gift.view') ?>">
+      <a class="nav-link" href="<?= route('manage.item.gift.view') ?>">
             <i class="fas fa fa-gift"></i>
             <span><?= __tr( 'Gifts' ) ?></span>
-		</a>
-	</li>
-	<li class="nav-item <?= makeLinkActive('manage.item.sticker.view') ?>">
-		<a class="nav-link" href="<?= route('manage.item.sticker.view') ?>">
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.item.sticker.view') ?>">
+      <a class="nav-link" href="<?= route('manage.item.sticker.view') ?>">
             <i class="fas fa fa-sticky-note"></i>
             <span><?= __tr( 'Stickers' ) ?></span>
-		</a>
-	</li>
-	<li class="nav-item <?= makeLinkActive('manage.credit_package.read.list') ?>">
-		<a class="nav-link" href="<?= route('manage.credit_package.read.list') ?>">
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.credit_package.read.list') ?>">
+      <a class="nav-link" href="<?= route('manage.credit_package.read.list') ?>">
             <i class="fas fa-box"></i>
             <span><?= __tr( 'Credit Packages' ) ?></span>
-		</a>
-	</li>
-	<li class="nav-item <?= makeLinkActive('manage.abuse_report.read.list') ?>">
-		<a class="nav-link" href="<?= route('manage.abuse_report.read.list', ['status' => 1]) ?>">
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.abuse_report.read.list') ?>">
+      <a class="nav-link" href="<?= route('manage.abuse_report.read.list', ['status' => 1]) ?>">
             <i class="fas fa-flag"></i>
             <span><?= __tr( 'Abuse Reports' ) ?></span>
         </a>
     </li>
-	<li class="nav-item <?= makeLinkActive('manage.user.view_list') ?>">
+   <li class="nav-item <?= makeLinkActive('manage.user.view_list') ?>">
         <a class="nav-link" href="<?= route('manage.user.view_list', ['status' => 1]) ?>">
             <i class="fas fa-users"></i>
             <span><?= __tr('Users') ?></span>
@@ -61,25 +61,25 @@
             <span><?= __tr('User Uploads') ?></span>
         </a>
     </li>
-	<li class="nav-item <?= makeLinkActive('manage.configuration.read') ?>">
+   <li class="nav-item <?= makeLinkActive('manage.configuration.read') ?>">
         <a class="nav-link" href="<?= route('manage.configuration.read', ['pageType' => 'general']) ?>">
             <i class="fas fa-cogs"></i>
             <span><?= __tr('Settings') ?></span>
-		</a>
-	</li>
-	<li class="nav-item <?= makeLinkActive('manage.financial_transaction.read.view_list') ?>">
-		<a class="nav-link" href="<?= route('manage.financial_transaction.read.view_list', ['transactionType' => 'live']) ?>">
- 			<i class="fas fa-university"></i>
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.financial_transaction.read.view_list') ?>">
+      <a class="nav-link" href="<?= route('manage.financial_transaction.read.view_list', ['transactionType' => 'live']) ?>">
+         <i class="fas fa-university"></i>
             <span><?= __tr('Financial Transactions') ?></span>
-		</a>
-	</li>
-	<li class="nav-item <?= makeLinkActive('manage.translations.languages') ?>">
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.translations.languages') ?>">
         <a class="nav-link" href="<?= route('manage.translations.languages') ?>">
             <i class="fas fa-language"></i>
             <span><?= __tr('Languages') ?></span>
         </a>
     </li>
-	<li class="nav-item <?= makeLinkActive('manage.fake_users.read.generator_options') ?>">
+   <li class="nav-item <?= makeLinkActive('manage.fake_users.read.generator_options') ?>">
         <a class="nav-link" href="<?= route('manage.fake_users.read.generator_options') ?>">
             <i class="fas fa-user-plus"></i>
             <span><?= __tr('Generate Fake Users') ?></span>
