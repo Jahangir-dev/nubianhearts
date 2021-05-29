@@ -45,7 +45,7 @@
                                             <a class="nav-link" href="<?= route('user.login') ?>"><?= __tr('Login') ?></a>
                                         </li>
                                         <li class="nav-item login-btn">
-                                            <a class="nav-link" href="#">Register</a>
+                                            <a class="nav-link" href="<?= route('user.sign_up')?>">Register</a>
                                         </li>
                                     </ul>
 
@@ -361,7 +361,7 @@
                     <div class="col-md-8">
                     </div>
                     <div class="col-md-4">
-                        <p>Copyright © 2021, NubianHearts</p>
+                        <p>Copyright ï¿½ 2021, NubianHearts</p>
                     </div>
                 </div>
             </div>
