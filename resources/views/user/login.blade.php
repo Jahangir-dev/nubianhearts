@@ -47,8 +47,9 @@
                         </div>
                         <!--  /success message when email sent  -->
                         @endif
-                        <div class="main-content inloginp lw-ajax-form lw-form" data-callback="onLoginCallback" method="post" action="<?= route('user.login.process') ?>" data-show-processing="true" data-secured="true">
-                            <form action="#">
+                        <div class="main-content inloginp">
+                            <form class="user lw-ajax-form lw-form" data-callback="onLoginCallback" method="post" action="<?= route('user.login.process') ?>" data-show-processing="true" data-secured="true">
+                                @csrf
                                 <div class="form-group">
                                     <label for="">Your Address</label>
                                     <input name="email_or_username" aria-describedby="emailHelp" type="email" class="my-form-control" placeholder="<?= __tr('Enter Email Address or Username ...') ?>" required>
@@ -67,7 +68,7 @@
                                                                     Forgot your password? <a href="#">recover password</a>
                                                                 </p>-->
                                 <div class="button-wrapper">
-                                    <button type="submit" class="custom-button">Sign IN</button>
+                                    <button  type="submit" value="Login" class="lw-ajax-form-submit-action custom-button btn-user btn-block"><?= __tr('Login') ?></button>
                                 </div>
                             </form>
                         </div>
@@ -91,3 +92,7 @@
     }
 </script>
 @endpush
+
+<!-- include footer -->
+@include('includes.theme-footer')
+<!-- /include footer -->

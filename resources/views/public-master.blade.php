@@ -1,60 +1,68 @@
 <!-- include header -->
 @include('includes.header')
 <!-- /include header -->
-<body>
-	
-	<!-- include sidebar -->
+<body id="page-top" class="lw-page-bg lw-public-master">
+    <!-- Page Wrapper -->
+    <div id="wrapper" class="container-fluid">
+        <!-- include sidebar -->
         @if(isLoggedIn())
-        @include('includes.public-top-bar')
+        @include('includes.public-sidebar')
         @endif
-    <!-- /include sidebar -->
-	<!-- ==========Breadcrumb-Section========== -->
-    <section class="breadcrumb-area profile-bc-area">
-        <div class="container">
-            <div class="content">
-                <h2 class="title extra-padding">
-                    Single Profile
-                </h2>
-                <ul class="breadcrumb-list extra-padding">
-                    <li>
-                        <a href="index.html">
-                            Home
-                        </a>
-                    </li>
+        <!-- /include sidebar -->
 
-                    <li>
-                        Single Profile
-                    </li>
-                </ul>
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column lw-page-bg">
+                <!-- include top bar -->
+                @if(isLoggedIn())
+                @include('includes.public-top-bar')
+                @endif
+                <!-- /include top bar -->
+            <div id="content">
+
+                <!-- Begin Page Content -->
+                <div class="lw-page-content">
+                    <!-- header advertisement -->
+                    @if(!getFeatureSettings('no_adds') and getStoreSettings('header_advertisement')['status'] == 'true')
+                    <div class="lw-ad-block-h90">
+                        <?= getStoreSettings('header_advertisement')['content'] ?>
+                    </div>
+                    @endif
+                    <!-- /header advertisement -->
+                    @if(isset($pageRequested))
+                    <?php echo $pageRequested; ?>
+                    @endif
+                    <!-- footer advertisement -->
+                    @if(!getFeatureSettings('no_adds') and getStoreSettings('footer_advertisement')['status'] == 'true')
+                    <div class="lw-ad-block-h90">
+                        <?= getStoreSettings('footer_advertisement')['content'] ?>
+                    </div>
+                    @endif
+                    <!-- /footer advertisement -->
+                </div>
+                <!-- /.container-fluid -->
             </div>
         </div>
-    </section>
-    <!-- ==========Breadcrumb-Section========== -->
-    <!-- ========= Profile Section Start -->
-    <section class="profile-section">
-        <div class="container">
-            <div class="row">
-			    <!-- include sidebar -->
-			        @if(isLoggedIn())
-			        @include('includes.public-sidebar')
-			        @endif
-			    <!-- /include sidebar -->
-			</div>
-		</div>
-	</section>	
-     <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
+    </div>
+    <!-- End of Page Wrapper -->
 
-	<div class="lw-cookie-policy-container row p-4" id="lwCookiePolicyContainer">
-		<div class="col-sm-11">
+    <div class="lw-cookie-policy-container row p-4" id="lwCookiePolicyContainer">
+        <div class="col-sm-11">
             @include('includes.cookie-policy')
         </div>
-		<div class="col-sm-1 mt-2"><button id="lwCookiePolicyButton" class="btn btn-primary"><?= __tr('OK') ?></button></div>
-	</div>
+        <div class="col-sm-1 mt-2"><button id="lwCookiePolicyButton" class="btn btn-primary"><?= __tr('OK') ?></button></div>
+    </div>
     <!-- include footer -->
     @include('includes.footer')
     <!-- /include footer -->
 
-     <!-- Logout Modal-->
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+    <!-- /Scroll to Top Button-->
+
+    <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -77,3 +85,4 @@
     </div>
     <!-- /Logout Modal-->
 </body>
+</html>

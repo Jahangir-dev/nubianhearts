@@ -8885,3 +8885,47 @@ input[type=submit] {
   color: #fff;
   padding: 12px 10px 12px;
 }
+
+@media (min-width: 1191px){
+  .lw-public-master .container-fluid {
+    max-width: 100%;
+  }
+
+}
+
+.bg-purple {
+  background: #5650ce !important;
+}
+
+.accordion li {
+  padding: 0px !important;
+}
+
+.lw-page-bg {
+  background: #fafbff !important;
+}
+
+.sidebar-dark .nav-item .nav-link {
+   color:  #000 !important;
+}
+
+.sidebar-dark hr.sidebar-divider {
+  border-top: 1px solid #000 !important;
+}
+
+.btn {
+  background-color: #5650ce !important;
+}
+
+.text-gray-200 {
+  color: #000 !important;
+}
+
+.form-control[readonly] {
+  background-color: #eaecf4 !important;
+}
+
+.container-fluid {
+  padding-right: 0.50rem !important;
+  padding-left: 0.50rem !important;
+}

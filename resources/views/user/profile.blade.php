@@ -259,41 +259,7 @@
 		</div>
 		@endif
     
-		<!-- user gift data -->
-		@if(!__isEmpty($userGiftData) or $isOwnProfile)
-		<div class="card mb-3">
-			<!-- Gift Header -->
-			<div class="card-header">
-				<h5><i class="fa fa-gifts" aria-hidden="true"></i>  <?= __tr('Gifts') ?></h5>
-			</div>
-			<!-- /Gift Header -->
-			<!-- Gift Card Body -->
-			<div class="card-body">
-				@if(!__isEmpty($userGiftData))
-				<div class="row">
-					@foreach($userGiftData as $gift)
-						<div class="lw-user-gift-container">
-							<img data-src="<?= imageOrNoImageAvailable($gift['userGiftImgUrl']) ?>" class="lw-user-gift-img lw-lazy-img"/>
-							<small>
-                            <?= __tr('sent by') ?> <br>
-                            <a href="<?= route('user.profile_view', ['username' => $gift['senderUserName']]) ?>"><?= $gift['fromUserName'] ?></a></small>
-                            @if($gift['status'] === 1) 
-                            <i class="fas fa-mask" title="<?= __tr('This is a private gift you and only sender can see this.') ?>"></i>
-                            @endif
-						</div>
-					@endforeach
-				</div>
-				@else
-					<!-- info message -->
-					<div class="alert alert-info">
-						<?= __tr('There are no gifts.') ?>
-					</div>
-					<!-- / info message -->
-				@endif
-			</div>
-			<!-- Gift Card Body -->
-		</div>
-		@endif
+	
 		<!-- /user gift data -->
 
 		<!-- User Basic Information -->
@@ -511,50 +477,7 @@
 			</div>
 		</div>
 		<!-- /User Basic Information -->
-		<div class="card mb-3">
-			<div class="card-header">
-			@if($isOwnProfile)
-				<span class="float-right">
-					<a class="lw-icon-btn" href role="button" id="lwEditUserLocation">
-						<i class="fa fa-pencil-alt"></i>
-					</a>
-					<a class="lw-icon-btn" href role="button" id="lwCloseLocationBlock" style="display: none;">
-						<i class="fa fa-times"></i>
-					</a>
-				</span>
-			@endif
-			<h5><i class="fas fa-map-marker-alt"></i> <?= __tr('Location') ?></h5>
-			</div>
-			<div class="card-body">
-				@if(getStoreSettings('allow_google_map'))
-				<div id="lwUserStaticLocation">
-					<?php 
-						$latitude = (__ifIsset($userProfileData['latitude'], $userProfileData['latitude'], '21.120779')); 
-						$longitude = (__ifIsset($userProfileData['longitude'], $userProfileData['longitude'], '79.0544606')); 
-					?>
-					<div class="gmap_canvas"><iframe height="300" id="gmap_canvas" src="https://maps.google.com/maps/place?q=<?= $latitude ?>,<?= $longitude ?>&output=embed" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
-					</div>
-				</div>
-				<div id="lwUserEditableLocation" style="display: none;">
-					<div class="form-group">
-						<label for="address_address"><?= __tr('Location') ?></label>
-						<input type="text" id="address-input" name="address_address" class="form-control map-input">
-						<input type="hidden" name="address_latitude" data-model="profileData.latitude" id="address-latitude" value="<?= $latitude ?>" />
-						<input type="hidden" name="address_longitude" data-model="profileData.longitude" id="address-longitude" value="<?= $longitude ?>" />
-					</div>
-					<div id="address-map-container" style="width:100%;height:400px; ">
-						<div style="width: 100%; height: 100%" id="address-map"></div>
-					</div>
-				</div>
-				@else
-					<!-- info message -->
-					<div class="alert alert-info">
-						<?= __tr('Something went wrong with Google Api Key, please contact to system administrator.') ?>
-					</div>
-					<!-- / info message -->
-				@endif
-			</div>
-		</div>
+		
 
 		<!-- User Specifications -->
 		@if(!__isEmpty($userSpecificationData))

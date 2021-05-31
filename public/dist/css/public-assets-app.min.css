@@ -3068,6 +3068,8 @@ input[type="button"].btn-block {
     border-top-left-radius: 0.35rem;
     border-top-right-radius: 0.35rem; }
     .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+      background-color: #5650ce !important;
+      color: #fff !important;
       border-color: #eaecf4 #eaecf4 #dddfeb; }
     .nav-tabs .nav-link.disabled {
       color: #858796;
@@ -7866,8 +7868,6 @@ a:focus {
 
 .sidebar-dark .nav-item .nav-link {
   color: rgba(255, 255, 255, 0.8); }
-  .sidebar-dark .nav-item .nav-link i {
-    color: rgba(255, 255, 255, 0.3); }
   .sidebar-dark .nav-item .nav-link:active, .sidebar-dark .nav-item .nav-link:focus, .sidebar-dark .nav-item .nav-link:hover {
     color: #fff; }
     .sidebar-dark .nav-item .nav-link:active i, .sidebar-dark .nav-item .nav-link:focus i, .sidebar-dark .nav-item .nav-link:hover i {

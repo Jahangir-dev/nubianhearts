@@ -5,6 +5,7 @@ use Carbon\Carbon;
 use App\Yantrana\Components\User\Models\{ User, UserProfile, UserAuthorityModel, LikeDislikeModal, CreditWalletTransaction, UserSubscription, ProfileBoost, UserBlock };
 use App\Yantrana\Components\User\Models\NotificationLog;
 use App\Yantrana\Support\CommonTrait;
+use Illuminate\Support\Str;
 use App\Yantrana\Components\User\Repositories\{UserRepository};
 
 /*
@@ -570,7 +571,7 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
         function getMediaUrl($storagePath, $filename = '')
         {
             // Check if already URL is given then return URL
-            if (str_contains($filename, ['http://', 'https://'])) {
+            if (Str::contains($filename, ['http://', 'https://'])) {
                 return $filename;
             }
             // check if filename not exists
