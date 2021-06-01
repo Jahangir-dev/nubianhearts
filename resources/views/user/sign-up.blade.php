@@ -20,7 +20,7 @@
                 </div>
             </div>
         </div>-->
-    <section class="log-reg">
+    <section class="log-reg" style="height: auto;">
         <div class="top-menu-area">
             <div class="container">
                 <div class="row">
