@@ -46,7 +46,7 @@
 				'dist/css/custom*.css',
 				'dist/css/messenger*.css',
 				'dist/css/login-register*.css',
-			/*'theme/css/bootstrap.min.css',
+			'theme/css/bootstrap.min.css',
 			'theme/css/all.min.css',
 			'theme/css/animate.css',
 			'theme/css/flaticon.css',
@@ -57,7 +57,7 @@
 			'theme/css/nice-select.css',
 			'theme/css/jquery.animatedheadline.css',
 			'theme/css/main.css',
-			'theme/css/responsive.css' */           
+			'theme/css/responsive.css'            
 		], true) ?>
 
 

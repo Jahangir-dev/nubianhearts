@@ -55,8 +55,9 @@
                         </div>
                         <!--  /success message when email sent  -->
                         @endif
-                        <div class="main-content inloginp lw-ajax-form lw-form" data-callback="onLoginCallback" method="post" action="<?= route('user.login.process') ?>" data-show-processing="true" data-secured="true">
-                            <form action="#">
+                        <div class="main-content inloginp lw-ajax-form lw-form">
+                            <form class="user lw-ajax-form lw-form" method="post" action="<?= route('user.sign_up.process') ?>" data-show-processing="true" data-secured="true" data-unsecured-fields="first_name,last_name">
+                                @csrf
                                 <div class="row">
                                     <div class="col-md-6">
                                         <!--<h4 class="content-title">Acount Details</h4>-->
@@ -140,5 +141,6 @@
     <!-- /container end -->
 </body>
 <!-- include footer -->
+@include('includes.footer')
 <!-- /include footer -->
 </html>
