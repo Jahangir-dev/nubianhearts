@@ -8929,3 +8929,7 @@ input[type=submit] {
   padding-right: 0.50rem !important;
   padding-left: 0.50rem !important;
 }
+
+.lw-login-register-page .card, .lw-login-register-page .lw-update-wizard {
+  background-color: #fff !important;
+}

@@ -40,9 +40,12 @@
 		        <li>
 		        	<a class="h5" href="#step-1"><i class="fas fa-images"></i><br><?= __tr('Profile Pictures') ?></a>
 			    </li>
-		       
+		        <li>
+		        	<a class="h5" href="#step-2"><i class="fas fa-map-marker-alt"></i><br><?= __tr('Choose Location') ?>
+			        </a>
+			    </li>
 			    <li>
-                    <a class="h5" href="#step-2"><i class="fas fa-check"></i><br><?= __tr('Finished') ?>
+                    <a class="h5" href="#step-3"><i class="fas fa-check"></i><br><?= __tr('Finished') ?>
 			        </a>
 			    </li>
 		    </ul>
@@ -119,8 +122,31 @@
 			            
 		            </div>
 		        </div>
-		        
 		        <div id="step-2" class="">
+		            <!-- <h3 class="border-bottom border-gray pb-2">Step 2 <i class="fas fa-map-marker-alt"></i> <?= __tr('Location') ?></h3> -->
+			        <div class="card-body">
+						@if(getStoreSettings('allow_google_map'))
+			            <div id="lwUserEditableLocation">
+			                <div class="form-group">
+			                    <label for="address_address"><?= __tr('Location') ?></label>
+			                    <input type="text" id="address-input" name="address_address" class="form-control map-input">
+			                    <input type="hidden" name="address_latitude" id="address-latitude" value="<?= $profileInfo['location_latitude'] ?>" />
+			                    <input type="hidden" name="address_longitude" id="address-longitude" value="<?= $profileInfo['location_longitude'] ?>" />
+			                </div>
+			                <div id="address-map-container" style="width:100%;height:400px; ">
+			                    <div style="width: 100%; height: 100%" id="address-map"></div>
+			                </div>
+			            </div>
+						@else
+							<!-- info message -->
+							<div class="alert alert-info">
+								<?= __tr('Something went wrong with Google Api Key, please contact to system administrator.') ?>
+							</div>
+							<!-- / info message -->
+						@endif
+			        </div>
+		        </div>
+		        <div id="step-3" class="">
 		            <h2 class="text-center p-5">
 		            	<?= __tr('Congratulations') ?>
 		            </h2>
