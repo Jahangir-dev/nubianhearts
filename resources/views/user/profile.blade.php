@@ -31,69 +31,6 @@
 	<!-- / info message -->
 @else
     <div class="">
-		<div class="card mb-3">
-			<div class="card-header">
-				@if(!$isOwnProfile)
-				<span class="float-right">
-					<!-- report button -->
-					<a class="text-primary btn-link btn" title="<?= __tr('Report') ?>" data-toggle="modal" data-target="#lwReportUserDialog"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
-					<!-- /report button -->	
-
-					<!-- Block User button -->
-					<a class="text-primary btn-link btn" title="<?= __tr('Block User') ?>" id="lwBlockUserBtn"><i class="fas fa-ban"></i></a>
-					<!-- /Block User button -->
-				</span>
-				@endif
-				<h4>
-					<?= $userData['fullName'] ?>
-					@if(!__isEmpty($userData['userAge'])) (<span data-model="userData.userAge"><?= $userData['userAge'] ?></span>) @endif
-					<!-- show user online, idle or offline status -->
-					@if(!$isOwnProfile)
-						@if($userOnlineStatus == 1)
-						<span class="lw-dot lw-dot-success float-none" title="<?= __tr("Online") ?>"></span>
-						@elseif($userOnlineStatus == 2)
-						<span class="lw-dot lw-dot-warning float-none" title="<?= __tr("Idle") ?>"></span>
-						@elseif($userOnlineStatus == 3)
-						<span class="lw-dot lw-dot-danger float-none" title="<?= __tr("Offline") ?>"></span>
-						@endif
-					@endif
-					<!-- /show user online, idle or offline status -->
-
-					<!-- if user is premium then show badge -->
-					@if(getFeatureSettings('premium_badge'))
-						<i class="fas fa-star"></i>
-					@endif
-					<!-- /if user is premium then show badge -->
-
-					@if(__ifIsset($userProfileData['isVerified']) 
-						and $userProfileData['isVerified'] == 1)
-						<i class="fas fa-user-check text-info"></i>
-					@endif
-				</h4>
-				<hr>
-				@if((__ifIsset($userProfileData['city']) and __ifIsset($userProfileData['country_name'])))
-				<i class="fas fa-map-marker-alt text-success"></i> 
-				<span class="mr-3"><span data-model="profileData.city"><?= $userProfileData['city'] ?></span>, <span data-model="profileData.country_name"><?= $userProfileData['country_name'] ?></span></span>
-				@endif
-
-				@if($isOwnProfile)
-				<div class="float-right">
-								<!-- total user likes count -->
-				<i class="fas fa-heart text-danger"></i> <span id="lwTotalUserLikes" class="mr-3">
-				<?= __trn('__totalUserLike__ like', '__totalUserLike__ likes',$totalUserLike, [
-					'__totalUserLike__' => $totalUserLike
-				]) ?></span>
-				<!-- /total user likes count -->
-
-				<!-- total user visitors count -->
-				<i class="fas fa-eye text-warning"></i> <?= __trn('__totalVisitors__ view', '__totalVisitors__ views', $totalVisitors, [
-					'__totalVisitors__' => $totalVisitors
-				]) ?>
-				<!-- /total user visitors count -->
-				</div>
-				@endif
-			</div>
-		</div>
 		<!-- User Profile and Cover photo -->
 		<div class="card mb-4 lw-profile-image-card-container">
 			<div class="card-body">
@@ -662,17 +599,49 @@
 
 	<!-- Content for sidebar -->
 	@push('sidebarProfilePage')
-		<li class="mt-4 d-none d-md-block">
+		<li class="mt-4 d-none d-md-block profile-section">
 			<!-- profile related -->
-			<div class="card">
-				<div class="card-header">
-					<?= $userData['fullName'] ?>
+			<div class="card left-profile-area ">
+				<div class="card-header top-bag">
+					
 				</div>
-				<div class="card-body">
-					<img class="lw-profile-thumbnail lw-lazy-img" data-src="<?= imageOrNoImageAvailable($userData['profilePicture']) ?>">
-					@if($isPremiumUser)
-					<span class="lw-premium-badge" title="<?= __tr('Premium User') ?>"></span>
+				<div class="p-inner-content">
+					<div class="profile-img">
+						<img class="lw-profile-thumbnail profile-img-1 lw-lazy-img" data-src="<?= imageOrNoImageAvailable($userData['profilePicture']) ?>">
+					@if(!$isOwnProfile)
+						@if($userOnlineStatus == 1)
+						<span class="lw-dot lw-dot-success float-none active-online" title="<?= __tr("Online") ?>"></span>
+						@elseif($userOnlineStatus == 2)
+						<span class="lw-dot lw-dot-warning float-none active-online" title="<?= __tr("Idle") ?>"></span>
+						@elseif($userOnlineStatus == 3)
+						<span class="lw-dot lw-dot-danger float-none active-online" title="<?= __tr("Offline") ?>"></span>
+						@endif
 					@endif
+					</div>
+					<h5 class="name"><?= $userData['fullName'] ?></h5>
+	                <ul class="p-b-meta-one">
+	                    <li>
+	                        @if(!__isEmpty($userData['userAge'])) <span data-model="userData.userAge"><?= $userData['userAge'] ?> @endif Years Old</span>
+	                    </li>
+	                    <li>
+	                        <span> <i class="fas fa-map-marker-alt"></i>Paris,France</span>
+	                    </li>
+	                </ul>
+	                <div class="p-b-meta-two">
+                        <div class="left">
+                            <div class="icon">
+                                <i class="far fa-heart"></i>
+                            </div> <?= $totalUserLike ?>
+                        </div>
+                        <div class="right">
+                        	@if($isPremiumUser)
+								<span class="lw-premium-badge" title="<?= __tr('Premium User') ?>"></span>
+							@else
+                            <a href="<?= route('user.premium_plan.read.view') ?>" class="custom-button">
+                                <i class="fab fa-cloudversify"></i> <?= __tr('Be Premium') ?></a>
+                            @endif
+                        </div>
+                    </div>
 					<!-- Like and dislike buttons -->
 					@if(!$isOwnProfile)
 					<div class="lw-like-dislike-box">

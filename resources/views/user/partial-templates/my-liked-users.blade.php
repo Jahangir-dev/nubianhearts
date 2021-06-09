@@ -39,5 +39,5 @@
 	<a href="<?= $nextPageUrl ?>" class="btn btn-light btn-block lw-ajax-link-action" data-method="get" data-callback="loadNextLikedUsers"><?= __tr('Load more') ?></a>
 </div>
 @else
-<div class="col-sm-12 col-md-12 col-lg-12 alert alert-dark text-center bg-dark text-secondary border-0 mt-5"><?= __tr('Looks like you reached the end.') ?></div>
+<div class="col-sm-12 col-md-12 col-lg-12 alert alert-dark text-center bg-purple text-light  border-0 mt-5"><?= __tr('Looks like you reached the end.') ?></div>
 @endIf

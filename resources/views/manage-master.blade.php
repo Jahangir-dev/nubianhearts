@@ -13,7 +13,7 @@
         <!-- /include sidebar -->
 
         <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column bg-gray-900">
+        <div id="content-wrapper" class="d-flex flex-column">
             <div id="content">
                 <!-- include top bar -->
                 @if(isLoggedIn())
