@@ -4277,7 +4277,7 @@ input[type=submit] {
 }
 .profile-section .left-profile-area .profile-about-box .p-inner-content {
   position: relative;
-  padding: 90px 30px 30px;
+  padding: 90px 5px 30px;
   text-align: center;
 }
 .profile-section .left-profile-area .profile-about-box .p-inner-content .profile-img {
@@ -7831,7 +7831,7 @@ input[type=submit] {
 }
 .user-setting-section .profile-about-box .p-inner-content {
   position: relative;
-  padding: 55px 30px 30px;
+  padding: 55px 5px 30px;
   text-align: center;
 }
 .user-setting-section .profile-about-box .p-inner-content .profile-img {
@@ -8974,7 +8974,7 @@ input[type=submit] {
 
 .p-inner-content {
     position: relative;
-    padding: 90px 30px 30px;
+    padding: 90px 5px 30px;
     text-align: center;
 }
 

@@ -719,7 +719,7 @@
 	                        @if(!__isEmpty($userData['userAge'])) <span data-model="userData.userAge"><?= $userData['userAge'] ?> @endif Years Old</span>
 	                    </li>
 	                    <li>
-	                        <span> <i class="fas fa-map-marker-alt"></i>Paris,France</span>
+	                        <span> <i class="fas fa-map-marker-alt"></i><?= $userProfileData['city'],',',$userProfileData['country_name'] ?></span>
 	                    </li>
 	                </ul>
 	                <div class="p-b-meta-two">
