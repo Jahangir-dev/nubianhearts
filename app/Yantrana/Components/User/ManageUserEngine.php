@@ -270,8 +270,9 @@ class ManageUserEngine extends BaseEngine
             'password'          => $userDetails->password,
             'confirm_password'  => $userDetails->confirm_password,
             'designation'       => $userDetails->designation,
-            'mobile_number'     => $userDetails->mobile_number,
-            'status'            => $userDetails->status
+            /*'mobile_number'     => $userDetails->mobile_number,*/
+            'status'            => $userDetails->status,
+            'looking_for'       => $userDetails->looking_for
         ];
 
         return $this->engineReaction(1, [
@@ -301,7 +302,8 @@ class ManageUserEngine extends BaseEngine
             'email'             => $inputData['email'],
             'username'          => $inputData['username'],
             'designation'       => array_get($inputData, 'designation'),
-            'mobile_number'     => $inputData['mobile_number'],
+            /*'mobile_number'     => $inputData['mobile_number'],*/
+            'looking_for'       => $inputData['looking_for'],
             'status'            => array_get($inputData, 'status', 2)
         ];
         
@@ -473,7 +475,8 @@ class ManageUserEngine extends BaseEngine
             'email'             => $user->email,
             'username'          => $user->username,
             'designation'       => $user->designation,
-            'mobile_number'     => $user->mobile_number
+            /*'mobile_number'     => $user->mobile_number,*/
+            'looking_for'       => $user->looking_for
         ];
 
         return $this->engineReaction(1, [

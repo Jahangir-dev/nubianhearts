@@ -22,7 +22,7 @@
                     <i class="fa fa-bars"></i>
                 </button>
                 <h5 class="modal-title"><?= __tr('Chat') ?></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="<?= __tr('Close') ?>"><span
+                <button style="position: absolute; right: 0; width: 100px;" type="button" class="close" data-dismiss="modal" aria-label="<?= __tr('Close') ?>"><span
                         aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">

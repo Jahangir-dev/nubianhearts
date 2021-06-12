@@ -43,13 +43,14 @@ class UserSignUpRequest extends BaseRequest
             'first_name'        => 'required|min:3|max:45',
             'last_name'         => 'required|min:3|max:45',
             'username'          => 'required|min:5|max:45|unique:users,username',
-            'mobile_number'     => 'required|max:15|unique:users,mobile_number',
+            /*'mobile_number'     => 'required|max:15|unique:users,mobile_number',*/
             'email'             => 'required|email|unique:users,email',
             'password'          => 'required|min:6|max:30',
             'gender'          	=> 'required',
             'repeat_password'   => 'required|min:6|max:30|same:password',
             'dob'				=> 'sometimes|validate_age',
-            'accepted_terms' 	=> 'required'
+            'accepted_terms' 	=> 'required',
+            'looking_for'       => 'required'
         ];
     }
 

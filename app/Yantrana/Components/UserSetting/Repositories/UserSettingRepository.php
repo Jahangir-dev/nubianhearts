@@ -98,7 +98,8 @@ class UserSettingRepository extends BaseRepository
                                 'first_name',
                                 'last_name',
                                 'designation',
-                                'mobile_number'
+                                'looking_for',
+                                /*'mobile_number'*/
                             ],
                             'user_profiles' => [
                                 '_id AS user_profile_id',

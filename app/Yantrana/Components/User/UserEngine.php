@@ -295,6 +295,7 @@ class UserEngine extends BaseEngine
 				$profileData = [
 		            'users__id' 	=> $newUser->_id,
 		            'gender' 		=> $inputData['gender'],
+		            'looking_for'   => $inputData['looking_for'],
 		            'dob' 			=> $inputData['dob'],
 		            'status'		=> 1
 		        ];
@@ -584,7 +585,8 @@ class UserEngine extends BaseEngine
             'fullName' => $user->first_name.' '.$user->last_name,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'mobile_number' => $user->mobile_number,
+            /*'mobile_number' => $user->mobile_number,*/
+            'looking_for' 	=> $user->looking_for,
             'userName'	=> $user->username
         ];
         
@@ -622,7 +624,8 @@ class UserEngine extends BaseEngine
             $userProfileData = [
                 'aboutMe'               => $userProfile->about_me,
                 'city'                  => $userProfile->city,
-                'mobile_number'         => $user->mobile_number,
+                /*'mobile_number'         => $user->mobile_number,*/
+                'looking_for'         	=> $user->looking_for,
                 'gender'                => $userProfile->gender,
                 'gender_text'           => array_get($userSettingConfig, 'gender.'.$userProfile->gender),
                 'country'               => $userProfile->countries__id,
@@ -1943,7 +1946,8 @@ class UserEngine extends BaseEngine
             'fullName' => $user->first_name.' '.$user->last_name,
             'first_name' => $user->first_name,
             'last_name' => $user->last_name,
-            'mobile_number' => $user->mobile_number,
+            /*'mobile_number' => $user->mobile_number,*/
+            'looking_for' => $user->looking_for,
             'userName'	=> $user->username
         ];
         
@@ -1983,7 +1987,8 @@ class UserEngine extends BaseEngine
             $userProfileData = [
                 'aboutMe'               => $userProfile->about_me,
                 'city'                  => $userProfile->city,
-                'mobile_number'         => $user->mobile_number,
+                /*'mobile_number'         => $user->mobile_number,*/
+                'looking_for'         	=> $user->looking_for,
                 'gender'                => $userProfile->gender,
                 'gender_text'           => array_get($userSettingConfig, 'gender.'.$userProfile->gender),
                 'country'               => $userProfile->countries__id,
@@ -2190,7 +2195,8 @@ class UserEngine extends BaseEngine
         $basicInformation = [
             'first_name' 			=> $user->first_name,
             'last_name' 			=> $user->last_name,
-            'mobile_number'	 		=> $user->mobile_number,
+           /* 'mobile_number'	 		=> $user->mobile_number,*/
+            'looking_for'	 		=> $user->looking_for,
 			'work_status'           => (string)$userProfile->work_status,
 			'gender'           		=> (string)$userProfile->gender,
 			'relationship_status'   => (string)$userProfile->relationship_status,

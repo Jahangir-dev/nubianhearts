@@ -32,10 +32,11 @@ class UserAddRequest extends BaseRequest
             'first_name'        => 'required|min:3|max:45',
             'last_name'         => 'required|min:3|max:45',
             'username'          => 'required|min:5|max:45|unique:users,username',
-            'mobile_number'     => 'required|max:15|unique:users,mobile_number',
+            /*'mobile_number'     => 'required|max:15|unique:users,mobile_number',*/
             'email'             => 'required|email|unique:users,email',
             'designation'       => 'required|max:45',
             'password'          => 'required|min:6|max:30',
+            'looking_for'       => 'required',
             'confirm_password'  => 'required|min:6|max:30|same:password'
         ];
     }

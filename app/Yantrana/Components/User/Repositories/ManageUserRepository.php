@@ -50,7 +50,8 @@ class ManageUserRepository extends BaseRepository
         	'searchable' => [   
                 'first_name',
                 'last_name',
-                'mobile_number',
+                /*'mobile_number',*/
+                'looking_for',
                 'username',
                 'email',
                 'full_name' => DB::raw("CONCAT(first_name, ' ', last_name)")
@@ -117,7 +118,8 @@ class ManageUserRepository extends BaseRepository
             'last_name',
             'username',
             'designation',
-            'mobile_number'
+            /*'mobile_number'*/
+            'looking_for'
         ];
         // Get Instance of user model
         $userModel = new User;

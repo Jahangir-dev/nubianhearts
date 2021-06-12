@@ -8,7 +8,49 @@
     <!-- Topbar Navbar -->
     
     <ul class="navbar-nav">
-       
+         <li class="nav-item d-none d-sm-none d-md-block">
+            <a class="nav-link" onclick="getChatMessenger('<?= route('user.read.all_conversation') ?>', true)" id="lwAllMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog">
+                <i class="far fa-comments"></i>
+            </a>
+        </li>
+        <!-- Notification Link -->
+        <li class="nav-item dropdown no-arrow mx-1 d-none d-sm-none d-md-block">
+            <a class="nav-link dropdown-toggle lw-ajax-link-action" href="<?= route('user.notification.write.read_all_notification') ?>" data-callback="onReadAllNotificationCallback" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-method="post">
+                <i class="fas fa-bell fa-fw"></i>
+                <span class="badge badge-danger badge-counter" data-model="totalNotificationCount"><?= (getNotificationList()['notificationCount'] > 0) ? getNotificationList()['notificationCount'] : '' ?></span>
+            </a>
+            <!-- Dropdown - Alerts -->
+            <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="alertsDropdown">
+                <h6 class="dropdown-header">
+                    <?= __tr('Notification') ?>
+                </h6>
+                <!-- Notification block -->     
+                <div id="lwNotificationContent"></div>
+                <script type="text/_template" id="lwNotificationListTemplate">
+                    <% if(!_.isEmpty(__tData.notificationList)) { %>
+                        <% _.forEach(__tData.notificationList, function(notification) { %>
+                            <!-- show all notification list -->
+                            <a class="dropdown-item d-flex align-items-center" href="<%- notification['actionUrl'] %>">
+                                <div>
+                                    <div class="small text-gray-500"><%- notification['created_at'] %></div>
+                                    <span class="font-weight-bold"><%- notification['message'] %></span>
+                                </div>
+                            </a>
+                            <!-- show all notification list -->
+                        <% }); %>
+                        <!-- show all notification link -->
+                        <a class="dropdown-item text-center small text-gray-500" href="<?= route('user.notification.read.view') ?>" id="lwShowAllNotifyLink" data-show-if="showAllNotifyLink"><?= __tr('Show All Notifications.') ?></a>
+                        <!-- /show all notification link -->
+                    <% } else { %>
+                        <!-- info message -->
+                        <a class="dropdown-item text-center small text-gray-500"><?= __tr('There are no notification.') ?></a>
+                        <!-- /info message -->
+                    <% } %>
+                </script>
+                <!-- /Notification block -->
+            </div>
+        </li>
+        <!-- /Notification Link -->
         <?php
             $translationLanguages = getStoreSettings('translation_languages');
         ?>

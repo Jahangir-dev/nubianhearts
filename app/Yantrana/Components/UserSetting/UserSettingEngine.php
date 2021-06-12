@@ -217,7 +217,8 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             $userDetails = [
                 'first_name' => $inputData['first_name'],
                 'last_name'  => $inputData['last_name'],
-                'mobile_number'   => $inputData['mobile_number']
+                /*'mobile_number'   => $inputData['mobile_number']*/
+                'looking_for' => $inputData['looking_for']
             ];
             
             $userId = getUserID();

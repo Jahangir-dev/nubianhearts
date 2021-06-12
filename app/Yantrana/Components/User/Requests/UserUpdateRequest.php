@@ -35,8 +35,9 @@ class UserUpdateRequest extends BaseRequest
             'first_name'       => 'required|min:3|max:45',
             'last_name'        => 'required|min:3|max:45',
             'username'         => 'required|min:5|max:45|'.Rule::unique('users')->ignore($userUid, '_uid'),
-            'mobile_number'    => 'required|max:15|'.Rule::unique('users')->ignore($userUid, '_uid'),
-            'email'            => 'required|email|'.Rule::unique('users')->ignore($userUid, '_uid')
+            /*'mobile_number'    => 'required|max:15|'.Rule::unique('users')->ignore($userUid, '_uid'),*/
+            'email'            => 'required|email|'.Rule::unique('users')->ignore($userUid, '_uid'),
+            'mobile_number'    => 'required'
         ];
     }
 }

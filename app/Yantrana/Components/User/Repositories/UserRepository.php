@@ -776,7 +776,8 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
             'first_name',
             'last_name',
             'username' => Str::slug($storeData['username']),
-            'mobile_number' => array_get($storeData, 'mobile_number')
+            /*'mobile_number' => array_get($storeData, 'mobile_number'),*/
+            'looking_for' => array_get($storeData, 'looking_for')
         ];
 
         //check if mobile app request then set otp elseset token
@@ -1303,6 +1304,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
             'gender' 		=> array_get($inputData, 'gender'),
             'dob' 			=> array_get($inputData, 'dob'),
             'status'		=> array_get($inputData, 'status'),
+            'looking_for'	=> array_get($inputData, 'looking_for'),
         ];
 
         $userProfile = new UserProfile;

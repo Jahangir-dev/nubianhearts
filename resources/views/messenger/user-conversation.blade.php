@@ -120,7 +120,7 @@
                     <!-- /Gif Image  Button -->
 
                     <!-- Sticker Button -->
-                    <a class="btn btn-outline-secondary lw-open-stickers-action lw-ajax-link-action" href="<?= route('user.read.get_stickers') ?>" type="button" data-callback="__Messenger.fetchStickers"><i class="fas fa-sticky-note"></i></a>
+                    <!-- <a class="btn btn-outline-secondary lw-open-stickers-action lw-ajax-link-action" href="<?php echo route('user.read.get_stickers') ?>" type="button" data-callback="__Messenger.fetchStickers"><i class="fas fa-sticky-note"></i></a> -->
                     <!-- /Sticker Button -->
                     
                     <button class="input-group-text" id="lwUploadingLoader" style="display: none;">
@@ -129,7 +129,7 @@
                         </div>
                     </button>
                     <!-- Upload Media Button -->
-                    <button class="btn btn-outline-secondary lw-messenger-file-upload" type="button" id="lwMessengerFileUpload"></button>
+                    <button class="btn btn-outline-secondary lw-messenger-file-upload" type="button" id="lwMessengerFileUpload" style="display:none;"></button>
                     <!-- Upload Media Button -->
                 </div>
             </div>

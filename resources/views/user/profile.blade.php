@@ -293,11 +293,27 @@
 						<!-- /Birthday -->
 					</div>
 					<div class="form-group row">
+						<!-- Looking For -->
+						<div class="col-sm-6 mb-3 mb-sm-0">
+							<label for="mobile_number"><strong><?= __tr('Looking For') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="profileData.looking_for">
+								@foreach($genders as $genderKey => $gender)
+										@if(__ifIsset($userProfileData['looking_for']) and $genderKey == $userProfileData['looking_for'])
+											<?= $gender ?>
+										@endif
+										 
+								@endforeach
+								
+							</div>
+						</div>
+						<!-- /Looking For -->
+					</div>
+					<div class="form-group row" style="display:none;">
 						<!-- Mobile Number -->
 						<div class="col-sm-6 mb-3 mb-sm-0">
 							<label for="mobile_number"><strong><?= __tr('Mobile Number') ?></strong></label>
 							<div class="lw-inline-edit-text" data-model="profileData.mobile_number">
-								<?= __ifIsset($userProfileData['mobile_number'], $userProfileData['mobile_number'], '-') ?>
+								
 							</div>
 						</div>
 						<!-- /Mobile Number -->
@@ -393,13 +409,25 @@
 						</div>
 						@if($isOwnProfile)
 						
-						<div class="form-group row">
+						<div class="form-group row" style="display: none;">
 							<!-- Mobile Number -->
 							<div class="col-sm-6">
                                 <label for="mobile_number"><?= __tr('Mobile Number') ?></label>
-                                <input type="text" value="<?= $userData['mobile_number'] ?>" name="mobile_number" placeholder="<?= __tr('Mobile Number') ?>" class="form-control" required maxlength="15">
+                                <input type="text" value="" name="mobile_number" placeholder="<?= __tr('Mobile Number') ?>" class="form-control" required maxlength="15">
 							</div>
 							<!-- /Mobile Number -->
+						</div>
+						<div class="form-group row">
+							<!-- Education -->
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Looking For') ?></label>
+								<select name="looking_for" class="form-control" id="looking_for">
+									<option value="" selected disabled><?= __tr('Looking For') ?></option>
+									@foreach($genders as $genderKey => $gender)
+										<option value="<?= $genderKey ?>" <?= (__ifIsset($userProfileData['looking_for']) and $genderKey == $userProfileData['looking_for']) ? 'selected' : '' ?>><?= $gender ?></option>
+									@endforeach
+								</select>
+							</div>
 						</div>
 						<!-- About Me -->
 						<div class="form-group">
@@ -414,7 +442,74 @@
 			</div>
 		</div>
 		<!-- /User Basic Information -->
-		
+		<!-- User Basic Information -->
+		<div class="card mb-3">            
+			<!-- Basic information Header -->
+			<div class="card-header">
+				<!-- Check if its own profile -->
+				@if($isOwnProfile)
+					<span class="float-right">
+						<a class="lw-icon-btn" href role="button" id="lwEditUserLocation">
+							<i class="fa fa-pencil-alt"></i>
+						</a>
+						<a class="lw-icon-btn" href role="button" id="lwCloseLocationBlock" style="display: none;">
+							<i class="fa fa-times"></i>
+						</a>
+					</span>
+				@endif
+				<!-- /Check if its own profile -->
+				<h5><i class="fas fa-map-marker-alt text-info"></i>  <?= __tr('Location') ?></h5>
+			</div>
+				<!-- Basic Information content -->
+				<div class="card-body">
+					<!-- Static basic information container -->
+					<div id="lwUserStaticLocation">
+						@if($isOwnProfile)
+						
+						<div class="form-group row">
+						<!-- City -->
+						<div class="col-sm-6 mb-3 mb-sm-0">
+							<label for="city"><strong><?= __tr('City') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.city"><?= __ifIsset($userProfileData['city'],$userProfileData['city'] ,'-') ?></div>
+						</div>
+						<!-- /City -->
+						<!-- Country -->
+						<div class="col-sm-6">
+							<label for="last_name"><strong><?= __tr('Country') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.country"><?= __ifIsset($userProfileData['country_name'],$userProfileData['country_name'],'-') ?></div>
+						</div>
+						<!-- /Country -->
+						</div>
+						@endif
+					</div>
+					@if($isOwnProfile)
+					<!-- User Basic Information Form -->
+					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.profile_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserEditableLocation">
+						<div class="card-body">
+							@if(getStoreSettings('allow_google_map'))
+				            <div id="lwUserEditableLocation">
+				                <div class="form-group">
+				                    <label for="address_address"><?= __tr('Location') ?></label>
+				                    <input type="text" id="address-input" name="address_address" class="form-control map-input">
+				                    <input type="hidden" name="address_latitude" id="address-latitude" value="<?= $userProfileData['latitude'] ?>" />
+				                    <input type="hidden" name="address_longitude" id="address-longitude" value="<?= $userProfileData['longitude'] ?>" />
+				                </div>
+				                <div id="address-map-container" style="width:100%;height:400px; ">
+				                    <div style="width: 100%; height: 100%" id="address-map"></div>
+				                </div>
+				            </div>
+							@else
+								<!-- info message -->
+								<div class="alert alert-info">
+									<?= __tr('Something went wrong with Google Api Key, please contact to system administrator.') ?>
+								</div>
+								<!-- / info message -->
+							@endif
+			        	</div>
+					</form>
+					@endif
+				</div>
+		</div>
 
 		<!-- User Specifications -->
 		@if(!__isEmpty($userSpecificationData))
@@ -706,6 +801,26 @@
                         specificationUpdateData[item.name] = item.value;
                     });
                 });
+                
+                if(requestData.userProfileData.looking_for == 0)
+                {
+                	requestData.userProfileData.looking_for = 'Looking For';
+                }
+
+                if(requestData.userProfileData.looking_for == 1)
+                {
+                	requestData.userProfileData.looking_for = 'Male';
+                }
+
+                if(requestData.userProfileData.looking_for == 2)
+                {
+                	requestData.userProfileData.looking_for = 'Female';
+                } 
+
+                if(requestData.userProfileData.looking_for == 3)
+                {
+                	requestData.userProfileData.looking_for = 'Secret';
+                }
                 __DataRequest.updateModels('userData', requestData.userData);
                 __DataRequest.updateModels('profileData', requestData.userProfileData);
                 __DataRequest.updateModels('specificationData', specificationUpdateData);
@@ -851,6 +966,7 @@
         e.preventDefault();
         showHideBasicInfoContainer();
     });
+
     // Show / Hide basic information container
     function showHideBasicInfoContainer() {
         $('#lwUserBasicInformationForm').toggle();
@@ -985,6 +1101,12 @@ function setLocationCoordinates(key, lat, lng, placeData) {
         showHideLocationContainer();
         var requestData = responseData.data;
         __DataRequest.updateModels('profileData', {
+            city: requestData.city,
+            country_name: requestData.country_name,
+            latitude: lat,
+            longitude: lng
+        });
+         __DataRequest.updateModels('userProfileData', {
             city: requestData.city,
             country_name: requestData.country_name,
             latitude: lat,
