@@ -9072,3 +9072,7 @@ input[type=submit] {
 .input-group .form-control, .selectize-input.full {
   background-color: #fff !important;
 }
+
+.text-secondary-random {
+  color: #333333 !important;
+}

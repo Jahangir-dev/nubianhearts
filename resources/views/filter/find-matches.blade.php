@@ -20,7 +20,7 @@
             </a>
             <div class="card-title">
                 <h5>
-                	<a class="text-secondary" href="<?= route('user.profile_view', ['username' => $filter['username']]) ?>">
+                	<a class="text-secondary" style="color: #000 !important;" href="<?= route('user.profile_view', ['username' => $filter['username']]) ?>">
                 		<?= $filter['fullName'] ?>
             		</a>
 					<?= $filter['detailString'] ?> <br>
