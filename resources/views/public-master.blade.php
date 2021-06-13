@@ -2,6 +2,16 @@
 @include('includes.header')
 <!-- /include header -->
 <body id="page-top" class="lw-page-bg lw-public-master">
+     <!-- ==========Preloader========== -->
+  <div class="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-icon">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ==========Preloader========== -->
     <!-- Page Wrapper -->
     <div id="wrapper" class="container-fluid">
         <!-- include sidebar -->

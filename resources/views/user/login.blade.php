@@ -12,6 +12,16 @@
 @include('includes.theme-header')
 <!-- /include header -->
 <body class="lw-login-register-page">
+     <!-- ==========Preloader========== -->
+  <div class="preloader">
+    <div class="preloader-inner">
+      <div class="preloader-icon">
+        <span></span>
+        <span></span>
+      </div>
+    </div>
+  </div>
+  <!-- ==========Preloader========== -->
     <section class="log-reg">
         <div class="top-menu-area">
             <div class="container">
