@@ -53,7 +53,7 @@
     'dist/js/vendorlibs-datatable.js',
     'dist/js/vendorlibs-photoswipe.js',
     'dist/js/vendorlibs-smartwizard.js',
-    "theme/js/jquery-3.3.1.min.js",
+    /*"theme/js/jquery-3.3.1.min.js",
     "theme/js/modernizr-3.6.0.min.js",
     "theme/js/plugins.js",
     "theme/js/bootstrap.min.js",
@@ -65,7 +65,7 @@
     "theme/js/countdown.min.js",
     "theme/js/odometer.min.js",
     "theme/js/viewport.jquery.js",
-    "theme/js/nice-select.js",
+    "theme/js/nice-select.js",*/
     "theme/js/main.js",
 ], true) ?>
 
