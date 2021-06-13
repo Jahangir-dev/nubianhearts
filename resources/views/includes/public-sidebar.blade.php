@@ -127,24 +127,14 @@
                 @endif
             </a>
         </li>
-        <li class="nav-item <?= makeLinkActive('user.mutual_like_view') ?>">
-            <a class="nav-link" href="<?= route('user.mutual_like_view') ?>">
-                <i class="fa fa-users"></i>
-                <span><?= __tr('Mutual Likes') ?></span>
-            </a>
-        </li>
+      
         <li class="nav-item <?= makeLinkActive('user.my_liked_view') ?>">
             <a class="nav-link" href="<?= route('user.my_liked_view') ?>">
                 <i class="fas fa-fw fa-heart"></i>
                 <span><?= __tr('My Likes') ?></span>
             </a>
         </li>
-        <li class="nav-item <?= makeLinkActive('user.my_disliked_view') ?>">
-            <a class="nav-link" href="<?= route('user.my_disliked_view') ?>">
-                <i class="fas fa-fw fa-heart-broken"></i>
-                <span><?= __tr('My Dislikes') ?></span>
-            </a>
-        </li>
+        
         <li class="nav-item  <?= makeLinkActive('user.profile_visitors_view') ?>">
             <a class="nav-link" href="<?= route('user.profile_visitors_view') ?>">
                 <i class="fa fa-user" aria-hidden="true"></i>
