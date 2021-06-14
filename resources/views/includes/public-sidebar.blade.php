@@ -155,7 +155,7 @@
         </li>
     </div>
     <!-- Divider -->
-     <hr class="sidebar-divider d-none d-md-block"> 
+     <hr class="sidebar-divider d-none d-md-block mt-2"> 
     <!-- Featured Users -->
     @if(!__isEmpty(getFeatureUserList()))
     <div class="card">
