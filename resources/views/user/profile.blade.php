@@ -136,18 +136,13 @@
 			</div>
 			<div class="card mt-3">
 				<div class="card-header">
-					<?= __tr('Send Message or Gift') ?>
+					<?= __tr('Send Message') ?>
 				</div>
 				<div class="card-body text-center">
                     <!-- message button -->
                     <a class="mr-3 btn-link btn" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $userData['userId']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog"><i class="far fa-comments fa-3x"></i>
                         <br> <?= __tr('Message') ?></a>
 
-                    <!-- send gift button -->
-                    <a href title="<?= __tr('Send Gift') ?>" data-toggle="modal" data-target="#lwSendGiftDialog" class="btn-link btn"><i class="fa fa-gift fa-3x" aria-hidden="true"></i>
-                        <br> <?= __tr('Gift') ?>
-                    </a>
-                    <!-- /send gift button -->
                 </div>
             </div>
 		</div>
@@ -464,7 +459,7 @@
 				<div class="card-body">
 					<!-- Static basic information container -->
 					<div id="lwUserStaticLocation">
-						@if($isOwnProfile)
+						
 						
 						<div class="form-group row">
 						<!-- City -->
@@ -480,7 +475,7 @@
 						</div>
 						<!-- /Country -->
 						</div>
-						@endif
+						
 					</div>
 					@if($isOwnProfile)
 					<!-- User Basic Information Form -->
@@ -732,7 +727,7 @@
                         	@if($isPremiumUser)
 								<span class="lw-premium-badge" title="<?= __tr('Premium User') ?>"></span>
 							@else
-                            <a href="<?= route('user.premium_plan.read.view') ?>" class="custom-button">
+                            <a href="#" class="custom-button">
                                 <i class="fab fa-cloudversify"></i> <?= __tr('Be Premium') ?></a>
                             @endif
                         </div>
@@ -764,18 +759,13 @@
 			</div>
 			<div class="card mt-3">
 				<div class="card-header">
-					<?= __tr('Send Message or Gift') ?>
+					<?= __tr('Send Message') ?>
 				</div>
 				<div class="card-body text-center">
 				<!-- message button -->
-				<a class="mr-lg-3 btn-link btn" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $userData['userId']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog"><i class="far fa-comments fa-3x"></i>
+				<a class="mr-lg-3 btn-link" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $userData['userId']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog"><i class="far fa-comments fa-3x"></i>
 					<br> <?= __tr('Message') ?></a>
 
-				<!-- send gift button -->
-				<a href title="<?= __tr('Send Gift') ?>" data-toggle="modal" data-target="#lwSendGiftDialog" class="btn-link btn"><i class="fa fa-gift fa-3x" aria-hidden="true"></i>
-					<br> <?= __tr('Gift') ?>
-				</a>
-				<!-- /send gift button -->
 					</div>
 				</div>
 			@endif
