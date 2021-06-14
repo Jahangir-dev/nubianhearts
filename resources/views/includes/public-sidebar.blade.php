@@ -57,23 +57,6 @@
         </li>
         <!-- /Notification Link -->
 
-        <!-- Nav Item - Messages -->
-        <li class="nav-item d-sm-block d-md-none">
-            <a class="nav-link" href="<?= route('user.credit_wallet.read.view') ?>">
-                <i class="fas fa-coins fa-fw mr-2"></i>
-                <span><?= __tr('Credit Wallet') ?></span>
-                <span class="badge badge-success badge-counter"><?= totalUserCredits() ?></span>
-            </a>
-        </li>
-
-        <!-- Nav Item - Messages -->
-        <li class="nav-item d-sm-block d-md-none">
-            <a class="nav-link" href  data-toggle="modal" data-target="#boosterModal">
-                <i class="fas fa-bolt fa-fw mr-2"></i>
-                <span><?= __tr('Profile Booster') ?></span>
-                <span id="lwBoosterTimerCountDownOnSB"></span>
-            </a>
-        </li>
     @if(isset($is_profile_page) and ($is_profile_page === true))
         @if(!$isBlockUser and !$blockByMeUser)
             @stack('sidebarProfilePage')
@@ -123,7 +106,7 @@
                     $showLike = $featurePlans['show_like']['select_user'];
                 ?>
                 @if($showLike == 2) 
-                <span class="lw-premium-feature-badge"></span></span>
+                <!-- <span class="lw-premium-feature-badge"></span></span> -->
                 @endif
             </a>
         </li>
