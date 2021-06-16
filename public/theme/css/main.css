@@ -9076,3 +9076,15 @@ input[type=submit] {
 .text-secondary-random {
   color: #333333 !important;
 }
+.multiselect-option .form-check-input {
+
+    margin-top: -0.9rem;
+    margin-left: -2.25rem;
+    width: 20px;
+}
+.multiselect-all .form-check-input {
+
+    margin-top: -0.9rem;
+    margin-left: -2.25rem;
+    width: 20px;
+}

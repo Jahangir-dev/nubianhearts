@@ -617,16 +617,27 @@ class UserEngine extends BaseEngine
         if (!\__isEmpty($userProfile)) {
             // Get country name
             $countryName = '';
+            $born_country = '';
             if (!__isEmpty($userProfile->countries__id)) {
                 $country = $this->countryRepository->fetchById($userProfile->countries__id, ['name']);
                 $countryName = $country->name;
             }
+
+            if (!__isEmpty($userProfile->born_country)) {
+                $country = $this->countryRepository->fetchById($userProfile->born_country, ['name']);
+                $born_country = $country->name;
+            }
+            //dd($userProfile->seeking);
             $userProfileData = [
                 'aboutMe'               => $userProfile->about_me,
                 'city'                  => $userProfile->city,
                 /*'mobile_number'         => $user->mobile_number,*/
                 'looking_for'         	=> $user->looking_for,
-                'gender'                => $userProfile->gender,
+                'star_sign'         	=> $userProfile->star_sign,
+                'seeking'         		=> $userProfile->seeking,
+                'country_id'         	=> $userProfile->born_country,
+                'born_country'          => $born_country,
+                'gender'          		=> $userProfile->gender,
                 'gender_text'           => array_get($userSettingConfig, 'gender.'.$userProfile->gender),
                 'country'               => $userProfile->countries__id,
                 'country_name'          => $countryName,

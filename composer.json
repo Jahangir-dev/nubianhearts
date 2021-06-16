@@ -24,6 +24,7 @@
         "league/flysystem-aws-s3-v3": "~1.0",
         "menarasolutions/geographer-laravel": "^0.2.1",
         "mk-j/php_xlsxwriter": "dev-master",
+        "monarobase/country-list": "^3.2",
         "paypal/paypal-checkout-sdk": "1.0.1",
         "paypal/rest-api-sdk-php": "1.14.0",
         "pusher/pusher-php-server": "~4.1.1",
