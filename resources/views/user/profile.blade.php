@@ -15,6 +15,11 @@
 @if(isset($userData['coverPicture']))
 	@section('twitter-card-image', $userData['coverPicture'])
 @endif
+<?php
+	$stars = array('libra'=> 'libra','aries'=>'aries','cancer'=>'cancer','capricorn'=>'capricorn','gemini'=>'gemini','lion'=>'lion','pisces'=>'pisces','sagittarius'=>'sagittarius','scorpio'=>'scorpio','taurus'=>'taurus','aquarius'=>'aquarius','virgo'=>'virgo');
+
+ ?>
+ 
 
 <!-- if user block then don't show profile page content -->
 @if($isBlockUser)
@@ -215,25 +220,16 @@
 			<!-- /Basic information Header -->
 			<!-- Basic Information content -->
 			<div class="card-body">
+
 				<!-- Static basic information container -->
 				<div id="lwStaticBasicInformation">
-					@if($isOwnProfile)
 					<div class="form-group row">
-						<!-- First Name -->
+						<!-- User Name -->
 						<div class="col-sm-6 mb-3 mb-sm-0">
-							<label for="first_name"><strong><?= __tr('First Name') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="userData.first_name"><?= __ifIsset($userData['first_name'], $userData['first_name'], '-') ?></div>
+							<label for="user_name"><strong><?= __tr('User Name') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userData.userName"><?= __ifIsset($userData['userName'], $userData['userName'], '-') ?></div>
 						</div>
-						<!-- /First Name -->
-						<!-- Last Name -->
-						<div class="col-sm-6">
-							<label for="last_name"><strong><?= __tr('Last Name') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="userData.last_name"><?= __ifIsset($userData['last_name'], $userData['last_name'], '-') ?></div>
-						</div>
-						<!-- /Last Name -->
-					</div>
-					@endif
-					<div class="form-group row">
+						<!-- /User Name -->
 						<!-- Gender -->
 						<div class="col-sm-6 mb-3 mb-sm-0">
 							<label for="select_gender"><strong><?= __tr('Gender') ?></strong></label>
@@ -242,42 +238,9 @@
 							</div>
 						</div>
 						<!-- /Gender -->
-						<!-- Preferred Language -->
-						<div class="col-sm-6">
-							<label><strong><?= __tr('Preferred Language') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="profileData.formatted_preferred_language">
-								<?= __ifIsset($userProfileData['formatted_preferred_language'], $userProfileData['formatted_preferred_language'], '-') ?>
-							</div>
-						</div>
-						<!-- /Preferred Language -->
+						
 					</div>
 					<div class="form-group row">
-						<!-- Relationship Status -->
-						<div class="col-sm-6 mb-3 mb-sm-0">
-							<label><strong><?= __tr('Relationship Status') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="profileData.formatted_relationship_status">
-								<?= __ifIsset($userProfileData['formatted_relationship_status'], $userProfileData['formatted_relationship_status'], '-') ?>
-							</div>
-						</div>
-						<!-- /Relationship Status -->
-						<!-- Work Status -->
-						<div class="col-sm-6">
-							<label for="work_status"><strong><?= __tr('Work Status') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="profileData.formatted_work_status">
-								<?= __ifIsset($userProfileData['formatted_work_status'], $userProfileData['formatted_work_status'], '-') ?>
-							</div>
-						</div>
-						<!-- /Work Status -->
-					</div>
-					<div class="form-group row">
-						<!-- Education -->
-						<div class="col-sm-6 mb-3 mb-sm-0">
-							<label for="education"><strong><?= __tr('Education') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="profileData.formatted_education">
-								<?= __ifIsset($userProfileData['formatted_education'], $userProfileData['formatted_education'], '-') ?>
-							</div>
-						</div>
-						<!-- /Education -->
 						<!-- Birthday -->
 						<div class="col-sm-6">
 							<label for="birthday"><strong><?= __tr('Birthday') ?></strong></label>
@@ -286,8 +249,6 @@
 							</div>
 						</div>
 						<!-- /Birthday -->
-					</div>
-					<div class="form-group row">
 						<!-- Looking For -->
 						<div class="col-sm-6 mb-3 mb-sm-0">
 							<label for="mobile_number"><strong><?= __tr('Looking For') ?></strong></label>
@@ -303,38 +264,50 @@
 						</div>
 						<!-- /Looking For -->
 					</div>
-					<div class="form-group row" style="display:none;">
-						<!-- Mobile Number -->
+
+					<div class="form-group row">
+						<!-- Star Sign -->
 						<div class="col-sm-6 mb-3 mb-sm-0">
-							<label for="mobile_number"><strong><?= __tr('Mobile Number') ?></strong></label>
-							<div class="lw-inline-edit-text" data-model="profileData.mobile_number">
-								
+							<label for="star_sign"><strong><?= __tr('Star Sign') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="profileData.star_sign">
+								<?= __ifIsset($userProfileData['star_sign'], $userProfileData['star_sign'], '-') ?>
 							</div>
 						</div>
-						<!-- /Mobile Number -->
+						<!-- /Star Sign -->
+						<!-- Born Country -->
+						<div class="col-sm-6 mb-3 mb-sm-0">
+							<label for="star_sign"><strong><?= __tr('Born Country') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="profileData.born_country">
+								<?= __ifIsset($userProfileData['born_country'], $userProfileData['born_country'], '-') ?>
+							</div>
+						</div>
+						<!-- /Born Country -->
+					</div>
+					<div class="form-group row">
+						<div class="col-sm-6 mb-3 mb-sm-0">
+							<label for="seeking"><strong><?= __tr('Seeking') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="profileData.seeking">
+								<?= __ifIsset($userProfileData['seeking'], str_replace("'",'',$userProfileData['seeking']), '-') ?>
+							</div>
+						</div>
 					</div>
 				</div>
 				<!-- /Static basic information container -->
-
+				
 				@if($isOwnProfile)
 					<!-- User Basic Information Form -->
 					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserBasicInformationForm">
 						<div class="form-group row">
+							<input type="hidden" name="first_name" value="<?=$userData['first_name']?>">
+							<input type="hidden" name="last_name" value="<?=$userData['last_name']?>">
 							<!-- First Name -->
 							<div class="col-sm-6 mb-3 mb-sm-0">
-								<label for="first_name"><?= __tr('First Name') ?></label>
-								<input type="text" value="<?= $userData['first_name'] ?>" class="form-control" name="first_name"
-								placeholder="<?= __tr('First Name') ?>">
+								<label for="first_name"><?= __tr('User Name') ?></label>
+								<input type="text" readonly="" value="<?= $userData['userName'] ?>" class="form-control" name="client_name"
+								placeholder="<?= __tr('User Name') ?>">
 							</div>
 							<!-- /First Name -->
-							<!-- Last Name -->
-							<div class="col-sm-6">
-								<label for="last_name"><?= __tr('Last Name') ?></label>
-								<input type="text" value="<?= $userData['last_name'] ?>" class="form-control" name="last_name" placeholder="<?= __tr('Last Name') ?>">
-							</div>
-							<!-- /Last Name -->
-						</div>
-						<div class="form-group row">
+							
 							<!-- Gender -->
 							<div class="col-sm-6 mb-3 mb-sm-0">
 								<label for="select_gender"><?= __tr('Gender') ?></label>
@@ -348,71 +321,18 @@
 
 							<!-- /Gender -->
 							<!-- Birthday -->
-							<div class="col-sm-6">
-								<label for="select_preferred_language"><?= __tr('Preferred Language') ?></label>
-								<select name="preferred_language" class="form-control" id="select_preferred_language">
-									<option value="" selected disabled><?= __tr('Choose your Preferred Language') ?></option>
-									@foreach($preferredLanguages as $languageKey => $language)
-										<option value="<?= $languageKey ?>" <?= (__ifIsset($userProfileData['preferred_language']) and $languageKey == $userProfileData['preferred_language']) ? 'selected' : '' ?>><?= $language ?></option>
-									@endforeach
-								</select>
-							</div>
-							<!-- /Preferred Language -->
+							
 						</div>
+						
 						<div class="form-group row">
-							<!-- Relationship Status -->
-							<div class="col-sm-6 mb-3 mb-sm-0">
-								<label for="select_relationship_status"><?= __tr('Relationship Status') ?></label>
-								<select name="relationship_status" class="form-control" id="select_relationship_status">
-									<option value="" selected disabled><?= __tr('Choose your Relationship Status') ?></option>
-									@foreach($relationshipStatuses as $relationshipStatusKey => $relationshipStatus)
-										<option value="<?= $relationshipStatusKey ?>" <?= (__ifIsset($userProfileData['relationship_status']) and $relationshipStatusKey == $userProfileData['relationship_status']) ? 'selected' : '' ?>><?= $relationshipStatus ?></option>
-									@endforeach
-								</select>
-							</div>
-							<!-- /Relationship Status -->
-							<!-- Work status -->
-							<div class="col-sm-6">
-								<label for="select_work_status"><?= __tr('Work Status') ?></label>
-								<select name="work_status" class="form-control" id="select_work_status">
-									<option value="" selected disabled><?= __tr('Choose your work status') ?></option>
-									@foreach($workStatuses as $workStatusKey => $workStatus)
-										<option value="<?= $workStatusKey ?>" <?= (__ifIsset($userProfileData['work_status']) and $workStatusKey == $userProfileData['work_status']) ? 'selected' : '' ?>><?= $workStatus ?></option>
-									@endforeach
-								</select>
-							</div>
-							<!-- /Work status -->
-						</div>
-						<div class="form-group row">
-							<!-- Education -->
-							<div class="col-sm-6 mb-3 mb-sm-0">
-								<label for="select_education"><?= __tr('Education') ?></label>
-								<select name="education" class="form-control" id="select_education">
-									<option value="" selected disabled><?= __tr('Choose your education') ?></option>
-									@foreach($educations as $educationKey => $educationValue)
-										<option value="<?= $educationKey ?>" <?= (__ifIsset($userProfileData['education']) and $educationKey == $userProfileData['education']) ? 'selected' : '' ?>><?= $educationValue ?></option>
-									@endforeach
-								</select>
-							</div>
-							<!-- /Education -->
 							<!-- Birthday -->
 							<div class="col-sm-6">
                                 <label for="birthday"><?= __tr('Birthday') ?></label>
-                                <input type="text" name="birthday" value="<?= __ifIsset($userProfileData['dob'], $userProfileData['dob']) ?>" placeholder="<?= __tr('YYYY-MM-DD') ?>" class="form-control" required dateISO="true">
+                                <input type="date" name="birthday" value="<?= __ifIsset($userProfileData['dob'], $userProfileData['dob']) ?>" placeholder="<?= __tr('YYYY-MM-DD') ?>" class="form-control" required dateISO="true">
 							</div>
 							<!-- /Birthday -->
-						</div>
-						@if($isOwnProfile)
 						
-						<div class="form-group row" style="display: none;">
-							<!-- Mobile Number -->
-							<div class="col-sm-6">
-                                <label for="mobile_number"><?= __tr('Mobile Number') ?></label>
-                                <input type="text" value="" name="mobile_number" placeholder="<?= __tr('Mobile Number') ?>" class="form-control" required maxlength="15">
-							</div>
-							<!-- /Mobile Number -->
-						</div>
-						<div class="form-group row">
+						@if($isOwnProfile)
 							<!-- Education -->
 							<div class="col-sm-6 mb-3 mb-sm-0">
 								<label for="looking_for"><?= __tr('Looking For') ?></label>
@@ -424,12 +344,38 @@
 								</select>
 							</div>
 						</div>
-						<!-- About Me -->
-						<div class="form-group">
-							<label for="about_me"><?= __tr('About Me') ?></label>
-							<textarea class="form-control" name="about_me" id="about_me" rows="3" placeholder="<?= __tr('Say something about yourself.') ?>"><?= __ifIsset($userProfileData['aboutMe'], $userProfileData['aboutMe'], '') ?></textarea>
+						<div class="form-group row">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Star Sign') ?></label>
+								<select id="profile-star_sign" class="form-control" name="star_sign">
+									<option value="" selected disabled>Select Star Sign</option>
+									@foreach($stars as $starKey => $star)
+										<option value="<?= $starKey ?>" <?= (__ifIsset($userProfileData['star_sign']) and $starKey == $userProfileData['star_sign']) ? 'selected' : '' ?>><?= $star ?></option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('In which country were you born?') ?></label>
+								<select name="born_country" class="form-control" id="born_country">
+									<option value="" selected disabled><?= __tr('Select Country ') ?></option>
+									@foreach($countries as $countKey => $country)
+											<option value="<?= $country['id'] ?>" <?= (__ifIsset($userProfileData['country_id']) and $country['id']== $userProfileData['country_id']) ? 'selected' : '' ?>><?= $country['name'] ?></option>
+									@endforeach
+								</select>
+							</div>
 						</div>
-						<!-- /About Me -->
+						<div class="form-group row">
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Seeking') ?></label>
+								<input type="hidden" id="seeking" name="seeking" value="">
+								<select id="example-getting-started" multiple="multiple">
+								    <option value="friendship">Friendship</option>
+								    <option value="dating">Dating</option>
+								    <option value="marriage">Marriage</option>
+								    <option value="penpal">Penpal</option>
+								</select>
+							</div>
+						</div>
 						@endif
 					</form>
 					<!-- /User Basic Information Form -->
@@ -565,7 +511,10 @@
 												</select>
 											@elseif($item['input_type'] == 'textbox')
 												<label for="<?= $item['name'] ?>"><?= $item['label'] ?></label>
-												<input type="text" id="<?= $item['name'] ?>" name="<?= $item['name'] ?>" class="form-control" value="<?= $item['selected_options'] ?>">                
+												<input type="text" id="<?= $item['name'] ?>" name="<?= $item['name'] ?>" class="form-control" value="<?= $item['selected_options'] ?>">
+											@elseif($item['input_type'] == 'textarea')
+												<label for="<?= $item['name'] ?>"><?= $item['label'] ?></label>
+												<textarea maxlength="1600" id="<?= $item['name'] ?>" name="<?= $item['name'] ?>" class="form-control"><?= $item['selected_options'] ?></textarea>                
 											@endif
 										</div>
 									@endforeach
@@ -779,6 +728,35 @@
 <script src="https://maps.googleapis.com/maps/api/js?key=<?= getStoreSettings('google_map_key') ?>&libraries=places&callback=initialize" async defer></script>
 @endif
 <script>
+
+    $(document).ready(function() {
+    	
+        $('#example-getting-started').multiselect({
+            includeSelectAllOption: true,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#example-getting-started option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#seeking').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#example-getting-started option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#seeking').val(selected);
+    		},
+        });
+        
+        	@if($userProfileData['seeking'] != null || $userProfileData['seeking'] != '')
+        	
+        	$('#example-getting-started').multiselect('select', [<?= $userProfileData['seeking']?>]);
+        	@endif
+        
+    });
     // Get user profile data
     function getUserProfileData(response) {
         // If successfully stored data
@@ -811,9 +789,16 @@
                 {
                 	requestData.userProfileData.looking_for = 'Secret';
                 }
+                $('#example-getting-started').multiselect('select', [requestData.userProfileData.seeking]);
+                if(requestData.userProfileData.seeking != null || requestData.userProfileData.seeking != ''){
+                	var result = requestData.userProfileData.seeking.replace(/'/g, "");
+                	requestData.userProfileData.seeking = result;
+
+                }
                 __DataRequest.updateModels('userData', requestData.userData);
                 __DataRequest.updateModels('profileData', requestData.userProfileData);
                 __DataRequest.updateModels('specificationData', specificationUpdateData);
+                __DataRequest.updateModels('countries', requestData.countries);
             });
         }
     }

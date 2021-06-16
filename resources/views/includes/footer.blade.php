@@ -68,7 +68,7 @@
     "theme/js/nice-select.js",
     "theme/js/main.js",*/
 ], true) ?>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js" integrity="sha512-5EvDL79fM8WJcOk77QpsZ8DawGlSfbOZ/ycRPz0bxRgtiOFEMj8taAoqmm7AR4p2N+A6VBLg/Ar30L8qbPw1pQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <script>
         (function () {

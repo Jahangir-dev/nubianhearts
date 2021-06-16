@@ -17,6 +17,7 @@
 
 <!-- liked people container -->
 <div class="container-fluid">
+	@if(getFeatureSettings('show_like'))
 		@if(!__isEmpty($usersData))
 		<div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4" id="lwWhoLikedUsersContainer">
 			@include('user.partial-templates.my-liked-users')
@@ -28,6 +29,13 @@
 			</div>
 			<!-- / info message -->
 		@endif
+	@else
+ 		<!-- info message -->
+		<div class="alert alert-info">
+			<?= __tr('This is a premium feature, to view who likes me you need to buy premium plan first.') ?>
+		</div>
+		<!-- / info message -->
+	@endif
 </div>
 <!-- / liked people container -->
 

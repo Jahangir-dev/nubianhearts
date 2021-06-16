@@ -218,7 +218,6 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 'first_name' => $inputData['first_name'],
                 'last_name'  => $inputData['last_name'],
                 /*'mobile_number'   => $inputData['mobile_number']*/
-                'looking_for' => $inputData['looking_for']
             ];
             
             $userId = getUserID();
@@ -238,12 +237,15 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 'gender'                => array_get($inputData, 'gender'),
                 'dob'                   => array_get($inputData, 'birthday'),
                 'work_status'           => array_get($inputData, 'work_status'),
+                'looking_for'           => array_get($inputData, 'looking_for'),
+                'star_sign'             => array_get($inputData, 'star_sign'),
+                'seeking'               => array_get($inputData, 'seeking'),
+                'born_country'          => array_get($inputData, 'born_country'),
                 'education'             => array_get($inputData, 'education'),
                 'about_me'              => array_get($inputData, 'about_me'),
                 'preferred_language'    => array_get($inputData, 'preferred_language'),
                 'relationship_status'   => array_get($inputData, 'relationship_status')
             ];
-            
             // get user profile
             $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
             // check if user profile exists

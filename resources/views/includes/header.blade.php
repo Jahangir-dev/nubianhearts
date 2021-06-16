@@ -57,10 +57,9 @@
 			'theme/css/nice-select.css',
 			'theme/css/jquery.animatedheadline.css',
 			'theme/css/main.css',
-			'theme/css/responsive.css'            
+			'theme/css/responsive.css',           
 		], true) ?>
-
-
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/css/bootstrap-multiselect.min.css" integrity="sha512-wHTuOcR1pyFeyXVkwg3fhfK46QulKXkLq1kxcEEpjnAPv63B/R49bBqkJHLvoGFq6lvAEKlln2rE1JfIPeQ+iw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
         @stack('header')
 	</head>
