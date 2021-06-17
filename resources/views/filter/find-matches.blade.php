@@ -18,15 +18,18 @@
             <a href="<?= route('user.profile_view', ['username' => $filter['username']]) ?>">
                 <img data-src="<?= imageOrNoImageAvailable($filter['profileImage']) ?>" class="lw-user-thumbnail lw-lazy-img"/>
             </a>
+
             <div class="card-title">
                 <h5>
                 	<a class="text-secondary" style="color: #000 !important;" href="<?= route('user.profile_view', ['username' => $filter['username']]) ?>">
-                		<?= $filter['fullName'] ?>
+                		<?= $filter['fullName'] ?>, <?= $filter['userAge'] ?>
             		</a>
-					<?= $filter['detailString'] ?> <br>
+					<?= $filter['cityName'] ?> ,
 	                @if($filter['countryName'])
 	                    <?= $filter['countryName'] ?>
-	                @endif
+	                @endif @if($filter['isPremiumUser'] == true)<i class="fas fa-star" style="color: gold;"></i>@endif
+	                <br>
+	                <?= $filter['lastMessage'] ?>
 				</h5>
             </div>
         </div>

@@ -288,7 +288,7 @@ return [
                         "250"=>"Saint Barthelemy",
                         "251"=>"Saint Martin",
                         "252"=>"Sint Maarten",
-                        "253"=>"South Sudan",
+                        "253"=>"South Sudan"
                     ]
 
                 ]

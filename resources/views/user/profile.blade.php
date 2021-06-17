@@ -152,23 +152,7 @@
             </div>
 		</div>
 		@endif
-		<!-- /mobile view like dislike block -->
-		@if(isset($userProfileData['aboutMe']) and $userProfileData['aboutMe'])		
-		<div class="card mb-3">
-			<div class="card-header">
-			<i class="fas fa-user text-primary"></i> <?= __tr('About Me') ?>
-			</div>
-			<div class="card-body">
-			<!-- About Me -->
-			<div class="form-group">
-				<div class="lw-inline-edit-text" data-model="profileData.aboutMe">
-					<?= __ifIsset($userProfileData['aboutMe'], $userProfileData['aboutMe'], '-') ?>
-				</div>
-			</div>
-			<!-- /About Me -->
-			</div>
-		</div>
-		@endif		
+			
 		@if(!__isEmpty($photosData) or $isOwnProfile)
 		<div class="card mb-3">
 			<div class="card-header">
@@ -409,17 +393,24 @@
 						
 						<div class="form-group row">
 						<!-- City -->
-						<div class="col-sm-6 mb-3 mb-sm-0">
+						<div class="col-sm-4 mb-3 mb-sm-0">
 							<label for="city"><strong><?= __tr('City') ?></strong></label>
 							<div class="lw-inline-edit-text" data-model="userProfileData.city"><?= __ifIsset($userProfileData['city'],$userProfileData['city'] ,'-') ?></div>
 						</div>
 						<!-- /City -->
+						<!-- State -->
+						<div class="col-sm-4">
+							<label for="last_name"><strong><?= __tr('State') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.state"><?= __ifIsset($userProfileData['state'],$userProfileData['state'],'-') ?></div>
+						</div>
+						<!-- /State -->
 						<!-- Country -->
-						<div class="col-sm-6">
+						<div class="col-sm-4">
 							<label for="last_name"><strong><?= __tr('Country') ?></strong></label>
 							<div class="lw-inline-edit-text" data-model="userProfileData.country"><?= __ifIsset($userProfileData['country_name'],$userProfileData['country_name'],'-') ?></div>
 						</div>
 						<!-- /Country -->
+					
 						</div>
 						
 					</div>
@@ -527,8 +518,7 @@
 				</div>
 			@endforeach
 		@endif
-		<!-- /User Specifications -->
-
+		
 		</div>
 	</div>
 
@@ -1078,12 +1068,14 @@ function setLocationCoordinates(key, lat, lng, placeData) {
         __DataRequest.updateModels('profileData', {
             city: requestData.city,
             country_name: requestData.country_name,
+            state: requestData.state,
             latitude: lat,
             longitude: lng
         });
          __DataRequest.updateModels('userProfileData', {
             city: requestData.city,
             country_name: requestData.country_name,
+             state: requestData.state,
             latitude: lat,
             longitude: lng
         });
