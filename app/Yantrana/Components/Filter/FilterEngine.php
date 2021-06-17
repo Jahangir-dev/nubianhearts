@@ -365,7 +365,8 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 
                 $userAge = isset($filter['dob']) ? Carbon::parse($filter['dob'])->age : null;
 				$gender = isset($filter['gender']) ? configItem('user_settings.gender', $filter['gender']) : null;
-                 $last_chat = ChatModel::where('from_users__id',$filter->users__id)->latest()->first();
+                
+                $last_chat = ChatModel::where('from_users__id',$filter['users__id'])->latest()->first();
                 if($last_chat != null)
                 {
                     $last_message = $last_chat->created_at->diffForHumans();
