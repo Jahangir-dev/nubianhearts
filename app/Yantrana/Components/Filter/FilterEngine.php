@@ -15,6 +15,7 @@ use App\Yantrana\Support\CommonTrait;
 use App\Yantrana\Components\UserSetting\UserSettingEngine;
 use App\Yantrana\Components\Filter\Interfaces\FilterEngineInterface;
 use App\Yantrana\Components\Messenger\Models\ChatModel;
+use App\Yantrana\Components\Notification\Models\NotificationModel;
 use Request;
 
 class FilterEngine extends BaseEngine implements FilterEngineInterface 
@@ -144,12 +145,21 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 
                 $userAge = isset($filter->dob) ? Carbon::parse($filter->dob)->age : null;
 				$gender = isset($filter->gender) ? configItem('user_settings.gender', $filter->gender) : null;
+                $last_seen = NotificationModel::where('users__id',$filter->users__id)->latest()->first();
                 $last_chat = ChatModel::where('from_users__id',$filter->users__id)->latest()->first();
+                
                 if($last_chat != null)
                 {
                     $last_message = $last_chat->created_at->diffForHumans();
                 } else {
                     $last_message = '';
+                }
+
+                if($last_seen != null)
+                {
+                    $user_last_seen = $last_seen->created_at->diffForHumans();
+                } else {
+                    $user_last_seen = '';
                 }
 
                 // Prepare data for filter
@@ -162,6 +172,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 					'dob' 			=> $filter->dob,
 					'userAge'		=> $userAge,
                     'lastMessage' 	=> $last_message,
+                    'lastSeen'      => $user_last_seen,
                     'cityName'      => $userProfile->city,
                     'countryName'   => $filter->countryName,
                     'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
@@ -365,7 +376,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 
                 $userAge = isset($filter['dob']) ? Carbon::parse($filter['dob'])->age : null;
 				$gender = isset($filter['gender']) ? configItem('user_settings.gender', $filter['gender']) : null;
-                 $last_chat = ChatModel::where('from_users__id',$filter->users__id)->latest()->first();
+                $last_chat = ChatModel::where('from_users__id',$filter->users__id)->latest()->first();
                 if($last_chat != null)
                 {
                     $last_message = $last_chat->created_at->diffForHumans();
@@ -373,6 +384,14 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $last_message = '';
                 }
 
+                if($last_seen != null)
+                {
+                    $user_last_seen = $last_seen->created_at->diffForHumans();
+                } else {
+                    $user_last_seen = '';
+                }
+
+                $last_seen = NotificationModel::where('users__id',$filter->users__id)->latest()->first();
                 // Prepare data for filter
                 $filterData[] = [
                     'id'            => $filter['user_id'],
@@ -382,6 +401,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 					'gender' 		=> $gender,
 					'dob' 			=> $filter['dob'],
                     'lastMessage'   => $last_message,
+                    'lastSeen'   => $user_last_seen,
                     'cityName'      => $userProfile->city,
 					'userAge'		=> $userAge,
                     'countryName' 	=> $filter['countryName'],

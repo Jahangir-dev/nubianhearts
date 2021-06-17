@@ -10,7 +10,7 @@
 						@elseif($filter['userOnlineStatus'] == 2)
 						<span class="lw-dot lw-dot-warning" title="Idle"></span>
 						@elseif($filter['userOnlineStatus'] == 3)
-						<span class="lw-dot lw-dot-danger" title="Offline"></span>
+						<span><?= $filter['lastSeen'] ?></span><span class="lw-dot lw-dot-danger" title="Offline"></span>
 					@endif
 				</div>
 			@endif
