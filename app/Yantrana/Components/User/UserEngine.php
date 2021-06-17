@@ -636,6 +636,7 @@ class UserEngine extends BaseEngine
                 'star_sign'         	=> $userProfile->star_sign,
                 'seeking'         		=> $userProfile->seeking,
                 'country_id'         	=> $userProfile->born_country,
+                'state'         		=> $userProfile->state,
                 'born_country'          => $born_country,
                 'gender'          		=> $userProfile->gender,
                 'gender_text'           => array_get($userSettingConfig, 'gender.'.$userProfile->gender),

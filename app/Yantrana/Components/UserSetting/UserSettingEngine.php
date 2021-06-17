@@ -339,7 +339,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             return $this->engineReaction(2, null, __tr('Invalid data proceed.'));
         }
        
-        $countryCode = $cityName = $countryName = '';
+        $countryCode = $cityName = $countryName = $stateName ='';
         // Loop over the place data
         foreach($placeData as $place) {
             if (in_array('country', $place['types']) or in_array('continent', $place['types'])) {
@@ -348,6 +348,10 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             }
             if (in_array('locality', $place['types'])) {
                 $cityName = $place['long_name'];
+            }
+
+            if (in_array('administrative_area_level_1', $place['types'])) {
+                $stateName = $place['long_name'];
             }
         }
         // Fetch Country code
@@ -380,7 +384,8 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             'countries__id' => $countryId,
             'city' => $cityName,
             'location_latitude' => $inputData['latitude'],
-            'location_longitude' => $inputData['longitude']
+            'location_longitude' => $inputData['longitude'],
+            'state'             => $stateName
         ];        
         // get user profile
         $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
