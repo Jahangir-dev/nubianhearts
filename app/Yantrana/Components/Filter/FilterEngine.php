@@ -14,6 +14,7 @@ use App\Yantrana\Components\User\Repositories\UserRepository;
 use App\Yantrana\Support\CommonTrait;
 use App\Yantrana\Components\UserSetting\UserSettingEngine;
 use App\Yantrana\Components\Filter\Interfaces\FilterEngineInterface;
+use App\Yantrana\Components\Messenger\Models\ChatModel;
 use Request;
 
 class FilterEngine extends BaseEngine implements FilterEngineInterface 
@@ -143,6 +144,13 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 
                 $userAge = isset($filter->dob) ? Carbon::parse($filter->dob)->age : null;
 				$gender = isset($filter->gender) ? configItem('user_settings.gender', $filter->gender) : null;
+                $last_chat = ChatModel::where('from_users__id',$filter->users__id)->latest()->first();
+                if($last_chat != null)
+                {
+                    $last_message = $last_chat->created_at->diffForHumans();
+                } else {
+                    $last_message = '';
+                }
 
                 // Prepare data for filter
                 $filterData[] = [
@@ -153,7 +161,9 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 					'gender' 		=> $gender,
 					'dob' 			=> $filter->dob,
 					'userAge'		=> $userAge,
-                    'countryName' 	=> $filter->countryName,
+                    'lastMessage' 	=> $last_message,
+                    'cityName'      => $userProfile->city,
+                    'countryName'   => $filter->countryName,
                     'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
 					'isPremiumUser'		=> isPremiumUser($filter->user_id),
 					'detailString'	=> implode(", ", array_filter([$userAge, $gender]))
