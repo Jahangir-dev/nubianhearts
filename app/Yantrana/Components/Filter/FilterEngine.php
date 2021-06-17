@@ -365,6 +365,13 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 
                 $userAge = isset($filter['dob']) ? Carbon::parse($filter['dob'])->age : null;
 				$gender = isset($filter['gender']) ? configItem('user_settings.gender', $filter['gender']) : null;
+                 $last_chat = ChatModel::where('from_users__id',$filter->users__id)->latest()->first();
+                if($last_chat != null)
+                {
+                    $last_message = $last_chat->created_at->diffForHumans();
+                } else {
+                    $last_message = '';
+                }
 
                 // Prepare data for filter
                 $filterData[] = [
@@ -374,6 +381,8 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     'profileImage'  => $profilePictureUrl,
 					'gender' 		=> $gender,
 					'dob' 			=> $filter['dob'],
+                    'lastMessage'   => $last_message,
+                    'cityName'      => $userProfile->city,
 					'userAge'		=> $userAge,
                     'countryName' 	=> $filter['countryName'],
                     'userOnlineStatus' => $this->getUserOnlineStatus($filter['user_authority_updated_at']),
