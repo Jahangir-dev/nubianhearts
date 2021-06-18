@@ -367,7 +367,7 @@
 			</div>
 		</div>
 		<!-- /User Basic Information -->
-		<!-- User Basic Information -->
+		<!-- Location Information -->
 		<div class="card mb-3">            
 			<!-- Basic information Header -->
 			<div class="card-header">
@@ -519,6 +519,299 @@
 			@endforeach
 		@endif
 		
+		</div>
+		
+		<div class="card mb-3">            
+			<!-- Looking For Header -->
+			<div class="card-header">
+				<!-- Check if its own profile -->
+				@if($isOwnProfile)
+					<span class="float-right">
+						<a class="lw-icon-btn" href role="button" id="lwEditUserLooking">
+							<i class="fa fa-pencil-alt"></i>
+						</a>
+						<a class="lw-icon-btn" href role="button" id="lwCloseLookingBlock" style="display: none;">
+							<i class="fa fa-times"></i>
+						</a>
+					</span>
+				@endif
+				<!-- /Check if its own profile -->
+				<h5><i class="fas fa-eye text-info"></i>  <?= __tr('Looking For') ?></h5>
+			</div>
+			<div class="card-body">
+					<!-- Static basic information container -->
+					<div id="lwUserStaticLooking">
+						
+						
+						<div class="form-group row">
+						<!-- Description -->
+						<div class="col-sm-12 mb-3 mb-sm-0">
+							<label for="description"><strong>Please tell us what you are looking for in your ideal partner? <i>(Max 1600 characters)</i> ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_description"><?= __ifIsset($userProfileData['looking_for_description'],$userProfileData['looking_for_description'] ,'-') ?></div>
+						</div>
+						<!-- /Description -->
+						<!-- From age -->
+						<div class="col-sm-4">
+							<label for="from_age"><strong><?= __tr('From Age') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_from_age"><?= __ifIsset($userProfileData['looking_for_from_age'],$userProfileData['looking_for_from_age'],'-') ?></div>
+						</div>
+						<!-- /From age -->
+						<!-- To Age -->
+						<div class="col-sm-4">
+							<label for="to_age"><strong><?= __tr('To Age') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_from_age"><?= __ifIsset($userProfileData['looking_for_from_age'],$userProfileData['looking_for_from_age'],'-') ?></div>
+						</div>
+						<!-- /To Age -->
+						<!-- Ethnicity -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Ethnicity') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_ethnicity"><?= __ifIsset($userProfileData['looking_for_ethnicity'], str_replace("'",'',$userProfileData['looking_for_ethnicity']),'-') ?></div>
+						</div>
+						<!-- /Ethnicity -->
+						<!-- Nationality -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Their Nationality') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.selected_country"><?= __ifIsset($userProfileData['selected_country'], str_replace("'",'',$userProfileData['selected_country']),'-') ?></div>
+						</div>
+						<!-- /Nationality -->
+						<!-- Religion -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Their Religion') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_religion"><?= __ifIsset($userProfileData['looking_for_religion'], str_replace("'",'',$userProfileData['looking_for_religion']),'-') ?></div>
+						</div>
+						<!-- /Religion -->
+						<!-- Lives In -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Lives In') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.selected_lives"><?= __ifIsset($userProfileData['selected_lives'], str_replace("'",'',$userProfileData['selected_lives']),'-') ?></div>
+						</div>
+						<!-- /Lives In -->
+						<!-- /living situation -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Living situation') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_living_situation"><?= __ifIsset($userProfileData['looking_for_living_situation'], str_replace("'",'',$userProfileData['looking_for_living_situation']),'-') ?></div>
+						</div>
+						<!-- /living situation -->
+						<!-- /kids -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Do they have kids?') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_kids"><?= __ifIsset($userProfileData['looking_for_kids'], str_replace("'",'',$userProfileData['looking_for_kids']),'-') ?></div>
+						</div>
+						<!-- /kids -->
+						<!-- /best feature -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Their best feature?') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_best_feature"><?= __ifIsset($userProfileData['looking_for_best_feature'], str_replace("'",'',$userProfileData['looking_for_best_feature']),'-') ?></div>
+						</div>
+						<!-- /best feature -->
+						<!-- best feature -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Born In') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.selected_borns"><?= __ifIsset($userProfileData['selected_borns'], str_replace("'",'',$userProfileData['selected_borns']),'-') ?></div>
+						</div>
+						<!-- /best feature -->
+						<!-- Occupation -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Occupation') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_occupation"><?= __ifIsset($userProfileData['looking_for_occupation'], str_replace("'",'',$userProfileData['looking_for_occupation']),'-') ?></div>
+						</div>
+						<!-- /Occupation -->
+						<!-- Annual Salary(USD) -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Annual Salary(USD)') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_salary"><?= __ifIsset($userProfileData['looking_for_salary'], str_replace("'",'',$userProfileData['looking_for_salary']),'-') ?></div>
+						</div>
+						<!-- /Annual Salary(USD) -->
+						<!-- Education -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Education') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_education"><?= __ifIsset($userProfileData['looking_for_education'], str_replace("'",'',$userProfileData['looking_for_education']),'-') ?></div>
+						</div>
+						<!-- /Education -->
+						<!-- Do they smoke? -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Do they smoke?') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_smoking"><?= __ifIsset($userProfileData['looking_for_smoking'], str_replace("'",'',$userProfileData['looking_for_smoking']),'-') ?></div>
+						</div>
+						<!-- /Do they smoke? -->
+						<!-- Do they drink alcohol? -->
+						<div class="col-sm-4">
+							<label for=""><strong><?= __tr('Do they drink alcohol?') ?></strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.looking_for_alcohol"><?= __ifIsset($userProfileData['looking_for_alcohol'], str_replace("'",'',$userProfileData['looking_for_alcohol']),'-') ?></div>
+						</div>
+						<!-- /Do they drink alcohol? -->
+						</div>
+						
+					</div>
+					
+					@if($isOwnProfile)
+					<!-- User Basic Information Form -->
+					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserEditableLooking">
+						<div class="card-body">
+							<input type="hidden" name="first_name" value="<?= $userData['first_name']?>">
+							<input type="hidden" name="last_name"  value="<?= $userData['last_name']?>">
+							
+							<input type="hidden" name="form_looking"  value="">
+							
+				            <div id="lwUserEditableLooking">
+				                <div class="form-group row">
+									<!-- City -->
+									<div class="col-sm-12 mb-3 mb-sm-0">
+										<label for="city"><strong>Please tell us what you are looking for in your ideal partner? <i>(Max 1600 characters)</i></strong></label>
+										<textarea maxlength="1600" name="looking_for_description">
+											<?= $userProfileData['looking_for_description'] ?>
+										</textarea>
+							        </div>
+							    </div>
+							    <div class="form-group row">
+							        <div class="col-sm-3">
+							        	<input type="number" class="form-control" name="looking_for_from_age" value="<?= $userProfileData['looking_for_from_age'] ?? '' ?>">
+							        </div>
+							        <div class="col-sm-2 text-center">
+							        	<label style="color: #6f6f6f;font-size: 17px;" class="form-label">to</label>
+							        </div>
+							        <div class="col-sm-3">
+							        	<input type="number" class="form-control" name="looking_for_to_age" value="<?= $userProfileData['looking_for_to_age'] ?? '' ?>">
+							        </div>
+							        <?php 
+							        $ethnicities = $userSpecificationData['background']['items'][0]['options'];
+							        $nations = $userSpecificationData['background']['items'][1]['options'];
+							        $religions = $userSpecificationData['looks']['items'][6]['options'];
+							        $lives = $userSpecificationData['lifestyle']['items'][4]['options'];
+							        $childrens = $userSpecificationData['lifestyle']['items'][7]['options'];
+							        $occupations = $userSpecificationData['lifestyle']['items'][2]['options'];
+							        $incomes = $userSpecificationData['lifestyle']['items'][3]['options'];
+							        $educations = $userSpecificationData['lifestyle']['items'][1]['options'];
+							        $smokes = $userSpecificationData['lifestyle']['items'][5]['options'];
+							        $drinks = $userSpecificationData['lifestyle']['items'][6]['options'];
+							        $features = $userSpecificationData['looks']['items'][8]['options'];
+							        ?>
+							        <div class="col-sm-4">
+							        	<label for="looking_for_ethnicity"><?= __tr('Ethnicity') ?></label>
+										<input type="hidden" id="for_ethnicity" name="looking_for_ethnicity" value="<?= $userProfileData['looking_for_ethnicity'] ?>">
+										<select id="looking_for_ethnicity" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($ethnicities as $key => $ethencity)
+												<option value="<?= $key ?>"><?= $ethencity ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_nationality"><?= __tr('Their Nationallity') ?></label>
+										<input type="hidden" id="for_nationality" name="looking_for_nationality" value="<?= $userProfileData['looking_for_nationality'] ?>">
+										<select id="looking_for_nationality" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($nations as $key => $nation)
+												<option value="<?= $key ?>"><?= $nation ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_religion"><?= __tr('Their Religion') ?></label>
+										<input type="hidden" id="for_religion" name="looking_for_religion" value="<?= $userProfileData['looking_for_religion'] ?>">
+										<select id="looking_for_religion" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($religions as $key => $religion)
+												<option value="<?= $key ?>"><?= $religion ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0 ">
+							        	<label for="looking_for_lives_in"><?= __tr('Lives In') ?></label>
+										<input type="hidden" id="for_lives_in" name="looking_for_lives_in" value="<?= $userProfileData['looking_for_lives_in'] ?>">
+										<select id="looking_for_lives_in" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($nations as $key => $nation)
+												<option value="<?= $key ?>"><?= $nation ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_living_situation"><?= __tr('Living situation') ?></label>
+										<input type="hidden" id="for_living_situation" name="looking_for_living_situation" value="<?= $userProfileData['looking_for_living_situation'] ?>">
+										<select id="looking_for_living_situation" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($lives as $key => $live)
+												<option value="<?= $key ?>"><?= $live ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_kids"><?= __tr('Do they have kids?') ?></label>
+										<input type="hidden" id="for_kids" name="looking_for_kids" value="<?= $userProfileData['looking_for_kids'] ?>">
+										<select id="looking_for_kids" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($childrens as $key => $children)
+												<option value="<?= $key ?>"><?= $children ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_best_feature"><?= __tr('Their best feature') ?></label>
+										<input type="hidden" id="for_best_feature" name="looking_for_best_feature" value="<?= $userProfileData['looking_for_best_feature'] ?>">
+										<select id="looking_for_best_feature" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($features as $key => $feature)
+												<option value="<?= $key ?>"><?= $feature ?></option>
+											@endforeach
+										</select>
+							        </div>
+
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_born_in"><?= __tr('Born In') ?></label>
+										<input type="hidden" id="for_born_in" name="looking_for_born_in" value="<?= $userProfileData['looking_for_born_in'] ?>">
+										<select id="looking_for_born_in" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($nations as $key => $nation)
+												<option value="<?= $key ?>"><?= $nation ?></option>
+											@endforeach
+										</select>
+							        </div>
+
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_occupation"><?= __tr('Occupation') ?></label>
+										<input type="hidden" id="for_occupation" name="looking_for_occupation" value="<?= $userProfileData['looking_for_occupation'] ?>">
+										<select id="looking_for_occupation" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($occupations as $key => $occupation)
+												<option value="<?= $key ?>"><?= $occupation ?></option>
+											@endforeach
+										</select>
+							        </div>
+
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_salary"><?= __tr('Annual Salary(USD)') ?></label>
+										<select id="looking_for_salary" name="looking_for_salary" class="form-control">
+											@foreach($incomes as $key => $income)
+												<option @if($userProfileData['looking_for_salary'] == $key) selected="selected" @endif value="<?= $key ?>"><?= $income ?></option>
+											@endforeach
+										</select>
+							        </div>
+
+							         <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_education"><?= __tr('Education') ?></label>
+										<input type="hidden" id="for_education" name="looking_for_education" value="<?= $userProfileData['looking_for_education'] ?>">
+										<select id="looking_for_education" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($educations as $key => $education)
+												<option value="<?= $key ?>"><?= $education ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_smoking"><?= __tr('Do they smoke?') ?></label>
+										<input type="hidden" id="for_smoking" name="looking_for_smoking" value="<?= $userProfileData['looking_for_smoking'] ?>">
+										<select id="looking_for_smoking" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($smokes as $key => $smoke)
+												<option value="<?= $key ?>"><?= $smoke ?></option>
+											@endforeach
+										</select>
+							        </div>
+							        <div class="col-sm-4 mt-2 mb-0">
+							        	<label for="looking_for_alcohol"><?= __tr('Do they drink alcohol?') ?></label>
+										<input type="hidden" id="for_alcohol" name="looking_for_alcohol" value="<?= $userProfileData['looking_for_alcohol'] ?>">
+										<select id="looking_for_alcohol" class="form-control" multiple="multiple" style="position:relative !important;">
+											@foreach($drinks as $key => $drink)
+												<option value="<?= $key ?>"><?= $drink ?></option>
+											@endforeach
+										</select>
+							        </div>
+								</div>	
+							</div>
+			        	</div>
+					</form>
+					@endif
+				</div>
 		</div>
 	</div>
 
@@ -723,6 +1016,7 @@
     	
         $('#example-getting-started').multiselect({
             includeSelectAllOption: true,
+            numberDisplayed: 1,
             selectAllValue: 'multiselect-all',
             onSelectAll: function(element, checked) {
 		    	var selected = [];
@@ -739,12 +1033,326 @@
 		        });
     			$('#seeking').val(selected);
     		},
+        }); 
+
+        $('#looking_for_ethnicity').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_ethnicity option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_ethnicity').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_ethnicity option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_ethnicity').val(selected);
+    		},
         });
         
-        	@if($userProfileData['seeking'] != null || $userProfileData['seeking'] != '')
-        	
-        	$('#example-getting-started').multiselect('select', [<?= $userProfileData['seeking']?>]);
-        	@endif
+        $('#looking_for_nationality').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_nationality option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_nationality').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_nationality option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_nationality').val(selected);
+    		},
+        });
+
+        $('#looking_for_religion').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_religion option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_religion').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_religion option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_religion').val(selected);
+    		},
+        });
+
+        $('#looking_for_lives_in').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_lives_in option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_lives_in').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_lives_in option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_lives_in').val(selected);
+    		},
+        });
+
+        $('#looking_for_living_situation').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_living_situation option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_living_situation').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_living_situation option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_living_situation').val(selected);
+    		},
+        });
+
+        $('#looking_for_kids').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_kids option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_kids').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_kids option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_kids').val(selected);
+    		},
+        }); 
+
+        $('#looking_for_best_feature').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_best_feature option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_best_feature').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_best_feature option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_best_feature').val(selected);
+    		},
+        });
+
+        $('#looking_for_born_in').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_born_in option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_born_in').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_born_in option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_born_in').val(selected);
+    		},
+        });
+
+        $('#looking_for_occupation').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_occupation option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_occupation').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_occupation option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_occupation').val(selected);
+    		},
+        });
+
+        $('#looking_for_education').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_education option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_education').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_education option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_education').val(selected);
+    		},
+        });
+
+        $('#looking_for_smoking').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_smoking option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_smoking').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_smoking option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_smoking').val(selected);
+    		},
+        });
+
+        $('#looking_for_alcohol').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#looking_for_alcohol option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_alcohol').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#looking_for_alcohol option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_alcohol').val(selected);
+    		},
+        });
+    	
+
+
+    	@if($userProfileData['seeking'] != null || $userProfileData['seeking'] != '')
+    	
+    	$('#example-getting-started').multiselect('select', [<?= $userProfileData['seeking']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_religion'] != null || $userProfileData['looking_for_religion'] != '')
+    	
+    	$('#looking_for_religion').multiselect('select', [<?= $userProfileData['looking_for_religion']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_ethnicity'] != null || $userProfileData['looking_for_ethnicity'] != '')
+    	
+    	$('#looking_for_ethnicity').multiselect('select', [<?= $userProfileData['looking_for_ethnicity']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_nationality'] != null || $userProfileData['looking_for_nationality'] != '')
+    	
+    	$('#looking_for_nationality').multiselect('select', [<?= $userProfileData['looking_for_nationality']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_lives_in'] != null || $userProfileData['looking_for_lives_in'] != '')
+    	
+    	$('#looking_for_lives_in').multiselect('select', [<?= $userProfileData['looking_for_lives_in']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_living_situation'] != null || $userProfileData['looking_for_living_situation'] != '')
+    	
+    	$('#looking_for_living_situation').multiselect('select', [<?= $userProfileData['looking_for_living_situation']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_kids'] != null || $userProfileData['looking_for_kids'] != '')
+    	
+    	$('#looking_for_kids').multiselect('select', [<?= $userProfileData['looking_for_kids']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_best_feature'] != null || $userProfileData['looking_for_best_feature'] != '')
+    	
+    	$('#looking_for_best_feature').multiselect('select', [<?= $userProfileData['looking_for_best_feature']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_born_in'] != null || $userProfileData['looking_for_born_in'] != '')
+    	
+    	$('#looking_for_born_in').multiselect('select', [<?= $userProfileData['looking_for_born_in']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_occupation'] != null || $userProfileData['looking_for_occupation'] != '')
+    	
+    	$('#looking_for_occupation').multiselect('select', [<?= $userProfileData['looking_for_occupation']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_education'] != null || $userProfileData['looking_for_education'] != '')
+    	
+    	$('#looking_for_education').multiselect('select', [<?= $userProfileData['looking_for_education']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_smoking'] != null || $userProfileData['looking_for_smoking'] != '')
+    	
+    	$('#looking_for_smoking').multiselect('select', [<?= $userProfileData['looking_for_smoking']?>]);
+    	@endif
+
+    	@if($userProfileData['looking_for_alcohol'] != null || $userProfileData['looking_for_alcohol'] != '')
+    	
+    	$('#looking_for_alcohol').multiselect('select', [<?= $userProfileData['looking_for_alcohol']?>]);
+    	@endif
         
     });
     // Get user profile data
@@ -980,6 +1588,18 @@ function showHideLocationContainer() {
     $('#lwUserEditableLocation').toggle();
     $('#lwEditUserLocation').toggle();
     $('#lwCloseLocationBlock').toggle();
+}
+
+$('#lwEditUserLooking, #lwCloseLookingBlock').click(function(e) {
+    e.preventDefault();
+    showHideLookingContainer();
+});
+
+function showHideLookingContainer() {
+    $('#lwUserStaticLooking').toggle();
+    $('#lwUserEditableLooking').toggle();
+    $('#lwEditUserLooking').toggle();
+    $('#lwCloseLookingBlock').toggle();
 }
 
 function initialize() {

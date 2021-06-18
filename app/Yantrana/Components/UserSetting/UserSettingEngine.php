@@ -231,21 +231,45 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 activityLog($user->first_name.' '.$user->last_name. ' update own user info.');
                 $isBasicSettingsUpdated = true;
             }
-
+            //dd(array_get($inputData,'looking_for_nationality'));
+            if(array_key_exists('form_looking',$inputData) == true)
+            {
+                $userProfileDetails = [
+                    'looking_for_description'   => array_get($inputData, 'looking_for_description'),
+                    'looking_for_from_age'   => array_get($inputData, 'looking_for_from_age'),
+                    'looking_for_to_age'   => array_get($inputData, 'looking_for_to_age'),
+                    'looking_for_nationality'   => array_get($inputData, 'looking_for_nationality'),
+                    'looking_for_ethnicity'   => array_get($inputData, 'looking_for_ethnicity'),
+                    'looking_for_religion'   => array_get($inputData, 'looking_for_religion'),
+                    'looking_for_lives_in'   => array_get($inputData, 'looking_for_lives_in'),
+                    'looking_for_living_situation'   => array_get($inputData, 'looking_for_living_situation'),
+                    'looking_for_kids'   => array_get($inputData, 'looking_for_kids'),
+                    'looking_for_best_feature'   => array_get($inputData, 'looking_for_best_feature'),
+                    'looking_for_born_in'   => array_get($inputData, 'looking_for_born_in'),
+                    'looking_for_occupation'   => array_get($inputData, 'looking_for_occupation'),
+                    'looking_for_salary'   => array_get($inputData, 'looking_for_salary'),
+                    'looking_for_education'   => array_get($inputData, 'looking_for_education'),
+                    'looking_for_smoking'   => array_get($inputData, 'looking_for_smoking'),
+                    'looking_for_alcohol'   => array_get($inputData, 'looking_for_alcohol')
+                ];
+                
+            } else {
             // Prepare User profile details
-            $userProfileDetails = [
-                'gender'                => array_get($inputData, 'gender'),
-                'dob'                   => array_get($inputData, 'birthday'),
-                'work_status'           => array_get($inputData, 'work_status'),
-                'looking_for'           => array_get($inputData, 'looking_for'),
-                'star_sign'             => array_get($inputData, 'star_sign'),
-                'seeking'               => array_get($inputData, 'seeking'),
-                'born_country'          => array_get($inputData, 'born_country'),
-                'education'             => array_get($inputData, 'education'),
-                'about_me'              => array_get($inputData, 'about_me'),
-                'preferred_language'    => array_get($inputData, 'preferred_language'),
-                'relationship_status'   => array_get($inputData, 'relationship_status')
-            ];
+                $userProfileDetails = [
+                    'gender'                => array_get($inputData, 'gender'),
+                    'dob'                   => array_get($inputData, 'birthday'),
+                    'work_status'           => array_get($inputData, 'work_status'),
+                    'looking_for'           => array_get($inputData, 'looking_for'),
+                    'star_sign'             => array_get($inputData, 'star_sign'),
+                    'seeking'               => array_get($inputData, 'seeking'),
+                    'born_country'          => array_get($inputData, 'born_country'),
+                    'education'             => array_get($inputData, 'education'),
+                    'about_me'              => array_get($inputData, 'about_me'),
+                    'preferred_language'    => array_get($inputData, 'preferred_language'),
+                    'relationship_status'   => array_get($inputData, 'relationship_status')
+                ];
+            }
+            
             // get user profile
             $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
             // check if user profile exists
@@ -263,7 +287,13 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             }
 
             if ($isBasicSettingsUpdated) {
-                return $this->userSettingRepository->transactionResponse(1, [], __tr('Your basic information updated successfully.'));
+                if(array_key_exists('form_looking',$inputData) == true)
+                {
+                    return $this->userSettingRepository->transactionResponse(1, [], __tr('Your looking for updated successfully.'));
+                } else {
+                    return $this->userSettingRepository->transactionResponse(1, [], __tr('Your basic information updated successfully.'));
+                }
+                
             }
             // // Send failed server error message
             return $this->userSettingRepository->transactionResponse(2, [], __tr('Something went wrong on server.'));

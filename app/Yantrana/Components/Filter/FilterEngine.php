@@ -387,7 +387,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $last_message = '';
                 }
 
-                $last_seen = NotificationModel::where('users__id',$filter->users__id)->latest()->first();
+                $last_seen = NotificationModel::where('users__id',$filter['users__id'])->latest()->first();
                 if($last_seen != null)
                 {
                     $user_last_seen = $last_seen->created_at->diffForHumans();

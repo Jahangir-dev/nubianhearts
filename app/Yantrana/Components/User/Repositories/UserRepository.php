@@ -1306,7 +1306,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
             'status'		=> array_get($inputData, 'status'),
             'looking_for'	=> array_get($inputData, 'looking_for'),
         ];
-
+        
         $userProfile = new UserProfile;
         // check if user profile stored successfully
         if ($userProfile->assignInputsAndSave($inputData, $keyValues)) {

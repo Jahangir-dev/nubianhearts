@@ -627,7 +627,53 @@ class UserEngine extends BaseEngine
                 $country = $this->countryRepository->fetchById($userProfile->born_country, ['name']);
                 $born_country = $country->name;
             }
-            //dd($userProfile->seeking);
+            $specificationConfig = $this->getUserSpecificationConfig();
+            
+            $countries = $specificationConfig['groups']['background']['items']['nationality']['options'];
+            
+            //dd($lives_in);
+            $nations = explode(',',$userProfile->looking_for_nationality);
+            $lives = explode(',',$userProfile->looking_for_lives_in);
+            $borns = explode(',',$userProfile->looking_for_born_in);
+            $nation_s = [];
+            $lives_in = [];
+            $born_in = [];
+            foreach($nations as $nation){	
+            	foreach($countries as $key => $country)
+            	{
+            		$nation = str_replace("'",'',$nation);
+            		if($nation == $key)
+            		{
+                		$nation_s []= $country;
+            		}
+            	}
+            }
+
+            foreach($lives as $live){	
+            	foreach($countries as $key => $country)
+            	{
+            		$live = str_replace("'",'',$live);
+            		if($live == $key)
+            		{
+                		$lives_in []= $country;
+            		}
+            	}
+            } 
+
+            foreach($borns as $born){	
+            	foreach($countries as $key => $country)
+            	{
+            		$born = str_replace("'",'',$born);
+            		if($born == $key)
+            		{
+                		$born_in []= $country;
+            		}
+            	}
+            }
+             $selected_country = implode(', ',$nation_s);
+             $selected_lives = implode(', ',$lives_in);
+             $selected_borns = implode(', ',$born_in);
+            
             $userProfileData = [
                 'aboutMe'               => $userProfile->about_me,
                 'city'                  => $userProfile->city,
@@ -657,6 +703,25 @@ class UserEngine extends BaseEngine
                 'latitude'              => $userProfile->location_latitude,
                 'longitude'             => $userProfile->location_longitude,
                 'isVerified'            => $userProfile->is_verified,
+                'looking_for_description'       => $userProfile->looking_for_description,
+                'looking_for_from_age'          => $userProfile->looking_for_from_age,
+                'looking_for_to_age'            => $userProfile->looking_for_to_age,
+                'looking_for_ethnicity'         => $userProfile->looking_for_ethnicity,
+                'looking_for_nationality'         => $userProfile->looking_for_nationality,
+                'looking_for_religion'         => $userProfile->looking_for_religion,
+                'looking_for_lives_in'         => $userProfile->looking_for_lives_in,
+                'looking_for_living_situation'         => $userProfile->looking_for_living_situation,
+                'looking_for_kids'         => $userProfile->looking_for_kids,
+                'looking_for_best_feature'         => $userProfile->looking_for_best_feature,
+                'looking_for_born_in'         => $userProfile->looking_for_born_in,
+                'looking_for_occupation'         => $userProfile->looking_for_occupation,
+                'looking_for_education'         => $userProfile->looking_for_education,
+                'looking_for_smoking'         => $userProfile->looking_for_smoking,
+                'looking_for_alcohol'         => $userProfile->looking_for_alcohol,
+                'looking_for_salary'         => $userProfile->looking_for_salary,
+                'selected_country'			=> $selected_country,
+                'selected_lives'			=> $selected_lives,
+                'selected_borns'			=> $selected_borns
             ];
         }
        
@@ -666,6 +731,7 @@ class UserEngine extends BaseEngine
             $userSpecifications = $specificationCollection->pluck('specification_value', 'specification_key')->toArray();
         }
         $specificationConfig = $this->getUserSpecificationConfig();
+
         foreach ($specificationConfig['groups'] as $specKey => $specification) {
             $items = [];
             foreach($specification['items'] as $itemKey => $item) {
