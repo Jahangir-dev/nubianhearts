@@ -761,12 +761,13 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
     * @return void.
     *-------------------------------------------------------- */
     if (!function_exists('activityLog')) {
-        function activityLog($activity)
+        function activityLog($activity,$id = '')
         {
             App\Yantrana\Components\User\Models\ActivityLog::create([
 				'created_at'	=> Carbon::now(),
 				'user_id' 		=> getUserID(),
-				'__data' 		=> $activity
+				'__data' 		=> $activity,
+                'for_user'      => $id
 			]);
         }
 	}

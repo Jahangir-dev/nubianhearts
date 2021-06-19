@@ -36,11 +36,11 @@ class ActivityLog extends BaseModel
     protected $casts = [
         'id' 		=> 'integer',
 		'user_id' 	=> 'integer',
-		'__data'    => 'string'
+		'__data'    => 'string',
 	];
 
     /**
      * @var array - The attributes that are mass assignable.
      */
-    protected $fillable = ['created_at', 'user_id', '__data'];
+    protected $fillable = ['created_at', 'user_id', '__data','for_user'];
 }

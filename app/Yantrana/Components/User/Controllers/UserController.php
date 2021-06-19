@@ -502,7 +502,7 @@ class UserController extends BaseController
     	$page = request()->input('page');
 		//get liked people data by parameter like '1'
         $processReaction = $this->userEngine->prepareProfileVisitorsData();
-
+        
         //check if page is not null and not equal to first page
         if (!is_null($page) and ($page != 1)) {
 

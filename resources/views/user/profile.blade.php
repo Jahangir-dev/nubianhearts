@@ -813,6 +813,156 @@
 					@endif
 				</div>
 		</div>
+
+		<div class="card mb-3">            
+			<!-- Looking For Header -->
+			<div class="card-header">
+				<!-- Check if its own profile -->
+				@if($isOwnProfile)
+					<span class="float-right">
+						<a class="lw-icon-btn" href role="button" id="lwEditUserIntrest">
+							<i class="fa fa-pencil-alt"></i>
+						</a>
+						<a class="lw-icon-btn" href role="button" id="lwCloseIntrestBlock" style="display: none;">
+							<i class="fa fa-times"></i>
+						</a>
+					</span>
+				@endif
+				<!-- /Check if its own profile -->
+				<h5><i class="fas fa-eye text-info"></i>  <?= __tr('Hobbies & Interests') ?></h5>
+			</div>
+			<div class="card-body">
+					<!-- Static basic information container -->
+					<div id="lwUserStaticIntrest">
+						<div class="form-group row">
+						<!-- Description -->
+						<div class="col-sm-4 mb-3 mb-sm-0">
+							<label for="description"><strong>fun/entertainment</strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.entertainment"><?= __ifIsset($userProfileData['entertainment'],str_replace("'",'',$userProfileData['entertainment']) ,'-') ?></div>
+						</div>
+						<div class="col-sm-4 mb-3 mb-sm-0">
+							<label for="description"><strong>sports</strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.sports"><?= __ifIsset($userProfileData['sports'],str_replace("'",'',$userProfileData['sports']) ,'-') ?></div>
+						</div>
+						<div class="col-sm-4 mb-3 mb-sm-0">
+							<label for="description"><strong>food</strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.foods"><?= __ifIsset($userProfileData['foods'],str_replace("'",'',$userProfileData['foods']) ,'-') ?></div>
+						</div>
+						<div class="col-sm-4 mb-3 mb-sm-0">
+							<label for="description"><strong>music</strong></label>
+							<div class="lw-inline-edit-text" data-model="userProfileData.music"><?= __ifIsset($userProfileData['music'],str_replace("'",'',$userProfileData['music']) ,'-') ?></div>
+						</div>
+					</div>
+				</div>
+				@if($isOwnProfile)
+					<!-- User Basic Information Form -->
+					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserEditableIntrest">
+						<div class="card-body">
+							<input type="hidden" name="first_name" value="<?= $userData['first_name']?>">
+							<input type="hidden" name="last_name"  value="<?= $userData['last_name']?>">
+							
+							<input type="hidden" name="intrest"  value="">
+						  <div id="lwUserEditableIntrest">
+			                <div class="form-group row">
+								<div class="col-sm-3 mt-2 mb-0">
+							        	<label for="entertainment"><?= __tr('fun/entertainment') ?></label>
+										<input type="hidden" id="for_entertainment" name="entertainment" value="<?= $userProfileData['entertainment'] ?? '' ?>">
+										<select id="entertainment" class="form-control" multiple="multiple" style="position:relative !important;">
+											<option value="Antiques">Antiques</option>
+											<option value="Bars/Pubs/Nightclubs">Bars/Pubs/Nightclubs</option>
+											<option value="Cars / Mechanics">Cars / Mechanics</option>
+											<option value="Philosophy / Spirituality">Philosophy / Spirituality</option>
+											<option value="Computers / Internet">Computers / Internet</option>
+											<option value="Pets">Pets</option>
+											<option value="Movies/Camera">Movies/Camera</option>
+											<option value="Beach Parties">Beach Parties</option>
+											<option value="Art / Painting">Art / Painting</option>
+											<option value="Education">Education</option>
+											<option value="Astrology">Astrology</option>
+											<option value="Board /Card Games">Board /Card Games</option>
+											<option value="Concerts / Live Music">Concerts / Live Music</option>
+											<option value="Dancing">Dancing</option>
+											<option value="Camping / Nature">Camping / Nature</option>
+											<option value="Family">Family</option>
+											<option value="Crafts">Crafts</option>
+											<option value="News / Politics">News / Politics</option>
+											<option value="Poetry">Poetry</option>
+										</select>
+							        </div>
+							    <div class="col-sm-3 mt-2 mb-0">
+							        	<label for="sports"><?= __tr('sports') ?></label>
+										<input type="hidden" id="for_sports" name="sports" value="<?= $userProfileData['sports'] ?? '' ?>">
+										<select id="sports" class="form-control" multiple="multiple" style="position:relative !important;">
+												<option value="aerobics">Aerobics</option>
+												<option value="Auto Racing">Auto Racing</option>
+												<option value="Extreme Sports">Extreme Sports</option>
+												<option value="hiking">Hiking</option>
+												<option value="diving">Diving</option>
+												<option value="biking">Biking</option>
+												<option value="Motor Sports">Motor Sports</option>
+												<option value="jet">Jet / Water Skiing</option>
+												<option value="Hang Gliding / Paragliding">Hang Gliding / Paragliding</option>
+												<option value="archery">Archery</option>
+												<option value="bodybuilding">Bodybuilding</option>
+												<option value="bowling">Bowling</option>
+												<option value="Figure Skating">Figure Skating</option>
+												<option value="boxing">Boxing</option>
+												<option value="yoga">Yoga / Pilates</option>
+												<option value="Horse Riding">Horse Riding</option>
+												<option value="Skating / Ice Hockey">Skating / Ice Hockey</option>
+										</select>
+								</div>
+								<div class="col-sm-3 mt-2 mb-0">
+							        	<label for="food"><?= __tr('food') ?></label>
+										<input type="hidden" id="for_food" name="food" value="<?= $userProfileData['food'] ?? '' ?>">
+										<select id="food" class="form-control" multiple="multiple" style="position:relative !important;">
+												<option value="american">American</option>
+												<option value="vegetarian" >Vegetarian / Organic</option>
+												<option value="california">California-Fusion</option>
+												<option value="german" >German</option>
+												<option value="vegan">Vegan</option>
+												<option value="mexican">Mexican</option>
+												<option value="Eastern European">Eastern European</option>
+												<option value="vietnamese">Vietnamese</option>
+												<option value="chinese">Chinese / Dim Sum</option>
+												<option value="greek">Greek</option>
+												<option value="cajun">Cajun / Southern</option>
+												<option value="japanese">Japanese / Sushi</option>
+												<option value="Fast Food / Pizza">Fast Food / Pizza</option>
+												<option value="italian">Italian</option>
+												<option value="seafood">Seafood</option>
+												<option value="barbecue">Barbecue</option>
+												<option value="Middle Eastern">Middle Eastern</option>
+												<option value="South American">South American</option>
+												<option value="Jewish / Kosher">Jewish / Kosher</option>
+										</select>
+								</div>
+								<div class="col-sm-3 mt-2 mb-0">
+							        	<label for="music"><?= __tr('music') ?></label>
+										<input type="hidden" id="for_music" name="music" value="<?= $userProfileData['music'] ?? '' ?>">
+										<select id="music" class="form-control" multiple="multiple" style="position:relative !important;">
+											<option value="alternative">Alternative</option>
+											<option value="soft_rock" >Soft Rock</option>
+											<option value="rap" >Rap</option>
+											<option value="dance" >Dance / Techno</option>
+											<option value="world" >World</option>
+											<option value="rnb">RnB / Hip Hop</option>
+											<option value="new_age">New Age</option>
+											<option value="folk">Country / Folk</option>
+											<option value="religious">Religious</option>
+											<option value="pop">Pop</option>
+											<option value="classical">Classical / Opera</option>
+											<option value="rock">Rock</option>
+											<option value="jazz">Jazz / Blues</option>
+										</select>
+								</div>
+						    </div>
+						</div>
+					</div>
+					</form>
+				@endif
+			</div>
+		</div>
 	</div>
 
 	<!-- user report Modal-->
@@ -1286,8 +1436,110 @@
     			$('#for_alcohol').val(selected);
     		},
         });
-    	
 
+        $('#entertainment').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#entertainment option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_entertainment').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#entertainment option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_entertainment').val(selected);
+    		},
+        }); 
+
+        $('#sports').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#sports option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_sports').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#sports option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_sports').val(selected);
+    		},
+        });
+
+        $('#food').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#food option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_food').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#food option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_food').val(selected);
+    		},
+        });
+
+        $('#music').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+		    	var selected = [];
+			    $('#music option:selected').each(function(index, brand) {
+			      selected.push(["'"+$(this).val()+"'"]);
+			    });
+			    $('#for_music').val(selected);
+  			},
+            onChange: function(element, checked) {
+		        var brands = $('#music option:selected');
+		        var selected = [];
+		        $(brands).each(function(index, brand){
+		            selected.push(["'"+$(this).val()+"'"]);
+		        });
+    			$('#for_music').val(selected);
+    		},
+        });
+    	
+    	@if($userProfileData['music'] != null || $userProfileData['music'] != '')
+    	
+    	$('#music').multiselect('select', [<?= $userProfileData['music']?>]);
+    	@endif
+
+    	@if($userProfileData['foods'] != null || $userProfileData['foods'] != '')
+    	
+    	$('#food').multiselect('select', [<?= $userProfileData['foods']?>]);
+    	@endif
+
+        @if($userProfileData['sports'] != null || $userProfileData['sports'] != '')
+    	
+    	$('#sports').multiselect('select', [<?= $userProfileData['sports']?>]);
+    	@endif
+
+    	@if($userProfileData['entertainment'] != null || $userProfileData['entertainment'] != '')
+    	
+    	$('#entertainment').multiselect('select', [<?= $userProfileData['entertainment']?>]);
+    	@endif
 
     	@if($userProfileData['seeking'] != null || $userProfileData['seeking'] != '')
     	
@@ -1600,6 +1852,18 @@ function showHideLookingContainer() {
     $('#lwUserEditableLooking').toggle();
     $('#lwEditUserLooking').toggle();
     $('#lwCloseLookingBlock').toggle();
+}
+
+$('#lwEditUserIntrest, #lwCloseIntrestBlock').click(function(e) {
+    e.preventDefault();
+    showHideIntrestContainer();
+});
+
+function showHideIntrestContainer() {
+    $('#lwUserStaticIntrest').toggle();
+    $('#lwUserEditableIntrest').toggle();
+    $('#lwEditUserIntrest').toggle();
+    $('#lwCloseIntrestBlock').toggle();
 }
 
 function initialize() {

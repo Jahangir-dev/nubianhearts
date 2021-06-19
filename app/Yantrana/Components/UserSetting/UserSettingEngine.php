@@ -253,6 +253,14 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                     'looking_for_alcohol'   => array_get($inputData, 'looking_for_alcohol')
                 ];
                 
+            } else if(array_key_exists('intrest',$inputData) == true)
+            { 
+                $userProfileDetails = [
+                    'entertainment' =>  array_get($inputData, 'entertainment'),
+                    'food' =>  array_get($inputData, 'food'),
+                    'sports' =>  array_get($inputData, 'sports'),
+                    'music' =>  array_get($inputData, 'music'),
+                ];
             } else {
             // Prepare User profile details
                 $userProfileDetails = [
@@ -290,7 +298,10 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 if(array_key_exists('form_looking',$inputData) == true)
                 {
                     return $this->userSettingRepository->transactionResponse(1, [], __tr('Your looking for updated successfully.'));
-                } else {
+                } else if(array_key_exists('intrest',$inputData) == true)
+                {
+                    return $this->userSettingRepository->transactionResponse(1, [], __tr('Hobbies & Interests for updated successfully.'));
+                }else {
                     return $this->userSettingRepository->transactionResponse(1, [], __tr('Your basic information updated successfully.'));
                 }
                 

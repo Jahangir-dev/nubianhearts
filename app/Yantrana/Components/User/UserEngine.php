@@ -21,6 +21,7 @@ use App\Yantrana\Components\UserSetting\Repositories\UserSettingRepository;
 use App\Yantrana\Components\Item\Repositories\ManageItemRepository;
 use App\Yantrana\Components\AbuseReport\Repositories\ManageAbuseReportRepository;
 use App\Yantrana\Support\Country\Repositories\CountryRepository;
+use App\Yantrana\Components\User\Models\ActivityLog;
 use App\Yantrana\Support\CommonTrait;
 use \Illuminate\Support\Facades\URL;
 use YesTokenAuth;
@@ -719,6 +720,10 @@ class UserEngine extends BaseEngine
                 'looking_for_smoking'         => $userProfile->looking_for_smoking,
                 'looking_for_alcohol'         => $userProfile->looking_for_alcohol,
                 'looking_for_salary'         => $userProfile->looking_for_salary,
+                'entertainment'         	=> $userProfile->entertainment,
+                'sports'         			=> $userProfile->sports,
+                'foods'         			=> $userProfile->food,
+                'music'         			=> $userProfile->music,
                 'selected_country'			=> $selected_country,
                 'selected_lives'			=> $selected_lives,
                 'selected_borns'			=> $selected_borns
@@ -820,7 +825,7 @@ class UserEngine extends BaseEngine
 					$userFullName = $user->first_name.' '.$user->last_name;
 
 					//activity log message
-					activityLog($userFullName.' '.'profile visited.');
+					activityLog($userFullName.' '.'profile visited.',$user->_id);
 					
 					//loggedIn user name
 					$loggedInUserName = Auth::user()->first_name.' '.Auth::user()->last_name;
@@ -1022,7 +1027,7 @@ class UserEngine extends BaseEngine
 				//is like 1
 				if ($like == 1) {
 					//activity log message
-					activityLog($userFullName.' '.'profile liked.');
+					activityLog($userFullName.' '.'profile liked.',$user->_id);
 					//check show like feature return true
 					if ($showLikeNotification) {
 						//notification log message
@@ -1046,7 +1051,7 @@ class UserEngine extends BaseEngine
 					], __tr('User liked successfully.'));
 				} else {
 					//activity log message
-					activityLog($userFullName.' '.'profile Disliked.');
+					activityLog($userFullName.' '.'profile Disliked.',$user->_id);
 				
 					return $this->engineReaction(1,  [
 						'show_message' => true,
@@ -1069,7 +1074,7 @@ class UserEngine extends BaseEngine
 				//is like 1
 				if ($like == 1) {
 					//activity log message
-					activityLog($userFullName.' '.'profile liked.');
+					activityLog($userFullName.' '.'profile liked.',$user->_id);
 					//check show like feature return true
 					if ($showLikeNotification) {
 						//notification log message
@@ -1095,7 +1100,7 @@ class UserEngine extends BaseEngine
 					], __tr('User liked successfully.'));
 				} else {
 					//activity log message
-					activityLog($userFullName.' '.'profile Disliked.');
+					activityLog($userFullName.' '.'profile Disliked.',$user->_id);
 
 					return $this->engineReaction(1, [
 						'show_message' => true,
@@ -1117,7 +1122,7 @@ class UserEngine extends BaseEngine
     {
 		//fetch user liked data by to user id
 		$likedCollection = $this->userRepository->fetchUserLikeData($likeType, true);
-	
+		
 		return $this->engineReaction(1, [
 			'usersData' => $this->prepareUserArray($likedCollection),
 			'nextPageUrl' => $likedCollection->nextPageUrl()
@@ -1197,11 +1202,22 @@ class UserEngine extends BaseEngine
 					$userAge = isset($user->dob) ? Carbon::parse($user->dob)->age : null;
 					$gender = isset($user->gender) ? configItem('user_settings.gender', $user->gender) : null;
 
+					
+					$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
+					if(count($sent_at) > 0)
+					{
+						$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+					} else {
+						$last_sent = null;
+					}
+					
 					$userData[] = [
 						'_id' 			=> $user->_id,
 						'_uid' 			=> $user->_uid,
+						'liked_user' 	=> $user->to_users__id,
 						'status' 		=> $user->status,
 						'like'			=> $user->like,
+						'last_sent'		=> $last_sent,
 						'created_at' 	=> formatDiffForHumans($user->created_at),
 						'updated_at'	=> formatDiffForHumans($user->updated_at),
 						'userFullName'	=> $user->userFullName,
@@ -1248,9 +1264,19 @@ class UserEngine extends BaseEngine
 				$userAge = isset($user->dob) ? Carbon::parse($user->dob)->age : null;
 				$gender = isset($user->gender) ? configItem('user_settings.gender', $user->gender) : null;
 
+				$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
+					if(count($sent_at) > 0)
+					{
+						$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+					} else {
+						$last_sent = null;
+					}
+
 				$userData[] = [
 					'_id' 			=> $user->_id,
 					'_uid' 			=> $user->_uid,
+					'liked_user'	=> $user->to_users__id,
+					'last_sent'		=> $last_sent,
 					'status' 		=> $user->status,
 					'like'			=> $user->like,
 					'created_at' 	=> formatDiffForHumans($user->created_at),
