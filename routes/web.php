@@ -406,6 +406,11 @@ Route::group([
                 'namespace' => 'Messenger\Controllers',
                 'prefix' => 'messenger'
             ], function () {
+                // Message page
+                Route::get('/page_messenger', [
+                    'as' => 'user.read.page_messenger',
+                    'uses' => 'MessengerController@page',
+                ]);
                 // Get All Conversation
                 Route::get('/', [
                     'as' => 'user.read.messenger',

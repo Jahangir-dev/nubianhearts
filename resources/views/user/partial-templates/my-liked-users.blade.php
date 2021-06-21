@@ -47,6 +47,7 @@
 					<span>Sent :<?= $user['last_sent'] ?></span>
 					@endif
 				</div>
+				<?= print_r($user['liked_user']);?>
 				<div class="col">
 					<!-- message button -->
 						<a class="mr-lg-3 mt-4 btn-link" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $user['liked_user']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog"><i class="far fa-comments fa-3x"></i>

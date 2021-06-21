@@ -12,7 +12,7 @@
     </div>
     <div class="col-md-2 text-right lw-messenger-user-menu">
         <div class="dropdown">
-            <button class="btn btn-black dropdown-toggle lw-datatable-action-dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <button class="btn btn-black dropdown-toggle lw-datatable-action-dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" style="width: 50px;height: 40px; color: #fff;" aria-haspopup="true" aria-expanded="false">
                 <i class="fas fa-ellipsis-v"></i>
 			</button>
 			<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu2">
@@ -110,7 +110,7 @@
                     <!-- /Message Type for Example: Text / Gif / Sticker / Uploaded Image etc. --> 
 
                     <!-- Send Button -->
-                    <button class="btn btn-primary" id="lwSendMessageButton" type="button"><i class="fas fa-paper-plane"></i></button>
+                    <button class="btn btn-primary" id="lwSendMessageButton" style="height:40px;" type="button"><i class="fas fa-paper-plane"></i></button>
                     <!-- /Send Button -->
 
                     <!-- Gif Image  Button -->

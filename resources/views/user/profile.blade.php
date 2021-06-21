@@ -1110,7 +1110,7 @@
 								<span class="lw-premium-badge" title="<?= __tr('Premium User') ?>"></span>
 							@else
                             <a href="#" class="custom-button">
-                                <i class="fab fa-cloudversify"></i> <?= __tr('Be Premium') ?></a>
+                                <i class="fab fa-cloudversify"></i> <?= __tr('Buy Membership') ?></a>
                             @endif
                         </div>
                     </div>

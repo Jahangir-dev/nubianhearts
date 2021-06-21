@@ -1214,7 +1214,7 @@ class UserEngine extends BaseEngine
 					$userData[] = [
 						'_id' 			=> $user->_id,
 						'_uid' 			=> $user->_uid,
-						'liked_user' 	=> $user->to_users__id,
+						'liked_user' 	=> $user->userId,
 						'status' 		=> $user->status,
 						'like'			=> $user->like,
 						'last_sent'		=> $last_sent,
@@ -1275,7 +1275,7 @@ class UserEngine extends BaseEngine
 				$userData[] = [
 					'_id' 			=> $user->_id,
 					'_uid' 			=> $user->_uid,
-					'liked_user'	=> $user->to_users__id,
+					'liked_user'	=> $user->userId,
 					'last_sent'		=> $last_sent,
 					'status' 		=> $user->status,
 					'like'			=> $user->like,

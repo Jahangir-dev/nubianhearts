@@ -39,7 +39,7 @@ class MessengerController extends BaseController
       *-----------------------------------------------------------------------*/
     public function show()
     {
-        return $this->loadView('messenger.chat-box');
+        return $this->loadPublicView('messenger.message');
     }
 
     /**
@@ -314,5 +314,10 @@ class MessengerController extends BaseController
     public function getMessengerLog()
     {
         return $this->messengerEngine->prepareMessengerLog();
+    }
+
+     public function page()
+    {
+        return $this->loadView('messenger.message');
     }
 }
