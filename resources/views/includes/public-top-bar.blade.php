@@ -12,9 +12,7 @@
             <a href="{{route('user.read.messenger')}}" class="nav-link">
                 <i class="far fa-comments"></i>
             </a>
-           <!--  <a class="nav-link" onclick="getChatMessenger('<?= route('user.read.all_conversation') ?>', true)" id="lwAllMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog">
-                <i class="far fa-comments"></i>
-            </a> -->
+           
         </li>
         <!-- Notification Link -->
         <li class="nav-item dropdown no-arrow mx-1 d-none d-sm-none d-md-block">

@@ -9088,3 +9088,47 @@ input[type=submit] {
     margin-left: -2.25rem;
     width: 20px;
 }
+
+.lw-messenger-header {
+  background-color: #edf2fa !important;
+  color: #000 !important;
+}
+
+.lw-profile-name {
+  color: #000 !important;
+}
+
+.lw-messenger-chat-window,#lwFilterUsers {
+  background-color: #fff !important;
+  border: 1px solid #ccc !important;
+}
+
+.lw-messenger .lw-messenger-content .lw-messenger-chat-window .lw-messenger-chat-recipient .lw-messenger-chat-item:after {
+  border-right-color: #f3f4f5 !important;
+}
+
+.lw-messenger-chat-item, .lw-messenger-footer{
+  background-color:#f3f4f5 !important ;
+}
+
+.list-group-item.list-group-item-action.active {
+  background-color: #3b2196 !important;
+  color: #fff !important;
+}
+
+.list-group-item.list-group-item-action {
+  background-color: #fff !important;
+  color: #000 !important;
+}
+
+.lw-messenger .lw-messenger-sidebar {
+  background-color: transparent !important;
+}
+
+.lw-messenger .lw-messenger-sidebar .lw-messenger-contact-list .list-group,.list-group-item {
+  border: 1px solid #ccc !important;
+}
+
+.list-group-item-action {
+  width: 97% !important;
+}

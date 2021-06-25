@@ -1,7 +1,7 @@
 <div class="lw-messenger">
     <div class="row">
     <div class="lw-messenger-sidebar col-md-4 p-0 pl-3 pr-1 ">
-        <div class="lw-messenger-header shadow">
+        <div class="lw-messenger-header">
             <img src="<?= $currentUserData['logged_in_user_profile_picture'] ?>" class="lw-profile-picture lw-online" alt="">
                 <div class="align-self-center lw-profile-name">
                 <?= $currentUserData['logged_in_user_full_name'] ?>
