@@ -26,6 +26,10 @@ use App\Yantrana\Support\CommonTrait;
 use \Illuminate\Support\Facades\URL;
 use YesTokenAuth;
 use App\Yantrana\Support\Utils;
+use MenaraSolutions\Geographer\State;
+use MenaraSolutions\Geographer\City;
+use MenaraSolutions\Geographer\Earth;
+use Datetime;
 
 class UserEngine extends BaseEngine
 {
@@ -576,6 +580,17 @@ class UserEngine extends BaseEngine
         if (__isEmpty($user)) {
             return $this->engineReaction(18, [], __tr('User does not exists.'));
         }
+        $Datetime = new DateTime($user->created_at);
+ 		$Datetime->modify('-6 months');
+ 		$left_days =  $Datetime->format('Y-m-d');
+        
+ 		
+		$datetime1 = new DateTime($left_days);
+		$datetime2 = new DateTime();
+		$interval = $datetime1->diff($datetime2);
+		$days = $interval->format('%a');
+		//dd($days,$interval);
+
         $userId = $user->_id;
         $userUid = $user->_uid;
         $isOwnProfile = ($userId == getUserID()) ? true : false;
@@ -674,16 +689,45 @@ class UserEngine extends BaseEngine
              $selected_country = implode(', ',$nation_s);
              $selected_lives = implode(', ',$lives_in);
              $selected_borns = implode(', ',$born_in);
+             
+            if(is_int(intval($userProfile->state)) && $userProfile->state != null ){
+            	$state = State::build($userProfile->state);
+            	$state_name = $state->getName();
+            	$state_cities = $state->getCities()->toArray();
+            } else {
+            	$state_name = '';
+            	$state_cities = [];
+            }
+            
+            if(is_int($userProfile->city) && $userProfile->city != null){
+            	$city = City::build($userProfile->city);
+            	$city = $city->getName();
+            } else {
+            	$city = '';
+            }
+            if($countryName)
+            {
+            	$earth = new Earth();
+            	$country_stat = $earth->getCountries()->findOne(['name' => $countryName]);
+            	$states = $country_stat->getStates()->toArray();
+            } else {
+            	$states = [];
+            }
             
             $userProfileData = [
                 'aboutMe'               => $userProfile->about_me,
-                'city'                  => $userProfile->city,
+                'city'                  => $city,
                 /*'mobile_number'         => $user->mobile_number,*/
                 'looking_for'         	=> $user->looking_for,
                 'star_sign'         	=> $userProfile->star_sign,
                 'seeking'         		=> $userProfile->seeking,
                 'country_id'         	=> $userProfile->born_country,
-                'state'         		=> $userProfile->state,
+                'user_country_id'       => $userProfile->countries__id,
+                'state'         		=> $state_name,
+                'state_code'         	=> $userProfile->state,
+                'states'         		=> $states,
+                'state_cities'          => $state_cities,
+                'city_code'          	=> $userProfile->city,
                 'born_country'          => $born_country,
                 'gender'          		=> $userProfile->gender,
                 'gender_text'           => array_get($userSettingConfig, 'gender.'.$userProfile->gender),
@@ -1656,6 +1700,7 @@ class UserEngine extends BaseEngine
      *-----------------------------------------------------------------------*/
 	public function checkProfileStatus()
 	{
+		
 		//get profile
 		$userProfile = $this->userSettingRepository->fetchUserProfile(getUserID());
 
@@ -1675,15 +1720,7 @@ class UserEngine extends BaseEngine
 			];
 		} else {
 
-			//check if co-ordinates are set
-			if ((__isEmpty($userProfile['location_longitude'])
-				or $userProfile['location_longitude'] == 0) 
-				and (__isEmpty($userProfile['location_latitude']) 
-				or $userProfile['location_latitude'] == 0)) {
-				$profileStatus['step_two'] = false;
-			} else {
-				$profileStatus['step_two'] = true;
-			}
+			
 
 			//for step one
 			$profileStatus['step_one'] = $this->isStepCompleted($userProfile->toArray(), $steps['step_one']);
@@ -1720,6 +1757,7 @@ class UserEngine extends BaseEngine
 		return $this->engineReaction(1, [
 			'profileStatus' => $profileStatus,
 			'profileInfo' 	=> $profileInfo,
+			'countries'     => $this->countryRepository->fetchAll()->toArray(),
 			'genders' 		=> configItem('user_settings.gender')
 		]);
 	}

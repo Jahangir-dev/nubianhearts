@@ -126,15 +126,6 @@
 						</span>
 						<!-- /like button -->
 					</div>
-					<div class="lw-like-dislike-box">
-						<!-- dislike button -->
-						<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $userData['userUId'],'like' => 0]) ?>" data-method="post" data-callback="onLikeCallback" title="Dislike" class="lw-ajax-link-action lw-dislike-action-btn" id="lwDislikeBtn">
-							<span class="lw-animated-heart lw-animated-broken-heart <?= (isset($userLikeData['like']) and $userLikeData['like'] == 0) ? 'lw-is-active' : '' ?>"></span>
-						</a>
-						<span data-model="userDislikeStatus"><?= (isset($userLikeData['like']) and $userLikeData['like'] == 0) ? __tr('Disliked') : __tr('Dislike')  ?>
-						</span>
-						<!-- /dislike button -->
-					</div>
                     @endif
 				</div> 
 				<!-- / Like and dislike buttons -->
@@ -188,23 +179,13 @@
 			<!-- Basic information Header -->
 			<div class="card-header">
 				<!-- Check if its own profile -->
-				@if($isOwnProfile)
-					<span class="float-right">
-						<a class="lw-icon-btn" href role="button" id="lwEditBasicInformation">
-							<i class="fa fa-pencil-alt"></i>
-						</a>
-						<a class="lw-icon-btn" href role="button" id="lwCloseBasicInfoEditBlock" style="display: none;">
-							<i class="fa fa-times"></i>
-						</a>
-					</span>
-				@endif
 				<!-- /Check if its own profile -->
 				<h5><i class="fas fa-info-circle text-info"></i>  <?= __tr('Basic Information') ?></h5>
 			</div>
 			<!-- /Basic information Header -->
 			<!-- Basic Information content -->
 			<div class="card-body">
-
+				@if(!$isOwnProfile)
 				<!-- Static basic information container -->
 				<div id="lwStaticBasicInformation">
 					<div class="form-group row">
@@ -277,10 +258,10 @@
 					</div>
 				</div>
 				<!-- /Static basic information container -->
-				
+				@endif
 				@if($isOwnProfile)
 					<!-- User Basic Information Form -->
-					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserBasicInformationForm">
+					<form class="lw-ajax-form lw-form"  method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData"  id="lwUserBasicInformationForm">
 						<div class="form-group row">
 							<input type="hidden" name="first_name" value="<?=$userData['first_name']?>">
 							<input type="hidden" name="last_name" value="<?=$userData['last_name']?>">
@@ -360,6 +341,11 @@
 								</select>
 							</div>
 						</div>
+						<div class="form-group">
+							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+								<input type="submit" class="bg-purple" name="Save" value="Save">
+							</div>
+						</div>
 						@endif
 					</form>
 					<!-- /User Basic Information Form -->
@@ -371,22 +357,11 @@
 		<div class="card mb-3">            
 			<!-- Basic information Header -->
 			<div class="card-header">
-				<!-- Check if its own profile -->
-				@if($isOwnProfile)
-					<span class="float-right">
-						<a class="lw-icon-btn" href role="button" id="lwEditUserLocation">
-							<i class="fa fa-pencil-alt"></i>
-						</a>
-						<a class="lw-icon-btn" href role="button" id="lwCloseLocationBlock" style="display: none;">
-							<i class="fa fa-times"></i>
-						</a>
-					</span>
-				@endif
-				<!-- /Check if its own profile -->
 				<h5><i class="fas fa-map-marker-alt text-info"></i>  <?= __tr('Location') ?></h5>
 			</div>
 				<!-- Basic Information content -->
 				<div class="card-body">
+					@if(!$isOwnProfile)
 					<!-- Static basic information container -->
 					<div id="lwUserStaticLocation">
 						
@@ -414,29 +389,45 @@
 						</div>
 						
 					</div>
+					@endif
 					@if($isOwnProfile)
 					<!-- User Basic Information Form -->
-					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.profile_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserEditableLocation">
+					<form class="lw-ajax-form lw-form" id="lwUserEditableLocation">
 						<div class="card-body">
-							@if(getStoreSettings('allow_google_map'))
+							
 				            <div id="lwUserEditableLocation">
-				                <div class="form-group">
-				                    <label for="address_address"><?= __tr('Location') ?></label>
-				                    <input type="text" id="address-input" name="address_address" class="form-control map-input">
-				                    <input type="hidden" name="address_latitude" id="address-latitude" value="<?= $userProfileData['latitude'] ?>" />
-				                    <input type="hidden" name="address_longitude" id="address-longitude" value="<?= $userProfileData['longitude'] ?>" />
-				                </div>
-				                <div id="address-map-container" style="width:100%;height:400px; ">
-				                    <div style="width: 100%; height: 100%" id="address-map"></div>
-				                </div>
-				            </div>
-							@else
-								<!-- info message -->
-								<div class="alert alert-info">
-									<?= __tr('Something went wrong with Google Api Key, please contact to system administrator.') ?>
+				                <div class="form-group row">
+			            		<div class="col-sm-6 mb-3 mb-sm-0">
+									<label for="looking_for"><?= __tr('Select Country') ?></label>
+									<select name="country" class="form-control" id="country">
+										<option value="" selected disabled><?= __tr('Select Country') ?></option>
+										@foreach($countries as $countKey => $country)
+												<option value="<?= $country['id'] ?>" <?= (__ifIsset($userProfileData['user_country_id']) and $country['id']== $userProfileData['user_country_id']) ? 'selected' : '' ?>><?= $country['name'] ?></option>
+										@endforeach
+									</select>
 								</div>
-								<!-- / info message -->
-							@endif
+								<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Select State') ?></label>
+								<select name="state" class="form-control" id="state">
+									<option value="" selected disabled><?= __tr('Select State') ?></option>
+									@foreach($userProfileData['states'] as $state)
+										<option value="<?= $state['code'] ?>" <?= (__ifIsset($userProfileData['state_code']) and $state['code']== $userProfileData['state_code']) ? 'selected' : '' ?>><?= $state['name'] ?></option>
+									@endforeach
+									
+								</select>
+							</div>
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Select City') ?></label>
+								<select name="city" class="form-control" id="citySave">
+									<option value="" selected disabled><?= __tr('Select City') ?></option>
+									@foreach($userProfileData['state_cities'] as $city)
+										<option value="<?= $city['code'] ?>" <?= (__ifIsset($userProfileData['city_code']) and $city['code']== $userProfileData['city_code']) ? 'selected' : '' ?>><?= $city['name'] ?></option>
+									@endforeach
+								</select>
+							</div>
+			            	</div>
+				            </div>
+							
 			        	</div>
 					</form>
 					@endif
@@ -450,21 +441,13 @@
 					<!-- User Specification Header -->
 					<div class="card-header">
 						<!-- Check if its own profile -->
-						@if($isOwnProfile)
-							<span class="float-right">
-								<a class="lw-icon-btn" href role="button" id="lwEdit<?= $specificationKey ?>" onclick="showHideSpecificationUser('<?= $specificationKey ?>', event)">
-									<i class="fa fa-pencil-alt"></i>
-								</a>
-								<a class="lw-icon-btn" href role="button" id="lwClose<?= $specificationKey ?>Block" onclick="showHideSpecificationUser('<?= $specificationKey ?>', event)" style="display: none;">
-									<i class="fa fa-times"></i>
-								</a>
-							</span>
-						@endif
+						
 						<!-- /Check if its own profile -->
 						<h5><?= $specifications['icon'] ?> <?= $specifications['title'] ?></h5>
 					</div>
 					<!-- /User Specification Header -->
 					<div class="card-body">
+						@if(!$isOwnProfile)
 						<!-- User Specification static container -->
 						<div id="lw<?= $specificationKey ?>StaticContainer">
 							@foreach(collect($specifications['items'])->chunk(2) as $specKey => $specification)
@@ -480,10 +463,11 @@
 								</div>
 							@endforeach
 						</div>
+						@endif
 						<!-- /User Specification static container -->
 						@if($isOwnProfile)
 							<!-- User Specification Form -->
-							<form class="lw-ajax-form lw-form" method="post" lwSubmitOnChange action="<?= route('user.write.profile_setting') ?>" data-callback="getUserProfileData" id="lwUser<?= $specificationKey ?>Form" style="display: none;">
+							<form class="lw-ajax-form lw-form" method="post"  action="<?= route('user.write.profile_setting') ?>" data-callback="getUserProfileData" id="lwUser<?= $specificationKey ?>Form">
 								@foreach(collect($specifications['items'])->chunk(2) as $specification)
 								<div class="form-group row">
 									@foreach($specification as $itemKey => $item)
@@ -511,6 +495,11 @@
 									@endforeach
 								</div>
 								@endforeach
+								<div class="form-group">
+							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+								<input type="submit" class="bg-purple" name="Save" value="Save">
+							</div>
+						</div>
 							</form>
 							<!-- /User Specification Form -->
 						@endif
@@ -524,22 +513,13 @@
 		<div class="card mb-3">            
 			<!-- Looking For Header -->
 			<div class="card-header">
-				<!-- Check if its own profile -->
-				@if($isOwnProfile)
-					<span class="float-right">
-						<a class="lw-icon-btn" href role="button" id="lwEditUserLooking">
-							<i class="fa fa-pencil-alt"></i>
-						</a>
-						<a class="lw-icon-btn" href role="button" id="lwCloseLookingBlock" style="display: none;">
-							<i class="fa fa-times"></i>
-						</a>
-					</span>
-				@endif
+				
 				<!-- /Check if its own profile -->
 				<h5><i class="fas fa-eye text-info"></i>  <?= __tr('Looking For') ?></h5>
 			</div>
 			<div class="card-body">
 					<!-- Static basic information container -->
+					@if(!$isOwnProfile)
 					<div id="lwUserStaticLooking">
 						
 						
@@ -643,10 +623,10 @@
 						</div>
 						
 					</div>
-					
+					@endif
 					@if($isOwnProfile)
 					<!-- User Basic Information Form -->
-					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserEditableLooking">
+					<form class="lw-ajax-form lw-form" method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" id="lwUserEditableLooking">
 						<div class="card-body">
 							<input type="hidden" name="first_name" value="<?= $userData['first_name']?>">
 							<input type="hidden" name="last_name"  value="<?= $userData['last_name']?>">
@@ -809,6 +789,11 @@
 								</div>	
 							</div>
 			        	</div>
+			        	<div class="form-group">
+							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+								<input type="submit" class="bg-purple" name="Save" value="Save">
+							</div>
+						</div>
 					</form>
 					@endif
 				</div>
@@ -817,22 +802,12 @@
 		<div class="card mb-3">            
 			<!-- Looking For Header -->
 			<div class="card-header">
-				<!-- Check if its own profile -->
-				@if($isOwnProfile)
-					<span class="float-right">
-						<a class="lw-icon-btn" href role="button" id="lwEditUserIntrest">
-							<i class="fa fa-pencil-alt"></i>
-						</a>
-						<a class="lw-icon-btn" href role="button" id="lwCloseIntrestBlock" style="display: none;">
-							<i class="fa fa-times"></i>
-						</a>
-					</span>
-				@endif
-				<!-- /Check if its own profile -->
+				
 				<h5><i class="fas fa-eye text-info"></i>  <?= __tr('Hobbies & Interests') ?></h5>
 			</div>
 			<div class="card-body">
 					<!-- Static basic information container -->
+					@if(!$isOwnProfile)
 					<div id="lwUserStaticIntrest">
 						<div class="form-group row">
 						<!-- Description -->
@@ -853,10 +828,11 @@
 							<div class="lw-inline-edit-text" data-model="userProfileData.music"><?= __ifIsset($userProfileData['music'],str_replace("'",'',$userProfileData['music']) ,'-') ?></div>
 						</div>
 					</div>
+					@endif
 				</div>
 				@if($isOwnProfile)
 					<!-- User Basic Information Form -->
-					<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData" style="display: none;" id="lwUserEditableIntrest">
+					<form class="lw-ajax-form lw-form" method="post" data-show-message="true" action="<?= route('user.write.basic_setting') ?>" data-callback="getUserProfileData"  id="lwUserEditableIntrest">
 						<div class="card-body">
 							<input type="hidden" name="first_name" value="<?= $userData['first_name']?>">
 							<input type="hidden" name="last_name"  value="<?= $userData['last_name']?>">
@@ -959,6 +935,11 @@
 						    </div>
 						</div>
 					</div>
+					<div class="form-group">
+							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+								<input type="submit" class="bg-purple" name="Save" value="Save">
+							</div>
+						</div>
 					</form>
 				@endif
 			</div>
@@ -1101,9 +1082,22 @@
 	                </ul>
 	                <div class="p-b-meta-two">
                         <div class="left">
+                        	@if(!$isOwnProfile)
+							<div class="lw-like-dislike-box" style="border-left:0;padding-bottom: 0;    margin-top: 9px;margin-left: -34px;display: flex;">
+								<!-- like button -->
+								<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $userData['userUId'],'like' => 1]) ?>" data-method="post" data-callback="onLikeCallback" title="Like" class="lw-ajax-link-action" id="lwLikeBtn" style="display: flex;">
+									<span class="lw-animated-heart lw-animated-like-heart <?= (isset($userLikeData['like']) and $userLikeData['like'] == 1) ? 'lw-is-active' : '' ?>" style="display: inline-block; margin-top: -34px;"
+										></span>
+										<span><?= $totalUserLike ?></span>
+								</a>
+								<!-- /like button -->
+							</div>
+					@else
+
                             <div class="icon">
                                 <i class="far fa-heart"></i>
-                            </div> <?= $totalUserLike ?>
+                            </div> <span class="ml-3"><?= $totalUserLike ?></span>
+                    @endif
                         </div>
                         <div class="right">
                         	@if($isPremiumUser)
@@ -1116,26 +1110,7 @@
                     </div>
 					<!-- Like and dislike buttons -->
 					@if(!$isOwnProfile)
-					<div class="lw-like-dislike-box">
-						<!-- like button -->
-						<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $userData['userUId'],'like' => 1]) ?>" data-method="post" data-callback="onLikeCallback" title="Like" class="lw-ajax-link-action" id="lwLikeBtn">
-							<span class="lw-animated-heart lw-animated-like-heart <?= (isset($userLikeData['like']) and $userLikeData['like'] == 1) ? 'lw-is-active' : '' ?>"
-								></span>
-						</a>
-						<span data-model="userLikeStatus"><?= (isset($userLikeData['like']) and $userLikeData['like'] == 1) ? __tr('Liked') : __tr('Like')  ?>
-						</span>
-						<!-- /like button -->
-					</div>
-					<div class="lw-like-dislike-box">
-						<!-- dislike button -->
-						<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $userData['userUId'],'like' => 0]) ?>" data-method="post" data-callback="onLikeCallback" title="Dislike" class="lw-ajax-link-action" id="lwDislikeBtn">
-							<span class="lw-animated-heart lw-animated-broken-heart <?= (isset($userLikeData['like']) and $userLikeData['like'] == 0) ? 'lw-is-active' : '' ?>"
-								></span>
-						</a>
-						<span data-model="userDislikeStatus"><?= (isset($userLikeData['like']) and $userLikeData['like'] == 0) ? __tr('Disliked') : __tr('Dislike')  ?>
-						</span>
-						<!-- /dislike button -->
-					</div>
+					
 				</div> 
 				<!-- / Like and dislike buttons -->
 			</div>
@@ -1866,81 +1841,6 @@ function showHideIntrestContainer() {
     $('#lwCloseIntrestBlock').toggle();
 }
 
-function initialize() {
-
-    $('form').on('keyup keypress', function(e) {
-        var keyCode = e.keyCode || e.which;
-        if (keyCode === 13) {
-            e.preventDefault();
-            return false;
-        }
-    });
-    const locationInputs = document.getElementsByClassName("map-input");
-
-    const autocompletes = [];
-    const geocoder = new google.maps.Geocoder;
-    for (let i = 0; i < locationInputs.length; i++) {
-
-        const input = locationInputs[i];
-        const fieldKey = input.id.replace("-input", "");
-        const isEdit = document.getElementById(fieldKey + "-latitude").value != '' && document.getElementById(fieldKey + "-longitude").value != '';
-
-        const latitude = parseFloat(document.getElementById(fieldKey + "-latitude").value) || -33.8688;
-        const longitude = parseFloat(document.getElementById(fieldKey + "-longitude").value) || 151.2195;
-
-        const map = new google.maps.Map(document.getElementById(fieldKey + '-map'), {
-            center: {lat: latitude, lng: longitude},
-            zoom: 13
-        });
-        const marker = new google.maps.Marker({
-            map: map,
-            position: {lat: latitude, lng: longitude},
-        });
-
-        marker.setVisible(isEdit);
-
-        const autocomplete = new google.maps.places.Autocomplete(input);
-        autocomplete.key = fieldKey;
-        autocompletes.push({input: input, map: map, marker: marker, autocomplete: autocomplete});
-    }
-
-    for (let i = 0; i < autocompletes.length; i++) {
-        const input = autocompletes[i].input;
-        const autocomplete = autocompletes[i].autocomplete;
-        const map = autocompletes[i].map;
-        const marker = autocompletes[i].marker;
-
-        google.maps.event.addListener(autocomplete, 'place_changed', function () {
-            marker.setVisible(false);
-            const place = autocomplete.getPlace();
-
-            geocoder.geocode({'placeId': place.place_id}, function (results, status) {
-                if (status === google.maps.GeocoderStatus.OK) {
-                    const lat = results[0].geometry.location.lat();
-                    const lng = results[0].geometry.location.lng();
-                    setLocationCoordinates(autocomplete.key, lat, lng, place);
-                }
-            });
-
-            if (!place.geometry) {
-                window.alert("No details available for input: '" + place.name + "'");
-                input.value = "";
-                return;
-            }
-
-            if (place.geometry.viewport) {
-                map.fitBounds(place.geometry.viewport);
-            } else {
-                map.setCenter(place.geometry.location);
-                map.setZoom(17);
-            }
-            marker.setPosition(place.geometry.location);
-            marker.setVisible(true);
-
-        });
-    }
-}
-
 function setLocationCoordinates(key, lat, lng, placeData) {
     __DataRequest.post("<?= route('user.write.location_data') ?>", {
         'latitude': lat,
@@ -1967,6 +1867,104 @@ function setLocationCoordinates(key, lat, lng, placeData) {
         $('#gmap_canvas').attr('src', mapSrc)
     });
 };
+
+$('#country').change(getStates);
+	function getStates()
+	{
+		var country = $('#country').find(":selected").text();
+		var country_id = $('#country').find(":selected").val();
+		__DataRequest.post("<?= route('user.write.location_data') ?>", {
+	        'get_state': country,
+	        '_state': '',
+	        'country_id':country_id,
+	        'latitude':'',
+	        'longitude':'',
+	        '_city':''
+	    }, function(responseData) {
+	    	var items = responseData.data.states;
+	    	if(items === undefined)
+			{
+				_.defer(function() {
+	        		checkProfileStatus();
+	        	});
+			} else {
+		    	$('#state').empty();
+		    	$('#citySave').empty();
+		    	$.each(items, function (i, item) {
+				    $('#state').append($('<option>', { 
+				        value: item.code,
+				        text : item.name 
+				    }));
+				});
+	    	}
+		});
+	} 
+
+	$('#state').change(getCities);
+	function getCities() {
+		var state = $('#state').find(":selected").val();
+		var country = $('#country').find(":selected").text();
+		var country_id = $('#country').find(":selected").val();
+		__DataRequest.post("<?= route('user.write.location_data') ?>", {
+	        'get_cities': state,
+	        '_state': state,
+	        'get_country': country,
+	        '_country': country,
+	        'country_id' : country_id,
+	        'latitude':'',
+	        'longitude':'',
+	        '_city':''
+	    }, function(responseData) {
+	    	var items = responseData.data.cities;
+	    	console.log(items);
+	    	if(items === undefined)
+			{
+				_.defer(function() {
+	        		checkProfileStatus();
+	        	});
+			} else {
+				 __DataRequest.updateModels('userProfileData', {
+		            country: $('#country').find(":selected").text(),
+		            state: $('#state').find(":selected").text(),
+		            city: ''   
+		        });
+		    	$('#citySave').empty();
+		    	$.each(items, function (i, item) {
+				    $('#citySave').append($('<option>', { 
+				        value: item.code,
+				        text : item.name 
+				    }));
+				});
+		    }
+				
+			});
+	}
+	$('#citySave').change(saveCities);
+	function saveCities()
+	{
+		var state = $('#state').find(":selected").val();
+		var country = $('#country').find(":selected").text();
+		var country_id = $('#country').find(":selected").val();
+		var city = $('#citySave').find(":selected").val();
+		__DataRequest.post("<?= route('user.write.location_data') ?>", {
+	        '_state': state,
+	        '_country': country,
+	        'country_id' : country_id,
+	        'save_city' : city,
+	        '_city' : city
+	    }, function(responseData) {
+	    	 __DataRequest.updateModels('userProfileData', {
+		            country: $('#country').find(":selected").text(),
+		            state: $('#state').find(":selected").text(),
+		            city:  $('#citySave').find(":selected").text()
+		        });
+			/*if (responseData.reaction == 1) {
+				_.defer(function() {
+	        		checkProfileStatus();
+	        	});
+			}*/
+		});
+	}
 
 // $(".lw-animated-heart").on("click", function() {
 //     $(this).toggleClass("lw-is-active");

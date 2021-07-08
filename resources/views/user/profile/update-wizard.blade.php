@@ -122,20 +122,38 @@
 			            
 		            </div>
 		        </div>
+		        <?php //dd($countries); ?>
 		        <div id="step-2" class="">
 		            <!-- <h3 class="border-bottom border-gray pb-2">Step 2 <i class="fas fa-map-marker-alt"></i> <?= __tr('Location') ?></h3> -->
 			        <div class="card-body">
 						@if(getStoreSettings('allow_google_map'))
 			            <div id="lwUserEditableLocation">
-			                <div class="form-group">
-			                    <label for="address_address"><?= __tr('Location') ?></label>
-			                    <input type="text" id="address-input" name="address_address" class="form-control map-input">
-			                    <input type="hidden" name="address_latitude" id="address-latitude" value="<?= $profileInfo['location_latitude'] ?>" />
-			                    <input type="hidden" name="address_longitude" id="address-longitude" value="<?= $profileInfo['location_longitude'] ?>" />
-			                </div>
-			                <div id="address-map-container" style="width:100%;height:400px; ">
-			                    <div style="width: 100%; height: 100%" id="address-map"></div>
-			                </div>
+			            	<div class="form-group row">
+			            		<div class="col-sm-6 mb-3 mb-sm-0">
+									<label for="looking_for"><?= __tr('Select Country') ?></label>
+									<select name="country" class="form-control" id="country">
+										<option value="" selected disabled><?= __tr('Select Country') ?></option>
+										@foreach($countries as $countKey => $country)
+												<option value="<?= $country['id'] ?>" <?= (__ifIsset($profileInfo['country_id']) and $country['id']== $profileInfo['country_id']) ? 'selected' : '' ?>><?= $country['name'] ?></option>
+										@endforeach
+									</select>
+								</div>
+								<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Select State') ?></label>
+								<select name="state" class="form-control" id="state">
+									<option value="" selected disabled><?= __tr('Select State') ?></option>
+									
+								</select>
+							</div>
+							<div class="col-sm-6 mb-3 mb-sm-0">
+								<label for="looking_for"><?= __tr('Select City') ?></label>
+								<select name="city" class="form-control" id="citySave">
+									<option value="" selected disabled><?= __tr('Select City') ?></option>
+									
+								</select>
+							</div>
+			            	</div>
+			               
 			            </div>
 						@else
 							<!-- info message -->
@@ -322,8 +340,94 @@
 	        });
 	    }
 	}
+	$('#country').change(getStates);
+	function getStates()
+	{
+		var country = $('#country').find(":selected").text();
+		var country_id = $('#country').find(":selected").val();
+		__DataRequest.post("<?= route('user.write.location_data') ?>", {
+	        'get_state': country,
+	        '_state': '',
+	        'country_id':country_id,
+	        'latitude':'',
+	        'longitude':'',
+	        '_city':''
+	    }, function(responseData) {
+	    	var items = responseData.data.states;
+	    	if(items === undefined)
+			{
+				_.defer(function() {
+	        		checkProfileStatus();
+	        	});
+			} else {
+		    	$('#state').empty();
+		    	$.each(items, function (i, item) {
+				    $('#state').append($('<option>', { 
+				        value: item.code,
+				        text : item.name 
+				    }));
+				});
+	    	}
+		});
+	} 
 
- 
+	$('#state').change(getCities);
+	function getCities() {
+		var state = $('#state').find(":selected").val();
+		var country = $('#country').find(":selected").text();
+		var country_id = $('#country').find(":selected").val();
+		__DataRequest.post("<?= route('user.write.location_data') ?>", {
+	        'get_cities': state,
+	        '_state': state,
+	        'get_country': country,
+	        '_country': country,
+	        'country_id' : country_id,
+	        'latitude':'',
+	        'longitude':'',
+	        '_city':''
+	    }, function(responseData) {
+	    	var items = responseData.data.cities;
+	    	console.log(items);
+	    	if(items === undefined)
+			{
+				_.defer(function() {
+	        		checkProfileStatus();
+	        	});
+			} else {
+		    	$('#citySave').empty();
+		    	$.each(items, function (i, item) {
+				    $('#citySave').append($('<option>', { 
+				        value: item.code,
+				        text : item.name 
+				    }));
+				});
+		    }
+				
+			});
+	}
+	$('#citySave').change(saveCities);
+	function saveCities()
+	{
+		var state = $('#state').find(":selected").val();
+		var country = $('#country').find(":selected").text();
+		var country_id = $('#country').find(":selected").val();
+		var city = $('#citySave').find(":selected").val();
+		__DataRequest.post("<?= route('user.write.location_data') ?>", {
+	        '_state': state,
+	        '_country': country,
+	        'country_id' : country_id,
+	        'save_city' : city,
+	        '_city' : city
+	    }, function(responseData) {
+	    	
+			/*if (responseData.reaction == 1) {
+				_.defer(function() {
+	        		checkProfileStatus();
+	        	});
+			}*/
+		});
+	}
+
 	function setLocationCoordinates(key, lat, lng, placeData) {
 
 	    __DataRequest.post("<?= route('user.write.location_data') ?>", {

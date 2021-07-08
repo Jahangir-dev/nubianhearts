@@ -1017,9 +1017,7 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
         		'profile_picture',
         		'cover_picture',
         		'gender',
-        		'dob',
-        		'location_longitude',
-        		'location_latitude'
+        		'dob'
         	];
 
         	if (!__isEmpty($profile)) {

@@ -56,7 +56,7 @@
                         <!--  /success message when email sent  -->
                         @endif
                         <div class="main-content inloginp lw-ajax-form lw-form">
-                            <form class="user lw-ajax-form lw-form" method="post" action="<?= route('user.sign_up.process') ?>" data-show-processing="true" data-secured="true" data-unsecured-fields="first_name,last_name">
+                            <form class="user lw-ajax-form lw-form" method="post" id="form"action="<?= route('user.sign_up.process') ?>" data-show-processing="true" data-secured="true" data-unsecured-fields="first_name,last_name">
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
@@ -78,10 +78,7 @@
                                             <label for="">Password*</label>
                                             <input type="password" class="my-form-control" placeholder="Enter Your Password" name="password" required="">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="">Confirm Password*</label>
-                                            <input type="password" class="my-form-control" placeholder="Enter Your Password" name="repeat_password" required="">
-                                        </div>
+                                        
                                         
                                     </div>
                                     <div class="col-md-6">
@@ -105,17 +102,21 @@
                                                 </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="">Looking for a*</label>
-                                            
-                                                 <div class="s-input nice-select-wraper">
-                                                  <select class="select-bar option" name="looking_for" id="select_gender" required>
-                                                     @foreach($genders as $genderKey => $gender)
-                                                    <option value="<?= $genderKey ?>"><?= $gender ?></option>
-                                                    @endforeach
-                                                  </select>
-                                                </div>
-                                            
+                                            <label for="">Confirm Password*</label>
+                                            <input type="password" class="my-form-control" placeholder="Enter Your Password" name="repeat_password" required="">
                                         </div>
+                                        <input type="hidden" name="looking_for" value="">
+                                       <!--  <div class="form-group">
+                                            <label for="">Looking for a*</label>
+                                        
+                                            <div class="s-input nice-select-wraper">
+                                              <select class="select-bar option" name="looking_for" id="select_gender" required>
+                                                 @foreach($genders as $genderKey => $gender)
+                                                <option value="<?= $genderKey ?>"><?= $gender ?></option>
+                                                @endforeach
+                                              </select>
+                                            </div>    
+                                        </div> -->
                                         
                                     </div>
                                     <div class="col-lg-12">
@@ -132,7 +133,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <button class="custom-button" data-toggle="modal" data-target="#email-confirm">Create Your
+                                <button class="custom-button" id="submitButton" data-toggle="modal" data-target="#email-confirm">Create Your
                                     Profile</button>
                             </form>
                         </div>
@@ -143,6 +144,62 @@
     </section>
     <!-- /container end -->
 </body>
+
+@push('appScripts')
+<script type="text/javascript">
+    $(document).ready(function(){
+    jQuery.validator.addMethod("twentyone", function(value, element) {
+        var today = new Date(),
+            dd = today.getDate(),
+            mm = today.getMonth() + 1,
+            yyyy = today.getFullYear();
+        
+        var dateOfBirth = value;
+        var arr_dateText = dateOfBirth.split("-");
+        day = arr_dateText[2];
+        month = arr_dateText[1];
+        year = arr_dateText[0];
+
+        if (year == (yyyy - 19)) {
+            if (month == mm) {
+                if (day > dd) {
+                    $('#submitButton').prop('disabled', true);
+                    return false;
+                } else {
+                    $('#submitButton').prop('disabled', false);
+                    return true;
+                }
+            } else if (month > mm) {
+                 $('#submitButton').prop('disabled', true);
+                return false;
+            } else {
+                $('#submitButton').prop('disabled', false);
+                return true;
+            }
+        } else if (year > (yyyy - 19)) {
+             $('#submitButton').prop('disabled', true);
+            return false;
+        } else {
+            $('#submitButton').prop('disabled', false);
+            return true;
+        }
+    }, "You must verify that you are 19 years old.");
+    
+    $("#form").validate({
+        rules: {
+            "dob": {
+                required: true,
+                twentyone: true
+            }
+        },
+        submitHandler: function(form) {
+            // form.submit();
+          alert("Success! You are over 19.");
+        }
+    });
+});
+</script>
+@endpush
 <!-- include footer -->
 @include('includes.footer')
 <!-- /include footer -->

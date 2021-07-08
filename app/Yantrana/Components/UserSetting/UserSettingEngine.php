@@ -14,6 +14,10 @@ use App\Yantrana\Components\UserSetting\Repositories\UserSettingRepository;
 use App\Yantrana\Support\Country\Repositories\CountryRepository;
 use App\Yantrana\Components\UserSetting\Interfaces\UserSettingEngineInterface;
 use App\Yantrana\Support\CommonTrait;
+use MenaraSolutions\Geographer\Earth;
+use MenaraSolutions\Geographer\Country;
+use MenaraSolutions\Geographer\State;
+use MenaraSolutions\Geographer\City;
 
 class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface 
 {   
@@ -373,47 +377,68 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
      *---------------------------------------------------------------- */
     public function processStoreLocationData($inputData)
     {
-        // Get country from input data
-        $placeData = $inputData['placeData'];
-        // check if place data exists
-        if (__isEmpty($placeData)) {
-            return $this->engineReaction(2, null, __tr('Invalid data proceed.'));
+        $earth = new Earth();
+        
+        if(array_key_exists('get_state',$inputData))
+        {
+            $country = $earth->getCountries()->findOne(['name' => $inputData['get_state']]);
+            $state = $country->getStates()->toArray();
+            
+            if($state)
+            {
+            
+                return $this->engineReaction(1, [
+                'country' => $inputData['get_state'],
+                'states' => $state 
+                ]);
+            } else {
+                return $this->engineReaction(2, null, __tr('No States Available'));
+            }
+        }
+
+        if(array_key_exists('get_cities',$inputData))
+        { 
+            $code = (int)$inputData['get_cities'];
+            $state = State::build($code);
+            $cities = $state->getCities()->toArray();
+            
+            if($cities)
+            {
+                $userId = getUserID();
+                $user = $this->userSettingRepository->fetchUserDetails($userId);
+                $userProfileDetails = [
+                    'countries__id' => $inputData['country_id'],
+                    'city' => $inputData['_city'],
+                    'location_latitude' => $inputData['latitude'],
+                    'location_longitude'=> $inputData['longitude'],
+                    'state'             => $inputData['_state'],
+                    'user_id'           =>  $userId
+                ];
+                $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
+                
+                    
+                if ($this->userSettingRepository->updateUserProfile($userProfile, $userProfileDetails)) {
+                     activityLog($user->first_name.' '.$user->last_name. ' update own location.');
+                }
+
+                 return $this->engineReaction(1, [
+                'cities' => $cities 
+                ],__tr('Location stored'));
+            } else {
+                return $this->engineReaction(2, null, __tr('No States Available'));
+            }
+        }
+        
+         if(array_key_exists('save_city',$inputData))
+        {
+            $code = (int)$inputData['save_city'];
+            $city = City::build($code);
+            
+            $inputData['latitude'] = $city->getLatitude();
+            $inputData['longitude'] = $city->getLongitude(); 
         }
        
-        $countryCode = $cityName = $countryName = $stateName ='';
-        // Loop over the place data
-        foreach($placeData as $place) {
-            if (in_array('country', $place['types']) or in_array('continent', $place['types'])) {
-                $countryCode = $place['short_name'];
-                $countryName = $place['long_name'];
-            }
-            if (in_array('locality', $place['types'])) {
-                $cityName = $place['long_name'];
-            }
-
-            if (in_array('administrative_area_level_1', $place['types'])) {
-                $stateName = $place['long_name'];
-            }
-        }
-        // Fetch Country code
-        $countryDetails = $this->countryRepository->fetchByCountryCode($countryCode);
-        // Check if country exists
-        if (!__isEmpty($countryDetails)) {
-            $countryId = $countryDetails->_id;
-            $countryName = $countryDetails->name;
-        } else {
-            $countryStoreData = [
-                'iso_code'          => $countryCode,
-                'name_capitalized'  => strtoupper($countryName),
-                'name'              => $countryName,
-                'iso3_code'         => $countryCode
-            ];
-            // check if country is stored
-            if (!$newCountry = $this->countryRepository->storeCountry($countryStoreData)) {
-                return $this->engineReaction(2, null, __tr('Something went wrong on server while processing.'));
-            }
-            $countryId = $newCountry->_id;
-        }
+       
         $isUserLocationUpdated = false;
         $userId = getUserID();
         $user = $this->userSettingRepository->fetchUserDetails($userId);
@@ -422,12 +447,12 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             return $this->engineReaction(18, null, __tr('User does not exists.'));
         }
         $userProfileDetails = [
-            'countries__id' => $countryId,
-            'city' => $cityName,
+            'countries__id' => $inputData['country_id'],
+            'city' => $inputData['_city'],
             'location_latitude' => $inputData['latitude'],
             'location_longitude' => $inputData['longitude'],
-            'state'             => $stateName
-        ];        
+            'state'             => $inputData['_state']
+        ];       
         // get user profile
         $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
         
@@ -447,10 +472,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
 
         // check if user profile stored or update
         if ($isUserLocationUpdated) {
-            return $this->engineReaction(1, [
-                'country_name' => $countryName,
-                'city' => $cityName 
-            ], __tr('Location stored successfully.'));
+            return $this->engineReaction(1, __tr('Location stored successfully.'));
         }
 
         return $this->engineReaction(2, null, __tr('Something went wrong on server.'));

@@ -67,6 +67,7 @@ class UserController extends BaseController
                     $this->redirectTo('user.profile_view', ['username' => getUserAuthInfo('profile.username')])
                 );
         } else {
+
             return $this->responseAction(
                 $this->processResponse($processReaction, [], [], true)
             );
