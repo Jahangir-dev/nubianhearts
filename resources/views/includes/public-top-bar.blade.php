@@ -6,7 +6,7 @@
     </button>
    
     <!-- Topbar Navbar -->
-    
+    <div style="color: #fff;margin-left: 33%;">Free trail : <?= freeTrial() ?></div>
     <ul class="navbar-nav">
          <li class="nav-item d-none d-sm-none d-md-block">
             <a href="{{route('user.read.messenger')}}" class="nav-link">

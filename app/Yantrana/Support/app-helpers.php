@@ -792,6 +792,44 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
 		}
 	}
 
+    /*
+    * Free trial time
+    *
+    * @param string $message, $action
+    *
+    * @return void.
+    *-------------------------------------------------------- */
+    if (!function_exists('freeTrial')) {
+        function freeTrial()
+        {   $user = Auth::user();
+            
+            $Datetime = new DateTime($user['created_at']);
+            $Datetime->modify('+6 months');
+            $left_days =  $Datetime->format('Y-m-d');
+            
+            
+            $datetime1  = new DateTime($left_days);
+            $datetime2  = new DateTime();
+            $interval   = $datetime1->diff($datetime2);
+            if($interval->m > 1)
+            {
+                $month = $interval->m.' Months'; 
+            } else {
+                $month = $interval->m.' Month'; 
+            }
+
+            if($interval->d > 1)
+            {
+                $day = $interval->d.' Days'; 
+            } else {
+                $day = $interval->d.' Day'; 
+            }
+
+            $total      = $month.' '.$day;
+            return $total;
+        }
+    }
+
 	/*
     * Get Notification List
     *

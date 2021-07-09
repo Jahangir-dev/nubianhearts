@@ -310,8 +310,9 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 }
                 
             }
+
             // // Send failed server error message
-            return $this->userSettingRepository->transactionResponse(2, [], __tr('Something went wrong on server.'));
+            return $this->userSettingRepository->transactionResponse(2, [], __tr('No Change'));
         });
         
         return $this->engineReaction($transactionResponse);
@@ -404,78 +405,60 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             
             if($cities)
             {
-                $userId = getUserID();
-                $user = $this->userSettingRepository->fetchUserDetails($userId);
-                $userProfileDetails = [
-                    'countries__id' => $inputData['country_id'],
-                    'city' => $inputData['_city'],
-                    'location_latitude' => $inputData['latitude'],
-                    'location_longitude'=> $inputData['longitude'],
-                    'state'             => $inputData['_state'],
-                    'user_id'           =>  $userId
-                ];
-                $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
-                
-                    
-                if ($this->userSettingRepository->updateUserProfile($userProfile, $userProfileDetails)) {
-                     activityLog($user->first_name.' '.$user->last_name. ' update own location.');
-                }
-
                  return $this->engineReaction(1, [
                 'cities' => $cities 
-                ],__tr('Location stored'));
+                ]);
+                
             } else {
                 return $this->engineReaction(2, null, __tr('No States Available'));
             }
         }
         
-         if(array_key_exists('save_city',$inputData))
-        {
-            $code = (int)$inputData['save_city'];
+       
+        if(array_key_exists('location_store',$inputData))
+        {  
+            $code = (int)$inputData['city'];
             $city = City::build($code);
+    
+            $isUserLocationUpdated = false;
+            $userId = getUserID();
+            $user = $this->userSettingRepository->fetchUserDetails($userId);
+            // Check if user details exists
+            if (\__isEmpty($user)) {
+                return $this->engineReaction(18, null, __tr('User does not exists.'));
+            }
+             
+            // get user profile
+            $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
+            $userProfileDetails = [
+                    'countries__id' => (int)$inputData['country'],
+                    'city' => (int)$inputData['city'],
+                    'location_latitude' => $city->getLatitude(),
+                    'location_longitude'=> $city->getLongitude(),
+                    'state'             => (int)$inputData['state'],
+                    'user_id'           =>  $userId
+                ];
             
-            $inputData['latitude'] = $city->getLatitude();
-            $inputData['longitude'] = $city->getLongitude(); 
-        }
-       
-       
-        $isUserLocationUpdated = false;
-        $userId = getUserID();
-        $user = $this->userSettingRepository->fetchUserDetails($userId);
-        // Check if user details exists
-        if (\__isEmpty($user)) {
-            return $this->engineReaction(18, null, __tr('User does not exists.'));
-        }
-        $userProfileDetails = [
-            'countries__id' => $inputData['country_id'],
-            'city' => $inputData['_city'],
-            'location_latitude' => $inputData['latitude'],
-            'location_longitude' => $inputData['longitude'],
-            'state'             => $inputData['_state']
-        ];       
-        // get user profile
-        $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
-        
-        // check if user profile exists
-        if (\__isEmpty($userProfile)) {
-            $userProfileDetails['user_id'] = $userId;
-            if ($this->userSettingRepository->storeUserProfile($userProfileDetails)) {
-                activityLog($user->first_name.' '.$user->last_name. ' store own location.');
-                $isUserLocationUpdated = true;
+            // check if user profile exists
+            if (\__isEmpty($userProfile)) {
+                $userProfileDetails['user_id'] = $userId;
+                if ($this->userSettingRepository->storeUserProfile($userProfileDetails)) {
+                    activityLog($user->first_name.' '.$user->last_name. ' store own location.');
+                    $isUserLocationUpdated = true;
+                }
+            } else {
+                if ($this->userSettingRepository->updateUserProfile($userProfile, $userProfileDetails)) {
+                    activityLog($user->first_name.' '.$user->last_name. ' update own location.');
+                    $isUserLocationUpdated = true;
+                }
             }
-        } else {
-            if ($this->userSettingRepository->updateUserProfile($userProfile, $userProfileDetails)) {
-                activityLog($user->first_name.' '.$user->last_name. ' update own location.');
-                $isUserLocationUpdated = true;
-            }
-        }
-
+            
         // check if user profile stored or update
         if ($isUserLocationUpdated) {
             return $this->engineReaction(1, __tr('Location stored successfully.'));
         }
-
-        return $this->engineReaction(2, null, __tr('Something went wrong on server.'));
+    }
+        return $this->engineReaction(2, null, __tr('No Change'));
     }
 
     /**
@@ -623,16 +606,18 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 $index++;
             }
         }
-
-        // Check if user profile updated or store
-        if ($this->userSettingRepository->storeOrUpdateUserSpecification($storeOrUpdateData)) {
-            $userInfo = getUserAuthInfo();
-            $fullName = array_get($userInfo, 'profile.full_name');
-            activityLog($fullName. ' update own user settings.');
-            return $this->engineReaction(1, null, __tr('Profile updated successfully.'));
+        if (!empty($storeOrUpdateData)) {
+           
+            // Check if user profile updated or store
+            if ($this->userSettingRepository->storeOrUpdateUserSpecification($storeOrUpdateData)) {
+                $userInfo = getUserAuthInfo();
+                $fullName = array_get($userInfo, 'profile.full_name');
+                activityLog($fullName. ' update own user settings.');
+                return $this->engineReaction(1, null, __tr('Profile updated successfully.'));
+            }
         }
 
-        return $this->engineReaction(2, null, __tr('Something went wrong on server.'));
+        return $this->engineReaction(2, null, __tr('No Change.'));
     }
 
     /**

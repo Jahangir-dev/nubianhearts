@@ -581,15 +581,15 @@ class UserEngine extends BaseEngine
             return $this->engineReaction(18, [], __tr('User does not exists.'));
         }
         $Datetime = new DateTime($user->created_at);
- 		$Datetime->modify('-6 months');
+ 		$Datetime->modify('+6 months');
  		$left_days =  $Datetime->format('Y-m-d');
         
  		
 		$datetime1 = new DateTime($left_days);
 		$datetime2 = new DateTime();
 		$interval = $datetime1->diff($datetime2);
-		$days = $interval->format('%a');
-		//dd($days,$interval);
+		//$days = $interval->format('%a');
+		
 
         $userId = $user->_id;
         $userUid = $user->_uid;
@@ -690,8 +690,8 @@ class UserEngine extends BaseEngine
              $selected_lives = implode(', ',$lives_in);
              $selected_borns = implode(', ',$born_in);
              
-            if(is_int(intval($userProfile->state)) && $userProfile->state != null ){
-            	$state = State::build($userProfile->state);
+            if($userProfile->state && $userProfile->state != null ){
+            	$state = State::build(intval($userProfile->state));
             	$state_name = $state->getName();
             	$state_cities = $state->getCities()->toArray();
             } else {
@@ -699,8 +699,8 @@ class UserEngine extends BaseEngine
             	$state_cities = [];
             }
             
-            if(is_int($userProfile->city) && $userProfile->city != null){
-            	$city = City::build($userProfile->city);
+            if($userProfile->city && $userProfile->city != null){
+            	$city = City::build(intval($userProfile->city));
             	$city = $city->getName();
             } else {
             	$city = '';
@@ -716,6 +716,7 @@ class UserEngine extends BaseEngine
             
             $userProfileData = [
                 'aboutMe'               => $userProfile->about_me,
+                'interval'				=> $interval,
                 'city'                  => $city,
                 /*'mobile_number'         => $user->mobile_number,*/
                 'looking_for'         	=> $user->looking_for,

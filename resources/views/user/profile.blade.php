@@ -392,9 +392,9 @@
 					@endif
 					@if($isOwnProfile)
 					<!-- User Basic Information Form -->
-					<form class="lw-ajax-form lw-form" id="lwUserEditableLocation">
+					<form class="lw-ajax-form lw-form" method="post" data-show-message="true" action="<?= route('user.write.location_data') ?>" data-callback="getUserProfileData" id="lwUserEditableLocation">
 						<div class="card-body">
-							
+							<input type="hidden" name="location_store">
 				            <div id="lwUserEditableLocation">
 				                <div class="form-group row">
 			            		<div class="col-sm-6 mb-3 mb-sm-0">
@@ -425,7 +425,13 @@
 									@endforeach
 								</select>
 							</div>
+
 			            	</div>
+			            	<div class="form-group">
+							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+								<input type="submit" class="bg-purple" name="Save" value="Save">
+							</div>
+						</div>
 				            </div>
 							
 			        	</div>
@@ -467,7 +473,7 @@
 						<!-- /User Specification static container -->
 						@if($isOwnProfile)
 							<!-- User Specification Form -->
-							<form class="lw-ajax-form lw-form" method="post"  action="<?= route('user.write.profile_setting') ?>" data-callback="getUserProfileData" id="lwUser<?= $specificationKey ?>Form">
+							<form class="lw-ajax-form lw-form" method="post" data-show-message="true" action="<?= route('user.write.profile_setting') ?>" data-callback="getUserProfileData" id="lwUser<?= $specificationKey ?>Form">
 								@foreach(collect($specifications['items'])->chunk(2) as $specification)
 								<div class="form-group row">
 									@foreach($specification as $itemKey => $item)
@@ -933,13 +939,14 @@
 										</select>
 								</div>
 						    </div>
-						</div>
-					</div>
-					<div class="form-group">
-							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+					
+						<div class="form-group">
+							<div class="col-sm-2 mb-3 mr-0 float-right">
 								<input type="submit" class="bg-purple" name="Save" value="Save">
 							</div>
 						</div>
+						</div>
+					</div>	
 					</form>
 				@endif
 			</div>
@@ -1939,32 +1946,7 @@ $('#country').change(getStates);
 				
 			});
 	}
-	$('#citySave').change(saveCities);
-	function saveCities()
-	{
-		var state = $('#state').find(":selected").val();
-		var country = $('#country').find(":selected").text();
-		var country_id = $('#country').find(":selected").val();
-		var city = $('#citySave').find(":selected").val();
-		__DataRequest.post("<?= route('user.write.location_data') ?>", {
-	        '_state': state,
-	        '_country': country,
-	        'country_id' : country_id,
-	        'save_city' : city,
-	        '_city' : city
-	    }, function(responseData) {
-	    	 __DataRequest.updateModels('userProfileData', {
-		            country: $('#country').find(":selected").text(),
-		            state: $('#state').find(":selected").text(),
-		            city:  $('#citySave').find(":selected").text()
-		        });
-			/*if (responseData.reaction == 1) {
-				_.defer(function() {
-	        		checkProfileStatus();
-	        	});
-			}*/
-		});
-	}
+	
 
 // $(".lw-animated-heart").on("click", function() {
 //     $(this).toggleClass("lw-is-active");
