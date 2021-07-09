@@ -17,6 +17,7 @@
 </div>
 
 <?php
+
     $lookingFor = getUserSettings('looking_for');
     $minAge = getUserSettings('min_age');
     $maxAge = getUserSettings('max_age');

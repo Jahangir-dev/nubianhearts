@@ -502,10 +502,10 @@
 								</div>
 								@endforeach
 								<div class="form-group">
-							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
-								<input type="submit" class="bg-purple" name="Save" value="Save">
-							</div>
-						</div>
+									<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right">
+										<input type="submit" class="bg-purple" name="Save" value="Save">
+									</div>
+								</div>
 							</form>
 							<!-- /User Specification Form -->
 						@endif

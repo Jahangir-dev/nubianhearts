@@ -53,34 +53,8 @@
 		    <div>
 		        <div id="step-1" class="">
 		            <div class="row">
-		            	<div class="col-lg-12">
-			            	<div class="pb-3">
-			            		<!-- User Basic Information Form -->
-								<form class="lw-ajax-form lw-form" lwSubmitOnChange method="post" data-show-message="true" action="<?= route('user.write.update_profile_wizard') ?>" data-callback="checkProfileStatus">
-
-									<div class="form-row">
-					            		<!-- Birthday -->
-										<div class="col-lg-6">
-			                                <label for="birthday"><?= __tr('Birthday') ?></label>
-			                                <input type="text" name="birthday" value="<?= __ifIsset($profileInfo['birthday'], $profileInfo['birthday']) ?>" placeholder="<?= __tr('YYYY-MM-DD') ?>" class="form-control" required dateISO="true">
-										</div>
-										<!-- /Birthday -->
-
-										<div class="col-lg-6">
-											<label for="select_gender"><?= __tr('Gender') ?></label>
-											<select name="gender" class="form-control" id="select_gender">
-												<option value="" selected disabled><?= __tr('Choose your gender') ?></option>
-												@foreach($genders as $genderKey => $gender)
-													<option value="<?= $genderKey ?>" <?= (__ifIsset($profileInfo['gender']) and $genderKey == $profileInfo['gender']) ? 'selected' : '' ?>><?= $gender ?></option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-								</form>
-			            	</div>
-			            </div>
+		            	
 			            <div class="col-lg-12">
-			            	<hr class="">
 			            	<div class="pt-3">
 			            		<div class="row" id="lwProfileAndCoverEditBlock">
 				                    <div class="col-lg-4 mt-4">
@@ -126,8 +100,10 @@
 		        <div id="step-2" class="">
 		            <!-- <h3 class="border-bottom border-gray pb-2">Step 2 <i class="fas fa-map-marker-alt"></i> <?= __tr('Location') ?></h3> -->
 			        <div class="card-body">
-						@if(getStoreSettings('allow_google_map'))
+						
 			            <div id="lwUserEditableLocation">
+			            	<form class="lw-ajax-form lw-form" method="post" data-show-message="true" action="<?= route('user.write.location_data') ?>" data-callback="getUserProfileData" id="lwUserEditableLocation">
+			            		<input type="hidden" name="location_store">
 			            	<div class="form-group row">
 			            		<div class="col-sm-6 mb-3 mb-sm-0">
 									<label for="looking_for"><?= __tr('Select Country') ?></label>
@@ -153,15 +129,14 @@
 								</select>
 							</div>
 			            	</div>
-			               
-			            </div>
-						@else
-							<!-- info message -->
-							<div class="alert alert-info">
-								<?= __tr('Something went wrong with Google Api Key, please contact to system administrator.') ?>
+			            	<div class="form-group">
+							<div class="col-sm-2 mb-3 mb-sm-0 mr-0 float-right" style="margin-top: 1.8rem;">
+								<input type="submit" class="bg-purple" name="Save" value="Save">
 							</div>
-							<!-- / info message -->
-						@endif
+						</div>
+			              </form>
+			            </div>
+					
 			        </div>
 		        </div>
 		        <div id="step-3" class="">
@@ -404,28 +379,6 @@
 		    }
 				
 			});
-	}
-	$('#citySave').change(saveCities);
-	function saveCities()
-	{
-		var state = $('#state').find(":selected").val();
-		var country = $('#country').find(":selected").text();
-		var country_id = $('#country').find(":selected").val();
-		var city = $('#citySave').find(":selected").val();
-		__DataRequest.post("<?= route('user.write.location_data') ?>", {
-	        '_state': state,
-	        '_country': country,
-	        'country_id' : country_id,
-	        'save_city' : city,
-	        '_city' : city
-	    }, function(responseData) {
-	    	
-			/*if (responseData.reaction == 1) {
-				_.defer(function() {
-	        		checkProfileStatus();
-	        	});
-			}*/
-		});
 	}
 
 	function setLocationCoordinates(key, lat, lng, placeData) {

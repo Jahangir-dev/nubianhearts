@@ -78,6 +78,17 @@
                                             <label for="">Password*</label>
                                             <input type="password" class="my-form-control" placeholder="Enter Your Password" name="password" required="">
                                         </div>
+                                          <div class="form-group">
+                                            <label for="">Looking for a*</label>
+                                        
+                                            <div class="s-input nice-select-wraper">
+                                              <select class="select-bar option" name="looking_for" id="select_gender" required>
+                                                 @foreach($genders as $genderKey => $gender)
+                                                <option value="<?= $genderKey ?>"><?= $gender ?></option>
+                                                @endforeach
+                                              </select>
+                                            </div>    
+                                        </div>
                                         
                                         
                                     </div>
@@ -105,18 +116,8 @@
                                             <label for="">Confirm Password*</label>
                                             <input type="password" class="my-form-control" placeholder="Enter Your Password" name="repeat_password" required="">
                                         </div>
-                                        <input type="hidden" name="looking_for" value="">
-                                       <!--  <div class="form-group">
-                                            <label for="">Looking for a*</label>
                                         
-                                            <div class="s-input nice-select-wraper">
-                                              <select class="select-bar option" name="looking_for" id="select_gender" required>
-                                                 @foreach($genders as $genderKey => $gender)
-                                                <option value="<?= $genderKey ?>"><?= $gender ?></option>
-                                                @endforeach
-                                              </select>
-                                            </div>    
-                                        </div> -->
+                                      
                                         
                                     </div>
                                     <div class="col-lg-12">

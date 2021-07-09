@@ -719,7 +719,7 @@ class UserEngine extends BaseEngine
                 'interval'				=> $interval,
                 'city'                  => $city,
                 /*'mobile_number'         => $user->mobile_number,*/
-                'looking_for'         	=> $user->looking_for,
+                'looking_for'         	=> $userProfile->looking_for,
                 'star_sign'         	=> $userProfile->star_sign,
                 'seeking'         		=> $userProfile->seeking,
                 'country_id'         	=> $userProfile->born_country,

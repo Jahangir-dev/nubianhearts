@@ -316,6 +316,7 @@ class UserSettingRepository extends BaseRepository
 									'profile_picture',
 									'gender',
 									'dob',
+                                    'city',
 									'countries__id',
 									'users__id'
 								],

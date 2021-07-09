@@ -16,6 +16,9 @@ use App\Yantrana\Components\UserSetting\UserSettingEngine;
 use App\Yantrana\Components\Filter\Interfaces\FilterEngineInterface;
 use App\Yantrana\Components\Messenger\Models\ChatModel;
 use App\Yantrana\Components\Notification\Models\NotificationModel;
+use MenaraSolutions\Geographer\State;
+use MenaraSolutions\Geographer\City;
+use MenaraSolutions\Geographer\Earth;
 use Request;
 
 class FilterEngine extends BaseEngine implements FilterEngineInterface 
@@ -74,7 +77,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
         }
 		
         $inputData = array_merge([
-            'looking_for' => getUserSettings('looking_for'),
+            'looking_for' => (int)$userProfile['looking_for'],
             'min_age' => getUserSettings('min_age'),
             'max_age' => getUserSettings('max_age'),
             'distance' => getUserSettings('distance'),
@@ -162,6 +165,11 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $user_last_seen = '';
                 }
 
+                $city = '-';
+                if($filter->city && $filter->city != null){
+                    $city = City::build(intval($filter->city));
+                    $city = $city->getName();
+                } 
                 // Prepare data for filter
                 $filterData[] = [
                     'id'            => $filter->user_id,
@@ -173,7 +181,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 					'userAge'		=> $userAge,
                     'lastMessage' 	=> $last_message,
                     'lastSeen'      => $user_last_seen,
-                    'cityName'      => $userProfile->city,
+                    'cityName'      => $city,
                     'countryName'   => $filter->countryName,
                     'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
 					'isPremiumUser'		=> isPremiumUser($filter->user_id),
@@ -187,7 +195,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
         $fullUrl = route('user.read.find_matches');
         // check if url contains looking for
         if (!str_contains($fullUrl, 'looking_for')) {
-            $fullUrl .= '?looking_for='.getUserSettings('looking_for');
+            $fullUrl .= '?looking_for='.(int)$userProfile['looking_for'];
         } 
         if (!str_contains($fullUrl, 'min_age')) {
             $fullUrl .= '&min_age='.getUserSettings('min_age');

@@ -17,7 +17,7 @@ use App\Yantrana\Components\UserSetting\Requests\{
 use App\Yantrana\Support\CommonUnsecuredPostRequest;
 use App\Yantrana\Components\UserSetting\UserSettingEngine;
 
-class UserSettingController extends BaseController 
+class UserSettingController extends BaseController
 {    
     /**
      * @var  UserSettingEngine $userSettingEngine - UserSetting Engine

@@ -230,11 +230,12 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             if (\__isEmpty($userDetails)) {
                 return $this->engineReaction(18, null, __tr('User does not exists.'));
             }
+
             // check if user details updated
-            if ($this->userSettingRepository->updateUser($user, $userDetails)) {
+            /*if ($this->userSettingRepository->updateUser($user, $userDetails)) {
                 activityLog($user->first_name.' '.$user->last_name. ' update own user info.');
                 $isBasicSettingsUpdated = true;
-            }
+            }*/
             //dd(array_get($inputData,'looking_for_nationality'));
             if(array_key_exists('form_looking',$inputData) == true)
             {
@@ -284,6 +285,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             
             // get user profile
             $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
+
             // check if user profile exists
             if (\__isEmpty($userProfile)) {
                 $userProfileDetails['user_id'] = $userId;
@@ -297,7 +299,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                     $isBasicSettingsUpdated = true;
                 }
             }
-
+            
             if ($isBasicSettingsUpdated) {
                 if(array_key_exists('form_looking',$inputData) == true)
                 {
@@ -455,7 +457,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             
         // check if user profile stored or update
         if ($isUserLocationUpdated) {
-            return $this->engineReaction(1, __tr('Location stored successfully.'));
+            return $this->engineReaction(1,[], __tr('Location stored successfully.'));
         }
     }
         return $this->engineReaction(2, null, __tr('No Change'));
