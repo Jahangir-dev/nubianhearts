@@ -690,7 +690,7 @@ class UserEngine extends BaseEngine
              $selected_lives = implode(', ',$lives_in);
              $selected_borns = implode(', ',$born_in);
              
-            if($userProfile->state && $userProfile->state != null ){
+            if(is_numeric($userProfile->state) && $userProfile->state != null ){
             	$state = State::build(intval($userProfile->state));
             	$state_name = $state->getName();
             	$state_cities = $state->getCities()->toArray();
@@ -699,7 +699,7 @@ class UserEngine extends BaseEngine
             	$state_cities = [];
             }
             
-            if($userProfile->city && $userProfile->city != null){
+            if(is_numeric($userProfile->city) && $userProfile->city != null){
             	$city = City::build(intval($userProfile->city));
             	$city = $city->getName();
             } else {
