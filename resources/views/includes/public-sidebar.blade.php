@@ -100,7 +100,7 @@
         <li class="nav-item <?= makeLinkActive('user.who_liked_me_view') ?>">
             <a class="nav-link" href="<?= route('user.who_liked_me_view') ?>">
                 <i class="fa fa-thumbs-up" aria-hidden="true"></i>
-                <span><?= __tr('Who likes me') ?>
+                <span><?= __tr('They like me') ?>
                 <?php
                     $featurePlans = getStoreSettings('feature_plans');
                     $showLike = $featurePlans['show_like']['select_user'];
@@ -114,14 +114,25 @@
         <li class="nav-item <?= makeLinkActive('user.my_liked_view') ?>">
             <a class="nav-link" href="<?= route('user.my_liked_view') ?>">
                 <i class="fas fa-fw fa-heart"></i>
-                <span><?= __tr('My Likes') ?></span>
+                <span><?= __tr('I like them') ?></span>
             </a>
         </li>
-        
+         <li class="nav-item <?= makeLinkActive('user.mutual_like_view') ?>">
+            <a class="nav-link" href="<?= route('user.mutual_like_view') ?>">
+                <i class="fa fa-users"></i>
+                <span><?= __tr('Matches') ?></span>
+            </a>
+        </li>
         <li class="nav-item  <?= makeLinkActive('user.profile_visitors_view') ?>">
             <a class="nav-link" href="<?= route('user.profile_visitors_view') ?>">
                 <i class="fa fa-user" aria-hidden="true"></i>
-                <span><?= __tr('Visitors') ?></span>
+                <span><?= __tr('They viewed me') ?></span>
+            </a>
+        </li> 
+        <li class="nav-item  <?= makeLinkActive('user.profile_visit_view') ?>">
+            <a class="nav-link" href="<?= route('user.profile_visit_view') ?>">
+                <i class="fa fa-eye" aria-hidden="true"></i>
+                <span><?= __tr('Viewed by me') ?></span>
             </a>
         </li>
         <li class="nav-item  <?= makeLinkActive('user.notification.read.view') ?>">

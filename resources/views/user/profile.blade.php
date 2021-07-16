@@ -19,7 +19,6 @@
 	$stars = array('libra'=> 'libra','aries'=>'aries','cancer'=>'cancer','capricorn'=>'capricorn','gemini'=>'gemini','lion'=>'lion','pisces'=>'pisces','sagittarius'=>'sagittarius','scorpio'=>'scorpio','taurus'=>'taurus','aquarius'=>'aquarius','virgo'=>'virgo');
 
  ?>
- 
 
 <!-- if user block then don't show profile page content -->
 @if($isBlockUser)
@@ -28,14 +27,27 @@
 		<?= __tr('This user is unavailable.') ?>
 	</div>
 	<!-- / info message -->
-@elseif($blockByMeUser)
-	<!-- info message -->
-	<div class="alert alert-info">
-		<?= __tr('You have blocked this user.') ?>
-	</div>
-	<!-- / info message -->
 @else
     <div class="">
+    	@if(!$isOwnProfile)
+    	<div class="card mb-3">
+			<div class="card-header">
+				@if($blockByMeUser)
+					<button class="btn btn-primary float-right btn-sm lw-ajax-link-action col-md-2" data-callback="onUnblockUser" data-method="post" href="<?= route('user.write.unblock_user', ['userUid' =>  $userData['userUId']]) ?>"><?= __tr('Unblock') ?></button>
+				@else
+					<span class="float-right">
+						<!-- report button -->
+						<a class="text-white btn-link btn" title="<?= __tr('Report') ?>" data-toggle="modal" data-target="#lwReportUserDialog"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i></a>
+						<!-- /report button -->	
+
+						<!-- Block User button -->
+						<a class="text-white btn-link btn" title="<?= __tr('Block User') ?>" id="lwBlockUserBtn"><i class="fas fa-ban"></i></a>
+						<!-- /Block User button -->
+					</span>
+				@endif
+			</div>
+		</div>
+		@endif
 		<!-- User Profile and Cover photo -->
 		<div class="card mb-4 lw-profile-image-card-container">
 			<div class="card-body">
@@ -960,7 +972,7 @@
 				<div class="modal-header">
 					<h5 class="modal-title" id="userReportModalLabel"><?= __tr('Abuse Report to __username__', [
 					'__username__' => $userData['fullName']]) ?></h5>
-					<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<button class="close" type="button" data-dismiss="modal" aria-label="Close" style="margin: -1rem 0rem -1rem auto;width: 20px;">
 						<span aria-hidden="true">×</span>
 					</button>
 				</div>
@@ -1107,11 +1119,22 @@
                     @endif
                         </div>
                         <div class="right">
+                        	<?php 
+    							$time = freeTrial();
+   							?>
                         	@if($isPremiumUser)
 								<span class="lw-premium-badge" title="<?= __tr('Premium User') ?>"></span>
 							@else
-                            <a href="#" class="custom-button">
-                                <i class="fab fa-cloudversify"></i> <?= __tr('Buy Membership') ?></a>
+							@if($time['free_trial'] == true)
+							
+								<a href="#" class="custom-button" data-toggle="tooltip" title="You are using free trail!">
+                                	<i class="fab fa-cloudversify"></i> <?= __tr('Buy Membership') ?>
+                                </a>	
+							@else 
+                            	<a href="#" class="custom-button">
+                                	<i class="fab fa-cloudversify"></i> <?= __tr('Buy Membership') ?>
+                                </a>
+                             @endif
                             @endif
                         </div>
                     </div>
@@ -1951,6 +1974,26 @@ $('#country').change(getStates);
 // $(".lw-animated-heart").on("click", function() {
 //     $(this).toggleClass("lw-is-active");
 // });
+
+
+	$(document).ready(function(){
+	  $('[data-toggle="tooltip"]').tooltip();
+	});
+
+
+	//on un block user callback
+	function onUnblockUser(response) {
+		//check reaction code is 1
+		if (response.reaction == 1) {
+			var requestData = response.data;
+			
+			//apply class row fade in
+			$("#lwBlockUser_"+requestData.blockUserUid).hide();
+			if (requestData.blockUserLength == 0) {
+				location.reload();
+			}
+		}
+    } 
 </script>
 @endpush
 

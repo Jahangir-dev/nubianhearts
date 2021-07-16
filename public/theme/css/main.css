@@ -9132,3 +9132,16 @@ input[type=submit] {
 .list-group-item-action {
   width: 97% !important;
 }
+
+.text-black{
+  color: #000 !important;
+}
+
+.lw-messenger .lw-messenger-content .lw-messenger-chat-window .lw-messenger-chat-sender .lw-messenger-chat-item .lw-messenger-chat-meta {
+    color: #7c7979 !important;
+}
+
+.lw-user-thumbnail-block:hover {
+    background-color: #fff !important;
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15)!important;
+}

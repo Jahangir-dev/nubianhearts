@@ -106,6 +106,7 @@ class UserController extends BaseController
     public function signUpProcess(UserSignUpRequest $request)
     {
         $processReaction = $this->userEngine->userSignUpProcess($request->all());
+    
 		//check reaction code is 1 then redirect to login page
 		if ($processReaction['reaction_code'] === 1) {
 			return $this->responseAction(
@@ -449,7 +450,7 @@ class UserController extends BaseController
     	$page = request()->input('page');
 		//get liked people data by parameter like '1'
         $processReaction = $this->userEngine->prepareUserLikeMeData();
-
+        
         //check if page is not null and not equal to first page
         if (!is_null($page) and ($page != 1)) {
 
@@ -516,6 +517,26 @@ class UserController extends BaseController
     	//load default view
     	return $this->loadPublicView('user.profile-visitor', $processReaction['data']);
 	}
+
+    public function getProfileVisitView()
+    {
+        //get page requested
+        $page = request()->input('page');
+        //get liked people data by parameter like '1'
+        $processReaction = $this->userEngine->prepareProfileVisitorData();
+        
+        //check if page is not null and not equal to first page
+        if (!is_null($page) and ($page != 1)) {
+
+            $processReaction['data'] = view('user.partial-templates.my-liked-users', $processReaction['data'])
+                                            ->render();
+            
+            return $processReaction;
+        }
+
+        //load default view
+        return $this->loadPublicView('user.profile-visitor', $processReaction['data']);
+    }
 
 	/**
      * Handle send user gift request.

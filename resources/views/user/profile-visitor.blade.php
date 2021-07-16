@@ -8,10 +8,17 @@
 @section('twitter-card-image', getStoreSettings('logo_image_url'))
 @section('page-url', url()->current())
 
+<?php 
+	$route = Illuminate\Support\Facades\Route::currentRouteName(); 
+?>
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h5 class="h5 mb-0 text-gray-200">
+		@if($route == 'user.profile_visit_view')
+		<span class="text-primary"><i class="far fa-user"></i></span> <?= __tr('Visits') ?>
+		@else
 		<span class="text-primary"><i class="far fa-user"></i></span> <?= __tr('Visitors') ?>
+		@endif
 	</h5>
 </div>
 

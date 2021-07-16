@@ -403,6 +403,12 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $user_last_seen = '';
                 }
 
+                $city = '-';
+                if($userProfile->city && $userProfile->city != null){
+                    $city = City::build(intval($userProfile->city));
+                    $city = $city->getName();
+                } 
+                
                 // Prepare data for filter
                 $filterData[] = [
                     'id'            => $filter['user_id'],
@@ -413,7 +419,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 					'dob' 			=> $filter['dob'],
                     'lastMessage'   => $last_message,
                     'lastSeen'   => $user_last_seen,
-                    'cityName'      => $userProfile->city,
+                    'cityName'      => $city,
 					'userAge'		=> $userAge,
                     'countryName' 	=> $filter['countryName'],
                     'userOnlineStatus' => $this->getUserOnlineStatus($filter['user_authority_updated_at']),

@@ -1037,8 +1037,8 @@ class UserEngine extends BaseEngine
 		//loggedIn user name
 		$loggedInUserFullName = Auth::user()->first_name.' '.Auth::user()->last_name;
 		$loggedInUserName = Auth::user()->username;
-		$showLikeNotification = getFeatureSettings('show_like', null, $user->_id);
-
+		//$showLikeNotification = getFeatureSettings('show_like', null, $user->_id);
+		$showLikeNotification = true;
 		//fetch like dislike data by to user id
 		$likeDislikeData = $this->userRepository->fetchLikeDislike($user->_id);
 
@@ -1182,9 +1182,22 @@ class UserEngine extends BaseEngine
     {
 		//get people likes me data
 		$userLikedMeData = $this->userRepository->fetchUserLikeMeData(true);
-
+		$type = 'likeme';
 		return $this->engineReaction(1, [
-			'usersData' => $this->prepareUserArray($userLikedMeData),
+			'usersData' => $this->prepareUserArray($userLikedMeData,$type),
+			'likedme'	=> true,
+			'nextPageUrl' => $userLikedMeData->nextPageUrl()
+		]);
+	}
+
+	public function prepareUserLikeByMeData()
+    {
+		//get people likes me data
+		$userLikedMeData = $this->userRepository->fetchUserLikeByMeData(true);
+		$type = 'likeme';
+		return $this->engineReaction(1, [
+			'usersData' => $this->prepareUserArray($userLikedMeData,$type),
+			'likedme'	=> true,
 			'nextPageUrl' => $userLikedMeData->nextPageUrl()
 		]);
 	}
@@ -1255,7 +1268,97 @@ class UserEngine extends BaseEngine
 					} else {
 						$last_sent = null;
 					}
+
+					//fetch block me users
+					$blockMeUser =  $this->userRepository->fetchBlockUser($user->userId);
+					$isBlockUser = false;
+					//check if not empty then set variable is true
+					if (!__isEmpty($blockMeUser)) {
+						$isBlockUser = true;
+					}
+					$userData[] = [
+						'_id' 			=> $user->_id,
+						'_uid' 			=> $user->_uid,
+						'liked_user' 	=> $user->userId,
+						'status' 		=> $user->status,
+						'like'			=> $user->like,
+						'isBlockUser'	=> $isBlockUser,
+						'last_sent'		=> $last_sent,
+						'created_at' 	=> formatDiffForHumans($user->created_at),
+						'updated_at'	=> formatDiffForHumans($user->updated_at),
+						'userFullName'	=> $user->userFullName,
+						'username'  	=> $user->username,
+						'userImageUrl'  => $userImageUrl,
+						'profilePicture'=> $user->profile_picture,
+						'userOnlineStatus' => $this->getUserOnlineStatus($user->userAuthorityUpdatedAt),
+						'gender' 		=> $gender,
+						'dob' 			=> $user->dob,
+						'userAge'		=> $userAge,
+						'countryName' 	=> $user->countryName,
+						'isPremiumUser'		=> isPremiumUser($user->userId),
+						'detailString'	=> implode(", ", array_filter([$userAge, $gender]))
+					];
+				}
+			}
+		}
+		
+		return $this->engineReaction(1, [
+			'usersData' => $userData,
+			'nextPageUrl' => $profileVisitors->nextPageUrl()
+		]);		
+	}
+
+	/**
+     * Prepare profile visit Data.
+     *
+     *-----------------------------------------------------------------------*/
+    public function prepareProfileVisitorData()
+    {
+		//profile boost all user list
+		$isPremiumUser = $this->userRepository->fetchAllPremiumUsers();
+		//premium user ids
+		$premiumUserIds = $isPremiumUser->pluck('users__id')->toArray();
+		//get profile visitor data
+		$profileVisitors = $this->userRepository->fetchProfileVisitData();
+		
+		$userData = [];
+		//check if not empty collection
+		if (!__isEmpty($profileVisitors)) {
+			foreach ($profileVisitors as $key => $user) {
+				//check user browser
+				$allowVisitorProfile = getFeatureSettings('browse_incognito_mode', null, $user->userId);
+				
+				//check is premium user value is false and in array check premium user exists 
+				//then data not shown in visitors page
+				if (!$allowVisitorProfile and !in_array($user->userId, $premiumUserIds)) {
+					$userImageUrl = '';
+					//check is not empty
+					if (!__isEmpty($user->profile_picture)) {
+						$profileImageFolderPath = getPathByKey('profile_photo', ['{_uid}' => $user->userUId]);
+						$userImageUrl = getMediaUrl($profileImageFolderPath, $user->profile_picture);
+					} else {
+						$userImageUrl = noThumbImageURL();
+					}
 					
+					$userAge = isset($user->dob) ? Carbon::parse($user->dob)->age : null;
+					$gender = isset($user->gender) ? configItem('user_settings.gender', $user->gender) : null;
+
+					
+					$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
+					if(count($sent_at) > 0)
+					{
+						$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+					} else {
+						$last_sent = null;
+					}
+					//fetch block me users
+					$blockbyMeUser =  $this->userRepository->fetchBlockUser($user->userId);
+					
+					$isBlockUser = false;
+					//check if not empty then set variable is true
+					if (!__isEmpty($blockbyMeUser)) {
+						$isBlockUser = true;
+					}
 					$userData[] = [
 						'_id' 			=> $user->_id,
 						'_uid' 			=> $user->_uid,
@@ -1263,6 +1366,7 @@ class UserEngine extends BaseEngine
 						'status' 		=> $user->status,
 						'like'			=> $user->like,
 						'last_sent'		=> $last_sent,
+						'isBlockUser'	=> $isBlockUser,
 						'created_at' 	=> formatDiffForHumans($user->created_at),
 						'updated_at'	=> formatDiffForHumans($user->updated_at),
 						'userFullName'	=> $user->userFullName,
@@ -1291,7 +1395,7 @@ class UserEngine extends BaseEngine
      * Prepare User Array Data.
      *
      *-----------------------------------------------------------------------*/
-	public function prepareUserArray($userCollection) 
+	public function prepareUserArray($userCollection, $type = null) 
 	{
 		$userData = [];
 		//check if not empty collection
@@ -1308,14 +1412,19 @@ class UserEngine extends BaseEngine
 				
 				$userAge = isset($user->dob) ? Carbon::parse($user->dob)->age : null;
 				$gender = isset($user->gender) ? configItem('user_settings.gender', $user->gender) : null;
+				if($type == 'likeme'){
+					$sent_at = ActivityLog::where('user_id',$user['to_users__id'])->where('for_user',$user['by_users__id'])->get();
+				}
+				else {
+					$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
+				}
+				if(count($sent_at) > 0)
+				{
+					$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+				} else {
+					$last_sent = null;
+				}
 
-				$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
-					if(count($sent_at) > 0)
-					{
-						$last_sent =formatDiffForHumans($sent_at[0]->created_at);
-					} else {
-						$last_sent = null;
-					}
 
 				$userData[] = [
 					'_id' 			=> $user->_id,

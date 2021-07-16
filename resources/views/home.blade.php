@@ -14,8 +14,11 @@
 		<span class="text-primary"><i class="fas fa-fire"></i></span> <?= __tr('Encounter') ?>
 	</h4>
 </div>
+<?php 
+  $time = freeTrial();
+?>
 <!-- user encounter main container -->
-@if(getFeatureSettings('user_encounter'))
+@if(getFeatureSettings('user_encounter') || $time['free_trial'] == true)
 	@if(!__isEmpty($randomUserData))
 		<!-- random user block -->
 		<div class="lw-random-user-block">

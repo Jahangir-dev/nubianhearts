@@ -58,7 +58,7 @@
                             <a type="button" class="close float-right lw-ajax-link-action lw-single-message-delete" href="<?= route('user.write.delete_message', ['chatId' => $conversation['chat_id'], 'userId' => $userData['user_id']]) ?>" data-method="post" data-callback="userChatResponse">
                                 <span aria-hidden="true">&times;</span>
                             </a>
-                            <span class="lw-messenger-chat-meta"><?= $conversation['created_on'] ?></span>
+                            <span class="lw-messenger-chat-meta black"><?= $conversation['created_on'] ?></span>
                         </div>
                     <!-- Check if message for Uploaded File / Giphy / Sticker -->
                     @elseif ($conversation['type'] == 2 or $conversation['type'] == 8 or $conversation['type'] == 12)
@@ -74,7 +74,7 @@
             @else
                 <div class="lw-messenger-chat-message lw-messenger-chat-sender row col-md-12">
                     @if($conversation['type'] == 1)
-                        <div class="lw-messenger-chat-item">
+                        <div class="lw-messenger-chat-item text-black">
                             <a type="button" class="close float-right lw-ajax-link-action lw-single-message-delete" href="<?= route('user.write.delete_message', ['chatId' => $conversation['chat_id'], 'userId' => $userData['user_id']]) ?>" data-method="post" data-callback="userChatResponse">
                                 <span aria-hidden="true">&times;</span>
                             </a>
