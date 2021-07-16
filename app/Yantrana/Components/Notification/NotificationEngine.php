@@ -36,7 +36,7 @@ class NotificationEngine extends BaseEngine
     public function prepareNotificationList()
     {
 		$notificationCollection = $this->notificationRepository->fetchNotificationListData();
-		
+
         $requireColumns = [
             '_id',
             '_uid',
@@ -44,7 +44,7 @@ class NotificationEngine extends BaseEngine
                 return formatDate($pageData['created_at']);
             },
             'formattedCreatedAt' => function($pageData) {
-                return formatDiffForHumans($pageData['created_at']);
+                return formatDateTime($pageData['created_at']);
             },
 			'is_read',
 			'action',

@@ -87,7 +87,17 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
             return $date->format($format);
         }
 	}
-	
+	 
+    if (!function_exists('formatDateTime'))
+    {
+        function formatDateTime($rawDateTime, $format = 'jS F Y, g:i a')
+        {
+            $date = appTimezone($rawDateTime);
+
+            return $date->format($format);
+        }
+    }
+    
 	 /**
       * Get formatted date from passed raw date using timezone
       *
@@ -826,7 +836,17 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
             }
 
             $total      = $month.' '.$day;
-            return $total;
+            if($interval->m == 0 && $interval->d == 0)
+            {
+                $trial = false;
+            } else {
+
+                $trial = true;
+            }
+            return [
+                'total' => $total,
+                'free_trial'=> $trial
+            ];
         }
     }
 

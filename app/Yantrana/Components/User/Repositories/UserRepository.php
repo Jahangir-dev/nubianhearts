@@ -418,7 +418,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 		}
 
 		return $query->get();
-	}
+	} 
 	
 	/**
     * Fetch the record of Mutual User liked
@@ -575,6 +575,42 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 									])
 								)
 								->where('to_users__id', getUserID())
+								->where('users.status', '=', 1)
+								->paginate(configItem('paginate_count'));
+	}
+
+	 public function fetchProfileVisitData()
+    {
+		return ProfileVisitorModel::leftjoin('users', 'profile_visitors.to_users__id', '=', 'users._id')
+								->leftjoin('user_authorities', 'users._id', '=', 'user_authorities.users__id')
+								->leftjoin('user_profiles', 'users._id', '=', 'user_profiles.users__id')
+								->leftjoin('countries', 'user_profiles.countries__id', '=', 'countries._id')
+								->select(
+									__nestedKeyValues([
+										'profile_visitors.*',
+										'users' => [
+											'_id as userId',
+											'_uid as userUId',
+											'username',
+											'status',
+											DB::raw('CONCAT(users.first_name, " ", users.last_name) AS userFullName')
+										],
+										'user_profiles' => [
+											'_id as userProfileId',
+											'profile_picture',
+											'countries__id',
+											'gender',
+											'dob'
+										],
+										'countries' => [
+											'name as countryName'
+										],
+										'user_authorities' => [
+											'updated_at as userAuthorityUpdatedAt'
+										]
+									])
+								)
+								->where('by_users__id', getUserID())
 								->where('users.status', '=', 1)
 								->paginate(configItem('paginate_count'));
 	}

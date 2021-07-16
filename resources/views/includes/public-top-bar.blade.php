@@ -4,9 +4,11 @@
     <button type="button" id="sidebarToggleTop" class="btn btn-link d-block d-md-none rounded-circle mr-3">
     <i class="fa fa-bars"></i>
     </button>
-   
+   <?php 
+    $time = freeTrial();
+   ?>
     <!-- Topbar Navbar -->
-    <div style="color: #fff;margin-left: 33%;">Free trail : <?= freeTrial() ?></div>
+    <div style="color: #fff;margin-left: 33%;">Free trail : <?= $time['total'] ?></div>
     <ul class="navbar-nav">
          <li class="nav-item d-none d-sm-none d-md-block">
             <a href="{{route('user.read.messenger')}}" class="nav-link">

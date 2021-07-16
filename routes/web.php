@@ -298,6 +298,12 @@ Route::group([
                     'uses' => 'UserController@getProfileVisitorView'
 				]);
 
+                // Get profile visitors to users
+                Route::get('/visits', [
+                    'as' => 'user.profile_visit_view',
+                    'uses' => 'UserController@getProfileVisitView'
+                ]);
+
 				// post User send gift
                 Route::post('/{sendUserUId}/send-gift', [
                     'as' => 'user.write.send_gift',

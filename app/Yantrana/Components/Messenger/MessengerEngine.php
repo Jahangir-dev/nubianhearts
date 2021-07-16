@@ -309,39 +309,6 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
             
             // Check if message request not exists
             // Then store initial message request
-            if (\__isEmpty($messageRequest)) {
-                notificationLog('Message request received from '.' '.getUserAuthInfo('profile.full_name'), route('user.profile_view', ['username' => getUserAuthInfo('profile.username')]), null, $userDetails->_id);
-                $initialMessageGeneratedUid = YesSecurity::generateUid();
-                $isMessageRequestReceived = true;
-                $initialMessageRequest = [
-                    [
-                        'status' => 1, // Sent
-                        'message' => 'Message Request',
-                        'type' => 9,
-                        'from_users__id' => getUserID(),
-                        'to_users__id' => $userDetails->_id,
-                        'users__id' => getUserID(),
-                        'integrity_id' => $initialMessageGeneratedUid
-                    ],
-                    [
-                        'status' => 1, // Sent
-                        'message' => 'Message Request',
-                        'type' => 9,
-                        'from_users__id' => getUserID(),
-                        'to_users__id' => $userDetails->_id,
-                        'users__id' => $userDetails->_id,
-                        'integrity_id' => $initialMessageGeneratedUid
-                    ]
-                ];
-                // Initial message request store in DB
-                $this->messengerRepository->storeMessage($initialMessageRequest);
-
-            } elseif ($messageRequest->type == 11) { // Message request decline
-                return $this->messengerRepository->transactionResponse(2, [
-                    'show_message' => true,
-                    'storedData' => $inputData
-                ], __tr('Message request decline.'));
-            }
             
             $userChatGeneratedUid = YesSecurity::generateUid();
             $message = $inputData['message'];

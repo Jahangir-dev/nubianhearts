@@ -192,10 +192,6 @@
                 required: true,
                 twentyone: true
             }
-        },
-        submitHandler: function(form) {
-            // form.submit();
-          alert("Success! You are over 19.");
         }
     });
 });
