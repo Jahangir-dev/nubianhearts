@@ -7,8 +7,18 @@
    <?php 
     $time = freeTrial();
    ?>
+
+        <a class="sidebar-brand d-flex align-items-center bg-purple" href="<?= url('/home') ?>">
+            <div class="sidebar-brand-icon">
+                <img class="lw-logo-img" src="<?= getStoreSettings('small_logo_image_url') ?>" alt="<?= getStoreSettings('name') ?>">
+            </div>
+            <img class="lw-logo-img d-sm-none d-none d-md-block" src="<?= getStoreSettings('logo_image_url') ?>"
+                    alt="<?= getStoreSettings('name') ?>">
+            <img class="lw-logo-img d-sm-block d-md-none" src="<?= getStoreSettings('small_logo_image_url') ?>" alt="<?= getStoreSettings('name') ?>">
+        </a>
+    
     <!-- Topbar Navbar -->
-    <div style="color: #fff;margin-left: 33%;">Free trail : <?= $time['total'] ?></div>
+    <div style="color: #fff; margin-left: 28%;">Free trail : <?= $time['total'] ?></div>
     <ul class="navbar-nav">
          <li class="nav-item d-none d-sm-none d-md-block">
             <a href="{{route('user.read.messenger')}}" class="nav-link">

@@ -27,6 +27,7 @@ use App\Yantrana\Components\User\Models\{
 	UserProfile
 };
 use App\Yantrana\Components\User\Models\LoginAttempt;
+use App\Yantrana\Components\User\Models\LoginLog;
 use YesSecurity;
 use App\Yantrana\Support\Utils;
 use Carbon\Carbon;
@@ -797,6 +798,132 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
         }
 	}
 
+	public function updateUserLogin($id,$email)
+	{
+		$ipAddress = Request::getClientIp();
+		$keyValues = ['user_id','email','ip_address', 'created_at'];
+        $login = LoginLog::where('user_id', $id)->first();
+        if (!empty($login)) {
+        	$login->delete();
+        }
+
+        $newLogin = new LoginLog ();
+			$storeData = [
+				'ip_address' => $ipAddress,
+				'email'	 => $email,
+				'user_id'	 => $id,
+				'created_at' => getCurrentDateTime()
+			];
+			// Store New User
+			if ($newLogin->assignInputsAndSave($storeData, $keyValues)) {
+				return true;
+			} else {
+				return false;
+			}
+
+	}
+
+	public function lastLogin($id)
+	{
+		$login = LoginLog::where('user_id', $id)->first();
+		$return = '';
+		if(!empty($login))
+		{
+			$time = $login->created_at->diffForHumans();
+			//dd($time);
+			if(Str::contains($time,'seconds'))
+			{
+				$return = str_replace('seconds ago','',$time);
+				
+				$return = $return.'s';
+				
+			}
+			elseif(Str::contains($time,'minutes'))
+			{
+
+				$return = str_replace('minutes ago','',$time);
+				
+				$return = '+'.$return.'m';
+				
+			}
+			elseif(Str::contains($time,'minute'))
+			{
+				$return = str_replace('minute ago','',$time);
+				//$return = str_replace('minutes from now','',$time);
+				
+				$return = $return.'m';
+				
+			}
+			
+
+			elseif(Str::contains($time,'hour'))
+			{
+				$return = str_replace('hour ago','',$time);
+				$return = str_replace('hours from now','',$time);
+				if($return > 1)
+				{
+					$return = '+'.$return.'h';
+				}else {
+
+					$return = $return.'h';
+				}
+			}
+			elseif(Str::contains($time,'days'))
+			{
+				$return = str_replace('days ago','',$time);
+				
+				
+				$return = $return.'d';
+			}
+			elseif(Str::contains($time,'day'))
+			{
+				$return = str_replace('day ago','',$time);
+				
+				$return = '+'.$return.'d';
+			}
+
+			elseif(Str::contains($time,'weeks'))
+			{
+				$return = str_replace('weeks ago','',$time);
+				
+				
+				$return = '+'.$return.'w';
+			}
+			elseif(Str::contains($time,'week'))
+			{
+				$return = str_replace('week ago','',$time);
+				
+				$return = $return.'w';
+			}
+			elseif(Str::contains($time,'months'))
+			{
+				$return = str_replace('months ago','',$time);
+				
+				
+				$return = '+'.$return.'mo';
+			}
+			elseif(Str::contains($time,'month'))
+			{
+				$return = str_replace('month ago','',$time);
+				
+				$return = $return.'mo';
+			}
+			elseif(Str::contains($time,'year'))
+			{
+				$return = str_replace('year ago','',$time);
+				$return = str_replace('year from now','',$time);
+				if($return > 1)
+				{
+					$return = '+'.$return.'y';
+				}else {
+
+					$return = $return.'y';
+				}
+			}
+		}
+
+		return $return;
+	}
     /**
      * Store User.
      *

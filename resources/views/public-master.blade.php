@@ -2,9 +2,14 @@
 @include('includes.header')
 <!-- /include header -->
 <body id="page-top" class="lw-page-bg lw-public-master">
-    
+    <!-- include top bar -->
+                @if(isLoggedIn())
+                @include('includes.public-top-bar')
+                @endif
+                <!-- /include top bar -->
     <!-- Page Wrapper -->
     <div id="wrapper" class="container-fluid">
+         
         <!-- include sidebar -->
         @if(isLoggedIn())
         @include('includes.public-sidebar')
@@ -13,15 +18,12 @@
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column lw-page-bg">
-                <!-- include top bar -->
-                @if(isLoggedIn())
-                @include('includes.public-top-bar')
-                @endif
-                <!-- /include top bar -->
+               
             <div id="content">
 
                 <!-- Begin Page Content -->
                 <div class="lw-page-content">
+
                     <!-- header advertisement -->
                     @if(!getFeatureSettings('no_adds') and getStoreSettings('header_advertisement')['status'] == 'true')
                     <div class="lw-ad-block-h90">

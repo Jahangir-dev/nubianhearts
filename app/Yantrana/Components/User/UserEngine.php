@@ -155,17 +155,18 @@ class UserEngine extends BaseEngine
         if (Auth::attempt($loginCredentials, $remember_me)) {
             // Clear login attempts of ip address
 			$this->userRepository->clearLoginAttempts();
+			$this->userRepository->updateUserLogin($user->_id,$user->email);
 			//loggedIn user name
 			$loggedInUserName = $user->first_name.' '.$user->last_name;
 			//get people likes me data
 			$userLikedMeData = $this->userRepository->fetchUserLikeMeData();
 			//check user like data exists
-			if (!__isEmpty($userLikedMeData)) {
+			/*if (!__isEmpty($userLikedMeData)) {
 				foreach($userLikedMeData as $userLike) {
-					//notification log message
+					
 					notificationLog($loggedInUserName. ' is Logged In. ', route('user.profile_view', ['username' => $user->username]), null, $userLike->userId);
 					
-					//push data to pusher
+					
 					PushBroadcast::notifyViaPusher('event.user.notification' ,[
 						'type'    				=> 'user-login',
 						'userUid' 				=> $userLike->userUId,
@@ -176,7 +177,7 @@ class UserEngine extends BaseEngine
 						'getNotificationList' 	=> getNotificationList($userLike->userId)
 					]);
 				}
-			}
+			}*/
 
 			//if mobile request
 	        if (isMobileAppRequest()) {
@@ -1276,12 +1277,14 @@ class UserEngine extends BaseEngine
 					if (!__isEmpty($blockMeUser)) {
 						$isBlockUser = true;
 					}
+					$last_login = $this->userRepository->lastLogin($user->userId);
 					$userData[] = [
 						'_id' 			=> $user->_id,
 						'_uid' 			=> $user->_uid,
 						'liked_user' 	=> $user->userId,
 						'status' 		=> $user->status,
 						'like'			=> $user->like,
+						'last_seen' 	=> $last_login,
 						'isBlockUser'	=> $isBlockUser,
 						'last_sent'		=> $last_sent,
 						'created_at' 	=> formatDiffForHumans($user->created_at),
@@ -1359,6 +1362,7 @@ class UserEngine extends BaseEngine
 					if (!__isEmpty($blockbyMeUser)) {
 						$isBlockUser = true;
 					}
+					$last_login = $this->userRepository->lastLogin($user->userId);
 					$userData[] = [
 						'_id' 			=> $user->_id,
 						'_uid' 			=> $user->_uid,
@@ -1366,6 +1370,7 @@ class UserEngine extends BaseEngine
 						'status' 		=> $user->status,
 						'like'			=> $user->like,
 						'last_sent'		=> $last_sent,
+						'last_seen'		=> $last_login,
 						'isBlockUser'	=> $isBlockUser,
 						'created_at' 	=> formatDiffForHumans($user->created_at),
 						'updated_at'	=> formatDiffForHumans($user->updated_at),
@@ -1425,12 +1430,22 @@ class UserEngine extends BaseEngine
 					$last_sent = null;
 				}
 
+				//fetch block me users
+				$blockMeUser =  $this->userRepository->fetchBlockMeUser($user->userId);
+				$isBlockUser = false;
+				//check if not empty then set variable is true
+				if (!__isEmpty($blockMeUser)) {
+					$isBlockUser = true;
+				}
+				$last_login = $this->userRepository->lastLogin($user->userId);
 
 				$userData[] = [
 					'_id' 			=> $user->_id,
 					'_uid' 			=> $user->_uid,
 					'liked_user'	=> $user->userId,
+					'isBlockUser'	=> $isBlockUser,
 					'last_sent'		=> $last_sent,
+					'last_seen'		=> $last_login,
 					'status' 		=> $user->status,
 					'like'			=> $user->like,
 					'created_at' 	=> formatDiffForHumans($user->created_at),

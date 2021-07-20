@@ -1,16 +1,7 @@
 <!-- Sidebar -->
-<ul class="navbar-nav sidebar sidebar-dark accordion" id="accordionSidebar">
+<ul class="navbar-nav sidebar sidebar-dark accordion float-left" id="accordionSidebar">
     <!-- Sidebar - Brand -->
-    <li>
-        <a class="sidebar-brand d-flex align-items-center bg-purple" href="<?= url('/home') ?>">
-            <div class="sidebar-brand-icon">
-                <img class="lw-logo-img" src="<?= getStoreSettings('small_logo_image_url') ?>" alt="<?= getStoreSettings('name') ?>">
-            </div>
-            <img class="lw-logo-img d-sm-none d-none d-md-block" src="<?= getStoreSettings('logo_image_url') ?>"
-                    alt="<?= getStoreSettings('name') ?>">
-            <img class="lw-logo-img d-sm-block d-md-none" src="<?= getStoreSettings('small_logo_image_url') ?>" alt="<?= getStoreSettings('name') ?>">
-        </a>
-    </li>
+   
      <li class="nav-item mt-2 d-sm-block d-md-none">
             <a href class="nav-link" onclick="getChatMessenger('<?= route('user.read.all_conversation') ?>', true)" id="lwAllMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog">
                 <i class="far fa-comments"></i>

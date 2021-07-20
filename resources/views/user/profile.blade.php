@@ -1071,7 +1071,7 @@
 
 	<!-- Content for sidebar -->
 	@push('sidebarProfilePage')
-		<li class="mt-4 d-none d-md-block profile-section">
+		<li class="d-none d-md-block profile-section">
 			<!-- profile related -->
 			<div class="card left-profile-area ">
 				<div class="card-header top-bag">
@@ -1083,10 +1083,8 @@
 					@if(!$isOwnProfile)
 						@if($userOnlineStatus == 1)
 						<span class="lw-dot lw-dot-success float-none active-online" title="<?= __tr("Online") ?>"></span>
-						@elseif($userOnlineStatus == 2)
-						<span class="lw-dot lw-dot-warning float-none active-online" title="<?= __tr("Idle") ?>"></span>
-						@elseif($userOnlineStatus == 3)
-						<span class="lw-dot lw-dot-danger float-none active-online" title="<?= __tr("Offline") ?>"></span>
+						@else
+						<span class="lw-dot lw-dot-grey float-none active-online" title="<?= __tr("Idle") ?>"></span>
 						@endif
 					@endif
 					</div>
