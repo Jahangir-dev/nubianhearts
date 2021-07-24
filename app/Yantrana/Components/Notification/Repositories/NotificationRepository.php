@@ -61,6 +61,7 @@ class NotificationRepository extends BaseRepository
         ];
         
 		return NotificationModel::where('notifications.users__id', getUserID())
+                                ->with('profile')
 								->latest()
 								->dataTables($dataTableConfig)
 								->toArray();

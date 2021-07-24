@@ -878,20 +878,20 @@ class UserEngine extends BaseEngine
 					//check user browser
 					$allowVisitorProfile = getFeatureSettings('browse_incognito_mode');
 					//check in setting allow visitor notification log and pusher request
-					if (!$allowVisitorProfile) {						
+											
 						//notification log message
-						notificationLog('Profile visited by'.' '.$loggedInUserName, route('user.profile_view', ['username' => Auth::user()->username]), null, $userId);
+						notificationLog($loggedInUserName.' '.'visited profile', route('user.profile_view', ['username' => Auth::user()->username]), null, $userId,getUserID());
 						//push data to pusher
 						PushBroadcast::notifyViaPusher('event.user.notification' ,[
 							'type'    				=> 'profile-visitor',
 							'userUid' 				=> $userUid,
 							'subject' 				=> __tr('Profile visited successfully'),
-							'message' 				=> __tr('Profile visited by').' '.$loggedInUserName,
+							'message' 				=> $loggedInUserName.' '.__tr('Visited profile'),
 							'messageType' 			=> __tr('success'),
 							'showNotification' 		=> getUserSettings('show_visitor_notification', $user->_id),
 							'getNotificationList' 	=> getNotificationList($user->_id)
 						]);
-					}
+					
 				} else {
 					return $this->engineReaction(18, [], __tr('Profile visitors not created.'));
 				}
@@ -1077,13 +1077,13 @@ class UserEngine extends BaseEngine
 					//check show like feature return true
 					if ($showLikeNotification) {
 						//notification log message
-						notificationLog('Profile liked by'.' '.$loggedInUserFullName, route('user.profile_view', ['username' => $loggedInUserName]), null, $user->_id);
+						notificationLog($loggedInUserFullName.' '.'liked profile', route('user.profile_view', ['username' => $loggedInUserName]), null, $user->_id,getUserID());
 						//push data to pusher
 						PushBroadcast::notifyViaPusher('event.user.notification' ,[
 							'type'    				=> 'user-likes',
 							'userUid' 				=> $user->_uid,
 							'subject' 				=> __tr('User liked successfully'),
-							'message' 				=> __tr('Profile liked by').' '.$loggedInUserFullName,
+							'message' 				=> $loggedInUserFullName.' '.__tr('liked profile'),
 							'messageType' 			=> 'success',
 							'showNotification' 		=> getUserSettings('show_like_notification', $user->_id),
 							'getNotificationList' 	=> getNotificationList($user->_id)
@@ -1124,14 +1124,14 @@ class UserEngine extends BaseEngine
 					//check show like feature return true
 					if ($showLikeNotification) {
 						//notification log message
-						notificationLog('Profile liked by'.' '.$loggedInUserFullName, route('user.profile_view', ['username' => $loggedInUserName]), null, $user->_id);
+						notificationLog($loggedInUserFullName.' '.'liked profile', route('user.profile_view', ['username' => $loggedInUserName]), null, $user->_id,getUserID());
 
 						//push data to pusher
 						PushBroadcast::notifyViaPusher('event.user.notification' ,[
 							'type'    				=> 'user-likes',
 							'userUid' 				=> $user->_uid,
 							'subject' 				=> __tr('User liked successfully'),
-							'message' 				=> __tr('Profile liked by').' '.$loggedInUserFullName,
+							'message' 				=> $loggedInUserFullName.' '.__tr('liked profile'),
 							'messageType' 			=> 'success',
 							'showNotification' 		=> getUserSettings('show_like_notification', $user->_id),
 							'getNotificationList' 	=> getNotificationList($user->_id)
@@ -1536,7 +1536,7 @@ class UserEngine extends BaseEngine
 					//loggedIn user name
 					$loggedInUserName = Auth::user()->first_name.' '.Auth::user()->last_name;
 					//notification log message
-					notificationLog('Gift send by'.' '.$loggedInUserName, route('user.profile_view', ['username' => Auth::user()->username]), null, $user->_id);
+					/*notificationLog('Gift send by'.' '.$loggedInUserName, route('user.profile_view', ['username' => Auth::user()->username]), null, $user->_id);*/
 
 					//push data to pusher
 					PushBroadcast::notifyViaPusher('event.user.notification' ,[

@@ -9149,3 +9149,12 @@ input[type=submit] {
 .lw-dot {
 margin: 6px 2px;
 }
+
+.lw-messenger .lw-messenger-header {
+  width: 97%;
+}
+
+.img-profile {
+  height: 2rem;
+  width: 2rem;
+}

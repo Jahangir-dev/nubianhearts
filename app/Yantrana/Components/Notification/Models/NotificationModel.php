@@ -8,6 +8,7 @@
 namespace App\Yantrana\Components\Notification\Models;
 
 use App\Yantrana\Base\BaseModel;
+use App\Yantrana\Components\User\Models\UserProfile;
 
 class NotificationModel extends BaseModel
 {
@@ -28,4 +29,9 @@ class NotificationModel extends BaseModel
      * @var array - The attributes that are mass assignable.
      */
     protected $fillable = ['status', 'users__id', 'message', 'action', 'is_read'];
+
+     public function profile()
+    {
+        return $this->hasMany(UserProfile::class, 'users__id', 'from_users_id');
+    }
 }

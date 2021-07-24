@@ -36,7 +36,7 @@ class NotificationEngine extends BaseEngine
     public function prepareNotificationList()
     {
 		$notificationCollection = $this->notificationRepository->fetchNotificationListData();
-
+        
         $requireColumns = [
             '_id',
             '_uid',
@@ -45,6 +45,23 @@ class NotificationEngine extends BaseEngine
             },
             'formattedCreatedAt' => function($pageData) {
                 return formatDateTime($pageData['created_at']);
+            },
+            'picture' => function($pageData) {
+                if(count($pageData['profile']) > 0){
+                    if ($pageData['profile'][0]['profile_picture']) {
+                            $profileImageFolderPath = getPathByKey('profile_photo', ['{_uid}' => $pageData['profile'][0]['_uid']]);
+                            $userImageUrl = getMediaUrl($profileImageFolderPath, $pageData['profile'][0]['profile_picture']);
+                            if (!file_exists($userImageUrl))
+                            {
+                                $userImageUrl = noThumbImageURL();
+                            }
+                        } else {
+                            $userImageUrl = noThumbImageURL();
+                        }
+                    } else {
+                         $userImageUrl = noThumbImageURL();
+                    }
+                return $userImageUrl;
             },
 			'is_read',
 			'action',

@@ -16,8 +16,8 @@ return [
 	'items' => [
 		'notification' => [
 			// Receive Notification method
-            'show_visitor_notification'  => [
-                'key'           => 'show_visitor_notification',
+            'show_profile_notification'  => [
+                'key'           => 'show_profile_notification',
                 'data_type'     => 2,    // boolean
                 'default'       => true,
 			],

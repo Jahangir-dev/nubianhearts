@@ -150,6 +150,9 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
                     }
                 }
 
+                if (file_exists($profilePictureUrl)){
+                    $profilePictureUrl = noThumbImageURL();
+                }
                 $userAuthInfo = [
                     'authorization_token' => $authenticationToken,
                     'authorized'          => true,
@@ -790,11 +793,12 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
     * @return void.
     *-------------------------------------------------------- */
     if (!function_exists('notificationLog')) {
-        function notificationLog($message, $action, $isRead, $userId)
+        function notificationLog($message, $action, $isRead, $userId,$byUserId)
 		{
 			NotificationLog::create([
 				'status'	=> 1,
 				'users__id' => $userId,
+                'from_users_id' => $byUserId,
 				'message' 	=> $message,
 				'action' 	=> $action,
 				'is_read' 	=> $isRead

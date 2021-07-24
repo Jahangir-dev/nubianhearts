@@ -27,5 +27,9 @@ class NotificationLog extends BaseModel
     /**
      * @var array - The attributes that are mass assignable.
      */
-    protected $fillable = ['status', 'users__id', 'message', 'action', 'is_read'];
+    protected $fillable = ['status','from_users_id', 'users__id', 'message', 'action', 'is_read'];
+     public function userProfile()
+    {
+        return $this->hasMany(User::class, '_id', 'from_users__id');
+    }
 }

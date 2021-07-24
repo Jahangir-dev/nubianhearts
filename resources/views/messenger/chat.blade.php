@@ -23,9 +23,7 @@
                         <a href="#" class="list-group-item list-group-item-action lw-ajax-link-action lw-user-chat-list" data-action="<?= route('user.read.user_conversation', ['userId' => $messengerUser['user_id']]) ?>" id="<?= $messengerUser['user_id'] ?>" data-callback="userChatResponse">
                             @if($messengerUser['is_online'] == 1)
                                 <span class="lw-contact-status lw-online"></span>
-                            @elseif($messengerUser['is_online'] == 2)
-                                <span class="lw-contact-status lw-away"></span>
-                            @elseif($messengerUser['is_online'] == 3) 
+                            @else
                                 <span class="lw-contact-status lw-offline"></span>
                             @endif
                             
@@ -34,6 +32,8 @@
                             <span class="badge badge-pill badge-success lw-incoming-message-count-<?= $messengerUser['user_id'] ?>"></span>
                         </a>
                     @endforeach
+                @else
+                    <center><a href="<?= route('user.read.find_matches') ?>" class="btn btn-primary col-md-4 mt-5">Browse</a></center>
                 @endif
                 <!-- /Check if messenger users exists -->
             </div>

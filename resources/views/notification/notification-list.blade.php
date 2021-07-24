@@ -14,6 +14,53 @@
 	<span class="text-primary"><i class="far fa-bell"></i></span> <?= __tr('Notifications') ?></h5>
 </div>
 
+<div class="card mb-4">
+	<div class="card-body">
+		<!-- Notification Setting Form -->
+		<form class="lw-ajax-form lw-form" method="post" action="<?= route('user.write.setting', ['pageType' => 'notification']) ?>">
+			<div class="row">
+				<div class="col-sm-6 mb-2">
+					<!-- Show Visitor Notification field -->
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="hidden" name="show_profile_notification" value="false">
+						<input type="checkbox" class="custom-control-input" id="lwShowVisitorNotify" name="show_profile_notification" value="true" <?= $userSettingData['show_profile_notification'] == true ? 'checked' : '' ?>>
+						<label class="custom-control-label" for="lwShowVisitorNotify"><?=  __tr( 'Profile View Notification' )  ?></label>
+					</div>
+					<!-- / Show Visitor Notification field -->
+				</div>
+				<div class="col-sm-6">
+					<!-- Show Profile Like Notification field -->
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="hidden" name="show_like_notification" value="false">
+						<input type="checkbox" class="custom-control-input" id="lwShowLikeNotify" name="show_like_notification" value="true" <?= $userSettingData['show_like_notification'] == true ? 'checked' : '' ?>>
+						<label class="custom-control-label" for="lwShowLikeNotify">
+		                    <?=  __tr( 'Likes Notification' )  ?> 
+		                </label>
+					</div>
+					<!-- / Show Profile Like Notification field -->
+				</div>
+				
+				<div class="col-sm-6">
+					<!-- Show Messages Notification field -->
+					<div class="custom-control custom-checkbox custom-control-inline">
+						<input type="hidden" name="show_message_notification" value="false">
+						<input type="checkbox" class="custom-control-input" id="lwShowMessageNotify" name="show_message_notification" value="true" <?= $userSettingData['show_message_notification'] == true ? 'checked' : '' ?>>
+						<label class="custom-control-label" for="lwShowMessageNotify"><?=  __tr( ' Messages Notification' )  ?></label>
+					</div>
+					<!-- / Show Messages Notification field -->
+				</div>
+				
+			</div>
+			
+			<!-- Update Button -->
+			<a href class="lw-ajax-form-submit-action btn btn-primary btn-user lw-btn-block-mobile mt-3 btn-sm">
+				<?= __tr('Update') ?>
+			</a>
+			<!-- /Update Button -->
+		</form>
+	</div>
+</div>
+
  <!-- Start of Notification Wrapper -->
 <div class="card mb-4">
 	<div class="card-body">
@@ -33,7 +80,7 @@
 <!-- Notification Msg Action Column -->
 <script type="text/_template" id="notificationMsgActionTemplate">
 <!-- Notification Msg link -->
-<%= __tData.message %> <a href="<%= __tData.action %>"><i class="fas fa-user-circle"></i></a> 
+<a href="<%= __tData.action %>"><img class="img-profile rounded-circle" src="<%= __tData.picture %>"></a> <%= __tData.message %>  
 <!-- /Notification Msg link -->
 </script>
 <!-- Notification Msg Action Column -->

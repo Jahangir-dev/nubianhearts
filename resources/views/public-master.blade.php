@@ -19,7 +19,7 @@
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column lw-page-bg">
                
-            <div id="content">
+            <div id="content" class="mt-3">
 
                 <!-- Begin Page Content -->
                 <div class="lw-page-content">
