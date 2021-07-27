@@ -34,6 +34,9 @@
             <a class="list-group-item list-group-item-action <?= $pageType == 'payment' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'payment']) ?>"><?= __tr('Payment Gateways') ?></a>
 			<!-- /Payment Settings -->
 			
+			<!-- Social Login Settings -->
+            <a class="list-group-item list-group-item-action <?= $pageType == 'social-login' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'social-login']) ?>"><?= __tr('Social Logins') ?></a>
+			<!-- /Social Login Settings -->
 			
 			<!-- Integration Settings -->
             <a class="list-group-item list-group-item-action <?= $pageType == 'integration' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'integration']) ?>"><?= __tr('Integrations') ?></a>
@@ -43,11 +46,17 @@
             <a class="list-group-item list-group-item-action <?= $pageType == 'premium-plans' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'premium-plans']) ?>"><?= __tr('Premium Plans') ?></a>
 			<!-- /Premium Plans Settings -->
 			
+			<!-- Premium Features Settings -->
+            <a class="list-group-item list-group-item-action <?= $pageType == 'premium-feature' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'premium-feature']) ?>"><?= __tr('Features') ?></a>
+            <!-- /Premium Features Settings -->
 
             <!-- Email Settings -->
             <a class="list-group-item list-group-item-action <?= $pageType == 'email' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'email']) ?>"><?= __tr('Email') ?></a>
 			<!-- /Email Settings -->
 
+			<!-- Booster Settings -->
+            <a class="list-group-item list-group-item-action <?= $pageType == 'booster' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'booster']) ?>"><?= __tr('Booster') ?></a>
+			<!-- /Booster Settings -->
 
 			<!-- Advertisement Settings -->
             <a class="list-group-item list-group-item-action <?= $pageType == 'advertisement' ? 'active' : '' ?>" href="<?= route('manage.configuration.read', ['pageType' => 'advertisement']) ?>"><?= __tr('Advertisement') ?></a>

@@ -75,7 +75,7 @@ class UserEncounterEngine extends BaseEngine
 		
 		$randomUser = [];
 		//check user encounter feature enable or not
-		if (getFeatureSettings('user_encounter')) {
+		//if (getFeatureSettings('user_encounter')) {
 			//fetch encounter user daily view user count
 			$dailyEncounterCount	= getFeatureSettings('user_encounter', 'encounter_all_user_count');
 			$encounterSelectUser 	= getFeatureSettings('user_encounter', 'select_user');
@@ -84,15 +84,20 @@ class UserEncounterEngine extends BaseEngine
 			//total like or dislike and encounter user count
 			$totalEncounterCount = $userEncounterData->count() + $dailyUserLikeDislikeCount;
 			//check encounter select "All User (1)" then check total encounter count greater than daily encounter user count then don't show random users
-			if ($encounterSelectUser == 1 and $totalEncounterCount >= $dailyEncounterCount) {
-				//blank random users
-				$randomUser = [];
-			//else fetch random users
+			$time = freeTrial();
+			if( $time['free_trial'] == true){
+					$randomUser = $this->userEncounterRepository->fetchRandomUser($ignoreUserIds);				
 			} else {
-				//fetch random users
-				$randomUser = $this->userEncounterRepository->fetchRandomUser($ignoreUserIds);
+				if ($encounterSelectUser == 1 and $totalEncounterCount >= $dailyEncounterCount) {
+					//blank random users
+					$randomUser = [];
+				//else fetch random users
+				} else {
+					//fetch random users
+					$randomUser = $this->userEncounterRepository->fetchRandomUser($ignoreUserIds);
+				}
 			}
-		}
+		//}
 		
 		$randomUserData = [];
 		//check is not empty

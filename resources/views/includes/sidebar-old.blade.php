@@ -25,6 +25,18 @@
             <span><?= __tr( 'Pages' ) ?></span>
       </a>
    </li>
+   <li class="nav-item <?= makeLinkActive('manage.item.gift.view') ?>">
+      <a class="nav-link" href="<?= route('manage.item.gift.view') ?>">
+            <i class="fas fa fa-gift"></i>
+            <span><?= __tr( 'Gifts' ) ?></span>
+      </a>
+   </li>
+   <li class="nav-item <?= makeLinkActive('manage.item.sticker.view') ?>">
+      <a class="nav-link" href="<?= route('manage.item.sticker.view') ?>">
+            <i class="fas fa fa-sticky-note"></i>
+            <span><?= __tr( 'Stickers' ) ?></span>
+      </a>
+   </li>
    <li class="nav-item <?= makeLinkActive('manage.credit_package.read.list') ?>">
       <a class="nav-link" href="<?= route('manage.credit_package.read.list') ?>">
             <i class="fas fa-box"></i>
@@ -61,10 +73,16 @@
             <span><?= __tr('Financial Transactions') ?></span>
       </a>
    </li>
-    <li class="nav-item <?= makeLinkActive('manage.translations.languages') ?>">
+   <li class="nav-item <?= makeLinkActive('manage.translations.languages') ?>">
         <a class="nav-link" href="<?= route('manage.translations.languages') ?>">
             <i class="fas fa-language"></i>
             <span><?= __tr('Languages') ?></span>
+        </a>
+    </li>
+   <li class="nav-item <?= makeLinkActive('manage.fake_users.read.generator_options') ?>">
+        <a class="nav-link" href="<?= route('manage.fake_users.read.generator_options') ?>">
+            <i class="fas fa-user-plus"></i>
+            <span><?= __tr('Generate Fake Users') ?></span>
         </a>
     </li>
     <li class="nav-item">

@@ -46,14 +46,6 @@
 						</div>
                         <!-- /Username -->
                     </div>
-                    <div class="form-group row">
-                        <!-- Mobile Number -->
-						<div class="col-sm-6">
-							<label for="lwMobileNumber"><?= __tr('Mobile Number') ?></label>
-							<input type="text" class="form-control form-control-user" name="mobile_number" id="lwMobileNumber" value="<?= $userData['mobile_number'] ?>" required maxlength="15">
-						</div>
-                        <!-- /Mobile Number -->
-					</div>
                     <!-- status field -->
                     <div class="form-group row">
                         <div class="col-sm-6 mb-3 mb-sm-0">

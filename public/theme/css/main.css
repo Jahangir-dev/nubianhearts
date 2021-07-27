@@ -8910,12 +8910,18 @@ input[type=submit] {
    color:  #000 !important;
 }
 
+.sidebar-dark .nav-item:hover {
+   box-shadow: 0 .125rem .25rem rgba(0,0,0,.075)!important;
+    background-color: #c9b9e9;
+}
+
 .sidebar-dark hr.sidebar-divider {
   border-top: 1px solid #000 !important;
 }
 
 .btn {
   background-color: #5650ce !important;
+  color: white;
 }
 
 .text-gray-200 {
