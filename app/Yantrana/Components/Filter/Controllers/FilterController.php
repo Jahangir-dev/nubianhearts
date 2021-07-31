@@ -48,6 +48,7 @@ class FilterController extends BaseController
                 $this->replaceView('filter.find-matches', $processReaction['data'])
             );
         } else {
+            //dd($processReaction['data']);
             return $this->loadPublicView('filter.filter', $processReaction['data']);
         }
     }

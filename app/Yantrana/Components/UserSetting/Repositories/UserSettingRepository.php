@@ -347,6 +347,7 @@ class UserSettingRepository extends BaseRepository
                         }
                         
                         $userSpecifications = $this->getUserSpecificationConfig();
+
                         $checkKeysInDb = [];
                         foreach ($userSpecifications['groups'] as $specifications) {
                             foreach ($specifications['items'] as $itemKey => $item) {
@@ -355,33 +356,57 @@ class UserSettingRepository extends BaseRepository
                                 }
                             }
                         }
-
+                        
                         $userProfileColumns = [
                             'language',
                             'relationship_status',
                             'work_status',
-                            'education'
+                            'education',
+                            'username',
+                            'countries__id ',
+                            'city',
+                            'state'
                         ];
                         
                         if (!__isEmpty($filterData)) {
                             foreach($filterData as $specKey => $specValue) {
                                 if (!__isEmpty($specValue)) {
-                                    if (is_array($specValue)) {
+                                    if (in_array($specKey, $userProfileColumns) && !__isEmpty($specKey)) {
                                         if (in_array($specKey, $userProfileColumns)) {
                                             if ($specKey == 'language') {
                                                 $searchQuery->whereIn('user_profiles.preferred_language', $specValue);
+                                            }
+                                            elseif ($specKey == 'username' && !__isEmpty($specKey)) {
+                                                $specValue = array($specValue);
+                                                $searchQuery->whereIn($specKey, $specValue);
                                             } else {
-                                                $searchQuery->whereIn('user_profiles.'.$specKey, $specValue);
+                                                if($specKey == '')
+                                                {
+                                                    $searchQuery->whereIn('user_profiles.'.$specKey, $specValue);
+                                                }
                                             }                                                
-                                        } else { 
-                                            if (in_array($specKey, $checkKeysInDb)) {
+                                        }
+                                    } elseif (in_array($specKey, $checkKeysInDb) && !__isEmpty($specKey)) {
+
                                                 $searchQuery->whereHas('user_specifications',function($q) use($specKey, $specValue) {
+                                                        if( strpos($specValue, ',') !== false )
+                                                        {
+                                                            $specValue = trim($specValue,"''");
+                                                            $specValue = explode(',', $specValue);
+                                                        } 
+                                                    //dd($specKey,$specValue);
+                                                        if(is_array($specValue))
+                                                        {
                                                         $q->where('user_specifications.specification_key', $specKey)
                                                         ->whereIn('user_specifications.specification_value', array_keys($specValue));
+
+                                                    }else {
+                                                        $specValue = trim($specValue,"''");
+                                                        $q->where('user_specifications.specification_key', $specKey)
+                                                        ->where('user_specifications.specification_value', $specValue);
+                                                    }
                                                 });
-                                            }
-                                        }
-                                    } elseif (isset($filterData['min_height']) and isset($filterData['max_height']) and !__isEmpty($filterData['min_height']) and !__isEmpty($filterData['max_height'])) {
+                                    }elseif (isset($filterData['min_height']) && isset($filterData['max_height']) && !__isEmpty($filterData['min_height']) && !__isEmpty($filterData['max_height'])) {
                                         $searchQuery->where(function($heightQuery) use($filterData) {
                                             $heightQuery->where('user_specifications.specification_key', 'height')
                                                     ->whereBetween('user_specifications.specification_value', [
@@ -390,17 +415,17 @@ class UserSettingRepository extends BaseRepository
                                                     ]);
                                         });
                                     } else {
-                                        if (in_array($specKey, $checkKeysInDb)) {
+                                        /*if (in_array($specKey, $checkKeysInDb)) {
                                             $searchQuery->where([
                                                 'specification_key' => $specKey,
                                                 'specification_value' => $specValue
                                             ]);
-                                        }
+                                        }*/
                                     }
                                 }
                             }
 						};
-					
+					   //dd($searchQuery->get());
                         return $searchQuery->latest('profileBoostCreatedAt')
                         ->latest('premiumUserCreatedAt')
                         ->latest('user_profiles.updated_at')          

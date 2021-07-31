@@ -9164,3 +9164,57 @@ margin: 6px 2px;
   height: 2rem;
   width: 2rem;
 }
+
+.lw-expand-filter {
+  height: auto;
+}
+
+.lw-advance-filter-container {
+  border: 1px solid #73737d;
+  padding-bottom: 0;
+  overflow: visible;
+}
+
+.select2-container .select2-selection {
+    height: 60px;
+    overflow: scroll;
+} 
+
+.multiselect-container { max-height: 50rem; overflow: auto }
+
+.custom-select {
+  width: 19rem;
+  padding-left: 0;
+    -webkit-appearance: none;
+    -webkit-border-radius: 0;
+    -moz-appearance: none;
+    background-position: right 50%;
+    background-repeat: no-repeat;
+    padding-right: 1.5em;
+    border: 0;
+    border-bottom: 1px solid #3d3b48;
+    margin-top: 4px;
+    text-align: inherit;
+}
+
+.radioInput {
+  width: 20px;
+  position: absolute;
+}
+.radio-inline {
+  font-size: 11px;
+}
+
+.radioText {
+  vertical-align: middle;
+    position: relative;
+    margin-left: 2rem;
+    top: 12px;
+}
+
+.selectCustom {
+  border: 0; 
+  border-bottom: 1px solid #3d3b48;
+  margin-top: 4px;
+  text-align: inherit;
+}

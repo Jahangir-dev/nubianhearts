@@ -21,7 +21,7 @@
     $lookingFor = getUserSettings('looking_for');
     $minAge = getUserSettings('min_age');
     $maxAge = getUserSettings('max_age');
-
+   //dd($inputData);
     if (request()->session()->has('userSearchData')) {
         $userSearchData = session('userSearchData');
         $lookingFor = $userSearchData['looking_for'];
@@ -30,12 +30,13 @@
     }
 ?>
 <!-- Page Heading -->
+ <form class="" action="<?= route('user.read.find_matches') ?>">
 <div class="card lw-find-form-container mb-4 ">
-    <div class="card-body">
-    <form class="form-inline mr-auto" data-show-processing="true" action="<?= route('user.read.find_matches') ?>">
-            <!-- Looking For -->
+    <div class="card-body row">
+        <div class="col-2">
+             <!-- Looking For -->
             <div class="lw-looking-for-container lw-basic-filter-field">
-                <label for="lookingFor"><?= __tr('Looking For') ?></label>
+                <label for="lookingFor"><?= __tr("I'm looking for") ?></label>
                 <select name="looking_for" class="form-control" id="lookingFor">
                     <option value="all"><?= __tr('All') ?></option>
                     @foreach(configItem('user_settings.gender') as $genderKey => $gender)
@@ -44,25 +45,45 @@
                 </select>
             </div>
             <!-- /Looking For -->
-            <!-- Age between -->
-            <div class="lw-age-between-container lw-basic-filter-field">
-                <label for="minAge"><?= __tr('Age Between') ?></label>
-                <select name="min_age" class="form-control" id="minAge">
-                    @foreach(range(18,70) as $age)
-                        <option value="<?= $age ?>" <?= (request()->min_age == $age or $age == $minAge) ? 'selected' : '' ?>><?= __tr('__translatedAge__', [
-                            '__translatedAge__' => $age
-                        ]) ?></option>
-                    @endforeach
-                </select>
-                <select name="max_age" class="form-control" id="maxAge">
-                    @foreach(range(18,70) as $age)
-                        <option value="<?= $age ?>" <?= (request()->max_age == $age or $age == $maxAge) ? 'selected' : '' ?>><?= __tr('__translatedAge__', [
-                            '__translatedAge__' => $age
-                        ]) ?></option>
-                    @endforeach
-                </select>
+        </div>
+        <div class="col-3">
+             <!-- Age between -->
+            <div class="lw-age-between-container row lw-basic-filter-field">
+                <div class="col-6">
+                    <label for="minAge"><?= __tr('Aged') ?></label>
+                    <select name="min_age" class="form-control" id="minAge">
+                        @foreach(range(18,70) as $age)
+                            <option value="<?= $age ?>" <?= (request()->min_age == $age or $age == $minAge) ? 'selected' : '' ?>><?= __tr('__translatedAge__', [
+                                '__translatedAge__' => $age
+                            ]) ?></option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="col-6">
+                    <label for="minAge"><?= __tr('') ?></label>
+                    <select name="max_age" class="form-control mt-1" id="maxAge">
+                        @foreach(range(18,70) as $age)
+                            <option value="<?= $age ?>" <?= (request()->max_age == $age or $age == $maxAge) ? 'selected' : '' ?>><?= __tr('__translatedAge__', [
+                                '__translatedAge__' => $age
+                            ]) ?></option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <!-- /Age between -->
+        </div>
+        <div class="col-2">
+            <label for="" class="w-100">Located</label>
+            <div class="col-12" style="margin-top: -18px; margin-left: -18px;">
+                <label class="radio-inline mb-0">
+                <input type="radio" name="locationButton" class="radioInput"  value="distance" @if(isset($inputData['countries__id']) && __isEmpty($inputData['countries__id'])) checked @endif>
+                <span class="radioText">Near me</span></label>
+                <label class="radio-inline mb-0">
+                <input type="radio" name="locationButton" class="radioInput" @if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id'])) checked @endif  value="city">
+                <span class="radioText">Country and city</span></label>
+            </div>
+        </div>
+        <div class="col-4 distance box" @if(isset($inputData['countries__id']) && __isEmpty($inputData['countries__id'])) style="display:block;" @else style="display:none" @endif>
             <!-- Distance from my location -->
             <div class="lw-distance-location-container lw-basic-filter-field">
                 <label class="justify-content-start" for="distance"><?= __tr('Distance in __distanceUnit__', ['__distanceUnit__' =>( getStoreSettings('distance_measurement') == '6371') ? 'KM' : 'Miles']) ?></label>
@@ -70,13 +91,41 @@
                 value="<?= (request()->distance != null) ? request()->distance : getUserSettings('distance') ?>" placeholder="<?= __tr('Anywhere') ?>">
             </div>
             <!-- /Distance from my location -->
-            <div class="lw-basic-filter-footer-container lw-basic-filter-field">
-                <button type="submit" class="btn btn-primary"><?= __tr('Search') ?></button>
-                <a href class="btn btn-secondary" style="<?= !__isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?>" id="lwShowAdvanceFilterLink"><i class="fas fa-filter"></i> <?= __tr('Show Advance Filter') ?></a>
-                <a href class="btn btn-secondary" style="<?= __isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?>" id="lwHideAdvanceFilterLink"><i class="fas fa-filter"></i> <?= __tr('Hide Advance Filter') ?></a>
+        </div>
+        <div class="col-5 city box" @if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id'])) style="display:block;" @else style="display:none" @endif >
+                <div class="row ">
+                    <div class="col-4">
+                            <label>Select Country</label>
+                        <select class="form-control selectCustom " name="countries__id" id="country">
+                             @foreach($userSpecifications['groups']['background']['items']['nationality']['options'] as $key => $nation)
+                                    <option @if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id']) && $inputData['countries__id'] == $key ) selected @endif  value="<?= $key ?>"><?= $nation ?></option>
+                                @endforeach
+                        </select>
+                    </div>
+                     <div class="col-4">
+                        <label>Select State</label>
+                        <select class="form-control selectCustom" name="state" id="state"></select>
+                    </div>
+                     <div class="col-4">
+                        <label>Select City</label>
+                        <select class="form-control selectCustom" name="city" id="citySave"></select>
+                    </div>
+                </div>
+        </div>
+        <div class="col-12">
+            <!-- /Distance from my location -->
+            <div class="row mt-2">
+                <div class="col-2">
+                    <button type="submit" class="btn btn-primary"><?= __tr('Search') ?></button>
+                </div>
+                <div class="col-4">
+                    <a href class="btn btn-secondary" style="<?= !__isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwShowAdvanceFilterLink" ><i class="fas fa-filter"></i> <?= __tr('Show Advance Filter') ?></a>
+                    <a href class="btn btn-secondary" style="<?= __isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwHideAdvanceFilterLink"><i class="fas fa-filter"></i> <?= __tr('Hide Advance Filter')  ?></a>
+                </div>
             </div>
-        </form>
-</div>
+            
+        </div>
+    </div>
 </div>
 
 <!-- Found matches container -->
@@ -85,156 +134,226 @@
         <div class="lw-filter-message text-secondary">
         </div>
         <!-- Tabs for advance filter -->
-        <div class="lw-advance-filter-tabs">
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
-                <!-- Personal Tab -->
-                <li class="nav-item">
-                    <a class="nav-link active" id="personal-tab" data-toggle="tab" href="#personal" role="tab" aria-controls="personal" aria-selected="true">
-                        <i class="fas fa-info-circle"></i> <?= __tr('Personal') ?>
-                    </a>
-                </li>
-                <!-- /Personal Tab -->
-                @foreach($userSpecifications['groups'] as $specKey => $specification)
-                    @if($specKey != 'favorites')
-                    <li class="nav-item">
-                        <a class="nav-link" id="<?= $specKey ?>-tab" data-toggle="tab" href="#<?= $specKey ?>" role="tab" aria-controls="<?= $specKey ?>" aria-selected="false">
-                            <?= $specification['title'] ?>
-                        </a>
-                    </li>
-                    @endif
-                @endforeach
-            </ul>
-            <form class="" action="<?= route('user.read.find_matches') ?>">
-                <div class="tab-content" id="lwAdvanceFilterTabContent">
-                    <input type="hidden" name="is_advance_filter" value="yes">
-                    <!-- Hidden field of basic filter -->
-                    <input type="hidden" name="looking_for" value="<?= (!__isEmpty(request()->looking_for)) ? request()->looking_for : getUserSettings('looking_for') ?>">
-                    <input type="hidden" name="min_age" value="<?= (!__isEmpty(request()->min_age)) ? request()->min_age : getUserSettings('min_age') ?>">
-                    <input type="hidden" name="max_age" value="<?= (!__isEmpty(request()->max_age)) ? request()->max_age : getUserSettings('max_age') ?>">
-                    <input type="hidden" name="distance" value="<?= (!__isEmpty(request()->distance)) ? request()->distance : getUserSettings('distance') ?>">
-                    <!-- /Hidden field of basic filter -->
-
-                    <!-- Personal Tab Content -->
-                    <div class="tab-pane fade show active" id="personal" role="tabpanel" aria-labelledby="personal-tab">
-                        <div class="lw-specification-sub-heading">
-                            <?= __tr('Language') ?>
+        
+                <div class="row p-2">
+                        <div class="col-4">
+                            <label for="user_name">Search with username</label>
+                            <input type="text" name="username" class="form-control" style="border: 0; border-bottom: 1px solid #3d3b48;margin-top: 4px;text-align: inherit; width:19rem;"  value="@if(isset($inputData['username']) && !__isEmpty($inputData['username'])  ) <?=$inputData['username']?> @endif">
                         </div>
-                        <!-- Language -->
-                        <div class="row">
-                            @foreach($userSettings['preferred_language'] as $langKey => $language)
-                            <div class="col-sm-12 col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="language[<?= $langKey  ?>]" name="language[<?= $langKey  ?>]" value="<?= $langKey  ?>" <?= (!__isEmpty(request()->language) and array_key_exists($langKey, request()->language)) ? 'checked' : '' ?>>
-                                    <label class="custom-control-label" for="language[<?= $langKey  ?>]"><?= $language ?></label>
-                                </div>
-                            </div>
-                            @endforeach
+                        <div class="col-4">
+                            <label for="relationship_status"><?= __tr('Relationship looking for') ?></label>
+                            <input type="hidden" id="for_relationship_status" name="martial_status" value="">
+                            <select id="relationship_status" class="form-control col-4" multiple="multiple" style="position:relative !important;">
+                                <option @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'friendship' ) selected @endif value="friendship">Friendship</option>
+                                <option  @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'dating' ) selected @endif value="dating">Dating</option>
+                                <option  @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'marriage' ) selected @endif value="marriage">Marriage</option>
+                                <option  @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'penpal' ) selected @endif value="penpal">Penpal</option>
+                            </select>
                         </div>
-                        <!-- /Language -->
-                        <!-- Relationship Status -->
-                        <div class="lw-specification-sub-heading">
-                            <?= __tr('Relationship Status') ?>
-                        </div>
-                        <div class="row">
-                            @foreach($userSettings['relationship_status'] as $relStatusKey => $relationship)
-                            <div class="col-sm-12 col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="relationship_status[<?= $relStatusKey  ?>]" name="relationship_status[<?= $relStatusKey  ?>]" value="<?= $relStatusKey  ?>" <?= (!__isEmpty(request()->relationship_status) and array_key_exists($relStatusKey, request()->relationship_status)) ? 'checked' : '' ?>>
-                                    <label class="custom-control-label" for="relationship_status[<?= $relStatusKey  ?>]"><?= $relationship ?></label>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <!-- /Relationship Status -->
-                        
-                        <!-- Work Status -->
-                        <div class="lw-specification-sub-heading">
-                            <?= __tr('Work Status') ?>
-                        </div>
-                        <div class="row">
-                            @foreach($userSettings['work_status'] as $workStatusKey => $workStatus)
-                            <div class="col-sm-12 col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="work_status[<?= $workStatusKey  ?>]" name="work_status[<?= $workStatusKey  ?>]" value="<?= $workStatusKey  ?>" <?= (!__isEmpty(request()->work_status) and array_key_exists($workStatusKey, request()->work_status)) ? 'checked' : '' ?>>
-                                    <label class="custom-control-label" for="work_status[<?= $workStatusKey  ?>]"><?= $workStatus ?></label>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <!-- /Work Status -->
-                        
-                        <!-- Education -->
-                        <div class="lw-specification-sub-heading">
-                            <?= __tr('Education') ?>
-                        </div>
-                        <div class="row">
-                            @foreach($userSettings['educations'] as $educationKey => $education)
-                            <div class="col-sm-12 col-md-4">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" class="custom-control-input" id="education[<?= $educationKey  ?>]" name="education[<?= $educationKey  ?>]" value="<?= $educationKey  ?>" <?= (!__isEmpty(request()->education) and array_key_exists($educationKey, request()->education)) ? 'checked' : '' ?>>
-                                    <label class="custom-control-label" for="education[<?= $educationKey  ?>]"><?= $education ?></label>
-                                </div>
-                            </div>
-                            @endforeach
-                        </div>
-                        <!-- /Education -->
-                    </div>
-                    <!-- /Personal Tab Content -->
-                    <!-- Other Tab Content -->
-                    @foreach($userSpecifications['groups'] as $specKey => $specifications)
-                    @if($specKey != 'favorites')
-                        <div class="tab-pane fade" id="<?= $specKey ?>" role="tabpanel" aria-labelledby="<?= $specKey ?>-tab">
-                            @foreach(collect($specifications['items'])->chunk(3) as $specification)
-                                @foreach($specification as $itemKey => $item)
-                                    @if($item['input_type'] == 'select')
-                                        @if($itemKey == 'height')
-                                            <div class="lw-specification-sub-heading">
-                                                <?= $item['name'] ?>
-                                            </div>
-                                            <div class="lw-specification-select-box">
-                                                <select name="min_height" class="form-control" id="min_height">
-                                                <option value="" selected><?= __tr('Select Min Height') ?></option>
-                                                @foreach($item['options'] as $optionKey => $option)
-                                                    <option value="<?= $optionKey ?>" <?= (request()->min_height == $optionKey) ? 'selected'  : '' ?>><?= $option ?></option>
-                                                @endforeach
-                                                </select>
-                                                <select name="max_height" class="form-control" id="max_height">
-                                                <option value="" selected><?= __tr('Select Max Height') ?></option>
-                                                @foreach($item['options'] as $optionKey => $option)
-                                                    <option value="<?= $optionKey ?>" <?= (request()->max_height == $optionKey) ? 'selected'  : '' ?>><?= $option ?></option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        @else
-                                            <div class="lw-specification-sub-heading">
-                                                <?= $item['name'] ?>
-                                            </div>
-                                            <div class="row">
-                                            @foreach($item['options'] as $optionKey => $option)
-                                            <div class="col-sm-12 col-md-4">
-                                                <div class="custom-control custom-checkbox">
-                                                    <input type="checkbox" class="custom-control-input" id="<?= $itemKey ?>[<?= $optionKey  ?>]" name="<?= $itemKey ?>[<?= $optionKey ?>]" <?= (!__isEmpty(request()->$itemKey) and array_key_exists($optionKey, request()->$itemKey)) ? 'checked' : '' ?>>
-                                                    <label class="custom-control-label" for="<?= $itemKey ?>[<?= $optionKey  ?>]"><?= $option ?></label>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                            </div>
-                                        @endif
-                                    @endif
+                    
+                        <div class="col-4">
+                            <label for="for_nationality"><?= __tr('Nationality')?></label>
+                            <input type="hidden" id="for_nationality" name="nationality" value="">
+                            <select id="looking_for_nationality" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['background']['items']['nationality']['options'] as $key => $nation)
+                                    <option  @if(isset($inputData['nationality']) && !__isEmpty($inputData['nationality']) && $inputData['nationality'] == $key ) selected @endif value="<?= $key ?>"><?= $nation ?></option>
                                 @endforeach
-                            @endforeach
+                            </select>
                         </div>
-                    @endif
-                    @endforeach
-                    <!-- /Other Tab Content -->                            
-                </div>
-                <div class="lw-search-button-container">
-                    <button type="submit" class="btn btn-primary btn-block-on-mobile"><?= __tr('Apply Filters') ?></button>
-                </div>
-            </form>
-        </div>
+                    </div>
+                    <div class="row p-2">
+                        <div class="col-4">
+                            <label for="for_ethnicity"><?= __tr('Ethnicity') ?></label>
+                            <input type="hidden" id="for_ethnicity" name="ethnicity" value="">
+                            <select id="looking_for_ethnicity" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['background']['items']['ethnicity']['options'] as $key => $ethencity)
+                                    <option @if(isset($inputData['ethnicity']) && !__isEmpty($inputData['ethnicity']) && $inputData['ethnicity'] == $key ) selected @endif value="<?= $key ?>"><?= $ethencity ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                       
+                        <div class="col-4">
+                            <label for="looking_for_best_feature"><?= __tr('Best feature') ?></label>
+                            <input type="hidden" id="for_best_feature" name="features" value="">
+                            <select id="looking_for_best_feature" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['looks']['items']['features']['options'] as $key => $feature)
+                                    <option @if(isset($inputData['features']) && !__isEmpty($inputData['features']) && $inputData['features'] == $key ) selected @endif value="<?= $key ?>"><?= $feature ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="col-4">
+                            <label for="looking_for_religion"><?= __tr('Religion') ?></label>
+                            <input type="hidden" id="for_religion" name="religion" value="">
+                            <select id="looking_for_religion" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['looks']['items']['religion']['options'] as $key => $religion)
+                                    <option @if(isset($inputData['religion']) && !__isEmpty($inputData['religion']) && $inputData['religion'] == $key ) selected @endif value="<?= $key ?>"><?= $religion ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="row p-2">
+                        <div class="col-4">
+                            <label for="looking_for_kids"><?= __tr('Do they have kids?') ?></label>
+                            <input type="hidden" id="for_kids" name="children" value="">
+                            <select id="looking_for_kids" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['children']['options'] as $key => $children)
+                                    <option @if(isset($inputData['children']) && !__isEmpty($inputData['children']) && $inputData['children'] == $key ) selected @endif value="<?= $key ?>"><?= $children ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="looking_for_living_situation"><?= __tr('Living situation') ?></label>
+                            <input type="hidden" id="for_living_situation" name="i_live_with" value="">
+                            <select id="looking_for_living_situation" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['i_live_with']['options'] as $key => $live)
+                                    <option @if(isset($inputData['i_live_with']) && !__isEmpty($inputData['i_live_with']) && $inputData['i_live_with'] == $key ) selected @endif value="<?= $key ?>"><?= $live ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="col-4">
+                            <label for="looking_for_occupation"><?= __tr('Occupation') ?></label>
+                            <input type="hidden" id="for_occupation" name="your_occupation" value="">
+                            <select id="looking_for_occupation" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['your_occupation']['options'] as $key => $occupation)
+                                    <option @if(isset($inputData['your_occupation']) && !__isEmpty($inputData['your_occupation']) && $inputData['your_occupation'] == $key ) selected @endif value="<?= $key ?>"><?= $occupation ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row p-2">
+                        <div class="col-4">
+                            <label for="looking_for_salary"><?= __tr('Annual Salary(USD)') ?></label>
+                            <select id="looking_for_salary" name="annual_income" class="form-control custom-select">
+                                <option value="">Select</option>
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['annual_income']['options'] as $key => $income)
+                                    <option @if(isset($inputData['annual_income']) && !__isEmpty($inputData['annual_income']) && $inputData['annual_income'] == $key ) selected @endif value="<?= $key ?>"><?= $income ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                        
+                        <div class="col-4">
+                            <label for="looking_for_education"><?= __tr('Education') ?></label>
+                            <input type="hidden" id="for_education" name="your_education" value="">
+                            <select id="looking_for_education" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['your_education']['options'] as $key => $education)
+                                    <option @if(isset($inputData['your_education']) && !__isEmpty($inputData['your_education']) && $inputData['your_education'] == $key ) selected @endif value="<?= $key ?>"><?= $education ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-4">
+                            <label for="looking_for_body"><?= __tr('Body Type') ?></label>
+                            <input type="hidden" id="for_body" name="body_type" value="">
+                            <select id="looking_for_body" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['looks']['items']['body_type']['options'] as $key => $type)
+                                    <option @if(isset($inputData['body_type']) && !__isEmpty($inputData['body_type']) && $inputData['body_type'] == $key ) selected @endif value="<?= $key ?>"><?= $type ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row p-2">
+                        <div class="col-4">
+                            <label for="looking_for_smoking"><?= __tr('Do they smoke?') ?></label>
+                            <input type="hidden" id="for_smoking" name="smoke" value="">
+                            <select id="looking_for_smoking" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['smoke']['options'] as $key => $smoke)
+                                    <option @if(isset($inputData['smoke']) && !__isEmpty($inputData['smoke']) && $inputData['smoke'] == $key ) selected @endif value="<?= $key ?>"><?= $smoke ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <label for="looking_for_alcohol"><?= __tr('Do they drink alcohol?') ?></label>
+                            <input type="hidden" id="for_alcohol" name="drink" value="">
+                            <select id="looking_for_alcohol" class="form-control" multiple="multiple" style="position:relative !important;">
+                                @foreach($userSpecifications['groups']['lifestyle']['items']['drink']['options'] as $key => $drink)
+                                    <option @if(isset($inputData['drink']) && !__isEmpty($inputData['drink']) && $inputData['drink'] == $key ) selected @endif value="<?= $key ?>"><?= $drink ?></option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="from_height"><?= __tr('Height From') ?></label>
+                                    <select class="form-control selectCustom" name="min_height">
+                                        <option value="">Select</option>
+                                        @foreach($userSpecifications['groups']['looks']['items']['height']['options'] as $key => $height)
+                                            <option @if(isset($inputData['min_height']) && !__isEmpty($inputData['min_height']) && $inputData['min_height'] == $key ) selected @endif value="<?= $key ?>"><?= $height ?></option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="to_height"><?= __tr('Height To') ?></label>
+                                    <select class="form-control selectCustom" name="max_height">
+                                        <option value="">Select</option>
+                                        @foreach($userSpecifications['groups']['looks']['items']['height']['options'] as $key => $height)
+                                            <option @if(isset($inputData['max_height']) && !__isEmpty($inputData['max_height']) && $inputData['max_height'] == $key ) selected @endif value="<?= $key ?>"><?= $height ?></option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row p-2">
+                       <div class="col-4">
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="from_weight"><?= __tr('Weight From') ?></label>
+                                    <select class="form-control selectCustom" name="from_weight">
+                                        <option value="">Select</option>
+                                        @foreach($userSpecifications['groups']['looks']['items']['weight']['options'] as $key => $weight)
+                                            <option @if(isset($inputData['from_weight']) && !__isEmpty($inputData['from_weight']) && $inputData['from_weight'] == $key ) selected @endif value="<?= $key ?>"><?= $weight ?></option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <label for="to_weight"><?= __tr('Weight To') ?></label>
+                                    <select class="form-control selectCustom" name="to_weight">
+                                    <option value="">Select</option>
+                                        @foreach($userSpecifications['groups']['looks']['items']['weight']['options'] as $key => $weight)
+                                            <option @if(isset($inputData['to_weight']) && !__isEmpty($inputData['to_weight']) && $inputData['to_weight'] == $key ) selected @endif value="<?= $key ?>"><?= $weight ?></option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="row p-2">
+                        <div class="col-sm-12 col-md-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="check1" name="online" @if(isset($inputData['online']) && !__isEmpty($inputData['online']) && $inputData['online'] == 'on' ) checked @endif value="">
+                                    <label class="custom-control-label" for="online">Online</label>
+                                </div>
+                            </div>
+                         <div class="col-sm-12 col-md-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="check2" name="photo" @if(isset($inputData['photo']) && !__isEmpty($inputData['photo']) && $inputData['photo'] == 'on' ) checked @endif value="">
+                                    <label class="custom-control-label" for="photo">Photo</label>
+                                </div>
+                            </div>
+                        <div class="col-sm-12 col-md-2">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="check3" name="new_member" @if(isset($inputData['new_member']) && !__isEmpty($inputData['new_member']) && $inputData['new_member'] == 'on' ) checked @endif value="">
+                                    <label class="custom-control-label" for="new_member">New Member</label>
+                                </div>
+                            </div>
+                        <div class="col-sm-12 col-md-2">
+                            <div class="custom-control">
+                                <button class="btn">Clear <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                <!--  -->
+            
         <!-- /Tabs for advance filter -->
     </div>
+        </form>
+
     <div class="alert alert-success">
 	<?= __trn('__filterCount__ Match Found','__filterCount__ Matches Found', $totalCount, ["__filterCount__" => $totalCount]) ?></div>
     <!-- /Advance Filter Options -->
@@ -280,5 +399,361 @@ $('#lwHideAdvanceFilterLink').on('click', function(e) {
     $('#lwHideAdvanceFilterLink').hide();
     // $('.lw-advance-filter-container').hide();
 });
+
+    $('#relationship_status').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#relationship_status option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_relationship_status').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#relationship_status option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_relationship_status').val(selected);
+            },
+    }); 
+    $('#looking_for_nationality').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_nationality option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_nationality').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_nationality option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_nationality').val(selected);
+            },
+    });
+    $('#looking_for_ethnicity').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_ethnicity option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_ethnicity').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_ethnicity option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_ethnicity').val(selected);
+            },
+        });
+
+    $('#looking_for_best_feature').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_best_feature option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_best_feature').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_best_feature option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_best_feature').val(selected);
+            },
+        });
+
+    $('#looking_for_religion').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_religion option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_religion').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_religion option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_religion').val(selected);
+            },
+        });
+
+    $('#looking_for_living_situation').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_living_situation option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_living_situation').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_living_situation option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_living_situation').val(selected);
+            },
+        });
+
+    $('#looking_for_kids').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_kids option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_kids').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_kids option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_kids').val(selected);
+            },
+        });
+
+    $('#looking_for_occupation').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_occupation option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_occupation').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_occupation option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_occupation').val(selected);
+            },
+        });
+
+    $('#looking_for_education').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_education option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_education').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_education option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_education').val(selected);
+            },
+        });
+
+    $('#looking_for_body').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_body option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_body').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_body option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_body').val(selected);
+            },
+        });
+
+    $('#looking_for_smoking').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_smoking option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_smoking').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_smoking option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_smoking').val(selected);
+            },
+        });
+
+    $('#looking_for_alcohol').multiselect({
+            includeSelectAllOption: true,
+            numberDisplayed: 1,
+            selectAllValue: 'multiselect-all',
+            onSelectAll: function(element, checked) {
+                var selected = [];
+                $('#looking_for_alcohol option:selected').each(function(index, brand) {
+                  selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_alcohol').val(selected);
+            },
+            onChange: function(element, checked) {
+                var brands = $('#looking_for_alcohol option:selected');
+                var selected = [];
+                $(brands).each(function(index, brand){
+                    selected.push(["'"+$(this).val()+"'"]);
+                });
+                $('#for_alcohol').val(selected);
+            },
+        });
+   $(document).ready(function(){
+    $('input[type="radio"]').click(function(){
+        var inputValue = $(this).attr("value");
+        var targetBox = $("." + inputValue);
+        $(".box").not(targetBox).hide();
+        $(targetBox).show();
+    });
+});
+<?php if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id'])){ ?>
+    getStates();
+<?php } ?>
+$('#country').change(getStates);
+    function getStates()
+    {
+        var country = $('#country').find(":selected").text();
+        var country_id = $('#country').find(":selected").val();
+        __DataRequest.post("<?= route('user.write.location_data') ?>", {
+            'get_state': country,
+            '_state': '',
+            'country_id':country_id,
+            'latitude':'',
+            'longitude':'',
+            '_city':''
+        }, function(responseData) {
+            var items = responseData.data.states;
+            if(items !== undefined)
+            {
+                $('#state').empty();
+                $('#citySave').empty();
+
+                $.each(items, function (i, item) {
+                    <?php if(isset($inputData['state']) && !__isEmpty($inputData['state'])){ ?>
+                        var state = <?=$inputData['state']?>;
+                        if(state === item.code)
+                        {
+                            $('#state').append($('<option selected value='+item.code+'>'+item.name+'</option>'));
+                        } else {
+                            $('#state').append($('<option>', { 
+                                value: item.code,
+                                text : item.name 
+                            }));
+                        }
+                    <?php } else { ?>
+                        $('#state').append($('<option>', { 
+                            value: item.code,
+                            text : item.name 
+                        }));
+                    <?php } ?>
+                });
+
+                <?php if(isset($inputData['city']) && !__isEmpty($inputData['city'])){ ?>
+                    setTimeout( function(){ 
+                     getCities();
+                    }  , 1000 );
+                <?php } ?>
+            }
+        });
+    } 
+    
+    $('#state').change(getCities);
+    function getCities() {
+        var state = $('#state').find(":selected").val();
+        var country = $('#country').find(":selected").text();
+        var country_id = $('#country').find(":selected").val();
+        __DataRequest.post("<?= route('user.write.location_data') ?>", {
+            'get_cities': state,
+            '_state': state,
+            'get_country': country,
+            '_country': country,
+            'country_id' : country_id,
+            'latitude':'',
+            'longitude':'',
+            '_city':''
+        }, function(responseData) {
+            var items = responseData.data.cities;
+            
+            if(items !== undefined)
+            {
+                
+                $('#citySave').empty();
+                $.each(items, function (i, item) {
+
+                   <?php if(isset($inputData['city']) && !__isEmpty($inputData['city'])){ ?>
+                        var city = <?=$inputData['city']?>;
+                        if(city === item.code)
+                        {
+                            $('#citySave').append($('<option selected value='+item.code+'>'+item.name+'</option>'));
+                        } else {
+                            $('#citySave').append($('<option>', { 
+                                value: item.code,
+                                text : item.name 
+                            }));
+                        }
+                    <?php } else { ?>
+                        $('#citySave').append($('<option>', { 
+                            value: item.code,
+                            text : item.name 
+                        }));
+                    <?php } ?>
+                });
+            }
+                
+            });
+    }
+    
+
 </script>
 @endpush

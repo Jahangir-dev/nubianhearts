@@ -1,5 +1,6 @@
 <!-- include header -->
 @include('includes.header')
+<?php $route = \Request::route()->getName();?>
 <!-- /include header -->
 <body id="page-top" class="lw-page-bg lw-public-master">
     <!-- include top bar -->
@@ -11,7 +12,7 @@
     <div id="wrapper" class="container-fluid">
          
         <!-- include sidebar -->
-        @if(isLoggedIn())
+        @if(isLoggedIn() && ($route !== "user.read.find_matches") && ($route !== "user.read.messenger"))
         @include('includes.public-sidebar')
         @endif
         <!-- /include sidebar -->

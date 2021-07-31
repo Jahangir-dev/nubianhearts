@@ -215,6 +215,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
         return $this->engineReaction(1, [
             'filterData'            => $filterData,
             'filterCount'           => count($filterData),
+            'inputData'             => $inputData,
             'userSettings'          => configItem('user_settings'),
             'userSpecifications'    => $this->getUserSpecificationConfig(),
             'nextPageUrl'           => $fullUrl.'&page='.$currentPage,

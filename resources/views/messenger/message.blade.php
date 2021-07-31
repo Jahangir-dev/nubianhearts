@@ -22,6 +22,5 @@
 @push('appScripts')
 <script type="text/javascript">
 	 getChatMessenger('<?= route('user.read.all_conversation') ?>', true);
-     $('#accordionSidebar').hide();
 </script>
 @endpush

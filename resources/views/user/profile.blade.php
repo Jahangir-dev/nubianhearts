@@ -343,9 +343,9 @@
 						</div>
 						<div class="form-group row">
 							<div class="col-sm-6 mb-3 mb-sm-0">
-								<label for="looking_for"><?= __tr('Seeking') ?></label>
-								<input type="hidden" id="seeking" name="seeking" value="">
-								<select id="example-getting-started" multiple="multiple">
+								<label for="seeking"><?= __tr('Seeking') ?></label>
+								<input type="hidden" id="seeking"  name="seeking" value="">
+								<select id="example-getting-started" class="form-control" multiple="multiple" style="position:relative !important;">
 								    <option value="friendship">Friendship</option>
 								    <option value="dating">Dating</option>
 								    <option value="marriage">Marriage</option>
@@ -841,6 +841,8 @@
 							<label for="description"><strong>food</strong></label>
 							<div class="lw-inline-edit-text" data-model="userProfileData.foods"><?= __ifIsset($userProfileData['foods'],str_replace("'",'',$userProfileData['foods']) ,'-') ?></div>
 						</div>
+					</div>
+					<div class="form-group row">
 						<div class="col-sm-4 mb-3 mb-sm-0">
 							<label for="description"><strong>music</strong></label>
 							<div class="lw-inline-edit-text" data-model="userProfileData.music"><?= __ifIsset($userProfileData['music'],str_replace("'",'',$userProfileData['music']) ,'-') ?></div>
@@ -858,7 +860,7 @@
 							<input type="hidden" name="intrest"  value="">
 						  <div id="lwUserEditableIntrest">
 			                <div class="form-group row">
-								<div class="col-sm-3 mt-2 mb-0">
+								<div class="col-sm-4 mt-2 mb-0">
 							        	<label for="entertainment"><?= __tr('fun/entertainment') ?></label>
 										<input type="hidden" id="for_entertainment" name="entertainment" value="<?= $userProfileData['entertainment'] ?? '' ?>">
 										<select id="entertainment" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -883,7 +885,7 @@
 											<option value="Poetry">Poetry</option>
 										</select>
 							        </div>
-							    <div class="col-sm-3 mt-2 mb-0">
+							    <div class="col-sm-4 mt-2 mb-0">
 							        	<label for="sports"><?= __tr('sports') ?></label>
 										<input type="hidden" id="for_sports" name="sports" value="<?= $userProfileData['sports'] ?? '' ?>">
 										<select id="sports" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -906,7 +908,7 @@
 												<option value="Skating / Ice Hockey">Skating / Ice Hockey</option>
 										</select>
 								</div>
-								<div class="col-sm-3 mt-2 mb-0">
+								<div class="col-sm-4 mt-2 mb-0">
 							        	<label for="food"><?= __tr('food') ?></label>
 										<input type="hidden" id="for_food" name="food" value="<?= $userProfileData['food'] ?? '' ?>">
 										<select id="food" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -931,7 +933,7 @@
 												<option value="Jewish / Kosher">Jewish / Kosher</option>
 										</select>
 								</div>
-								<div class="col-sm-3 mt-2 mb-0">
+								<div class="col-sm-4 mt-2 mb-0">
 							        	<label for="music"><?= __tr('music') ?></label>
 										<input type="hidden" id="for_music" name="music" value="<?= $userProfileData['music'] ?? '' ?>">
 										<select id="music" class="form-control" multiple="multiple" style="position:relative !important;">
