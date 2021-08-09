@@ -81,8 +81,9 @@ abstract class CoreEngine
             } else {
                 $newDataFormat = $key;
             }
-
+            
             $primaryKey = array_key_exists('_id', $key) ? '_id' : 'id';
+           
 
             $newDataFormat['DT_RowId'] = 'rowid_'.$key[$primaryKey];
 
@@ -111,6 +112,58 @@ abstract class CoreEngine
         return __apiResponse($data);
     }
 
+     public function dataTableSearchResponse($sourceData, $dataFormat = [], $options = [])
+    {
+        $data = [];
+        $rawData = $sourceData['data'];
+        $enhancedData = [];
+
+        foreach ($rawData as $key) {
+            $newDataFormat = [];
+
+            if (!empty($dataFormat)) {
+                foreach ($dataFormat as $dataItemKey => $dataItemValue) {
+                    if (is_numeric($dataItemKey)) {
+                        $newDataFormat[ $dataItemValue ] = $key[ $dataItemValue ];
+                    } elseif (! is_string($dataItemValue) and is_callable($dataItemValue)) {
+                        $newDataFormat[ $dataItemKey ] = call_user_func($dataItemValue, $key);
+                    } else {
+                        $newDataFormat[ $dataItemKey ] = $key[ $dataItemValue ];
+                    }
+                }
+            } else {
+                $newDataFormat = $key;
+            }
+           
+            $primaryKey = property_exists('_id', $key) ? '_id' : 'id';
+            
+
+            $newDataFormat['DT_RowId'] = 'rowid_'.$key[$primaryKey];
+
+            $enhancedData[] = $newDataFormat;
+        }
+
+        $dataTablesData = array(
+                'recordsTotal' => $sourceData['total'],
+                'data' => $enhancedData,
+                'recordsFiltered' => $sourceData['total'],
+                'draw' => (int) Request::get('draw'),
+            );
+
+        $data['response_token'] = (int) Request::get('fresh');
+
+        $data = array_merge($data, $dataTablesData);
+
+        if (!empty($options)) {
+            $data['_options'] = $options;
+        }
+
+        unset($enhancedData, $rawData, $sourceData, $dataFormat, $dataTablesData);
+        
+        $data['dataTableResponse'] = true;
+
+        return __apiResponse($data);
+    }
     /**
      * Extract engine data for internal use
      *

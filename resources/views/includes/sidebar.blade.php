@@ -2,7 +2,7 @@
 <ul class="navbar-nav bg-white sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center" href="<?= route('user.profile_view', ['username' => getUserAuthInfo('profile.username')]) ?>">
+    <a class="sidebar-brand bg-purple d-flex align-items-center" href="<?= route('user.profile_view', ['username' => getUserAuthInfo('profile.username')]) ?>">
         <div class="sidebar-brand-icon">
             <img src="<?= getStoreSettings('small_logo_image_url') ?>" alt="<?= getStoreSettings('name') ?>">
         </div>
@@ -10,7 +10,7 @@
     </a>
 
     <!-- Divider -->
-    <hr class="sidebar-divider my-0">
+    <hr class="sidebar-divider my-0 mt-2">
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item <?= makeLinkActive('manage.dashboard') ?> mt-2">

@@ -53,10 +53,11 @@
     'dist/js/vendorlibs-datatable.js',
     'dist/js/vendorlibs-photoswipe.js',
     'dist/js/vendorlibs-smartwizard.js',
-    /*"theme/js/jquery-3.3.1.min.js",*/
-    /*"theme/js/modernizr-3.6.0.min.js",
-    "theme/js/plugins.js",
+    "theme/js/modernizr-3.6.0.min.js",
     "theme/js/bootstrap.min.js",
+    "theme/js/nice-select.js",
+    /*"theme/js/jquery-3.3.1.min.js",
+    "theme/js/plugins.js",
     "theme/js/heandline.js",
     "theme/js/isotope.pkgd.min.js",
     "theme/js/magnific-popup.min.js",
@@ -65,10 +66,10 @@
     "theme/js/countdown.min.js",
     "theme/js/odometer.min.js",
     "theme/js/viewport.jquery.js",
-    "theme/js/nice-select.js",
     "theme/js/main.js",*/
 ], true) ?>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-multiselect/0.9.16/js/bootstrap-multiselect.js" integrity="sha512-5EvDL79fM8WJcOk77QpsZ8DawGlSfbOZ/ycRPz0bxRgtiOFEMj8taAoqmm7AR4p2N+A6VBLg/Ar30L8qbPw1pQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 
 <script>
         (function () {
@@ -91,6 +92,13 @@
                 step: $.validator.format('<?= __tr("Please enter a multiple of {0}.") ?>')
             });
         })();
+        $(document).ready(function() {
+    var table = $('#example').DataTable( {
+        responsive: true
+    } );
+ 
+    
+} );
 </script>
 <?= __yesset([
     'dist/js/common-app.*.js'

@@ -357,6 +357,7 @@ class UserSettingRepository extends BaseRepository
                             }
                         }
                         
+                    
                         $userProfileColumns = [
                             'language',
                             'relationship_status',

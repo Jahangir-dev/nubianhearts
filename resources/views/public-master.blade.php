@@ -1,53 +1,86 @@
 <!-- include header -->
 @include('includes.header')
-<?php $route = \Request::route()->getName();?>
+<?php $route = \Request::route()->getName(); print($route);
+ $sidebar = false ;
+ $file = '';
+ if($route == 'user.my_liked_view' || $route == 'user.who_liked_me_view'
+                    || $route == 'user.profile_visit_view' || $route == 'user.profile_visitors_view' || $route == 'user.mutual_like_view'){
+                    
+                     $sidebar = true;
+                   $file =  'connection';
+               }
+
+?>
 <!-- /include header -->
-<body id="page-top" class="lw-page-bg lw-public-master">
+<body >
     <!-- include top bar -->
                 @if(isLoggedIn())
                 @include('includes.public-top-bar')
                 @endif
                 <!-- /include top bar -->
     <!-- Page Wrapper -->
-    <div id="wrapper" class="container-fluid">
-         
-        <!-- include sidebar -->
-        @if(isLoggedIn() && ($route !== "user.read.find_matches") && ($route !== "user.read.messenger"))
-        @include('includes.public-sidebar')
-        @endif
-        <!-- /include sidebar -->
-
-        <!-- Content Wrapper -->
-        <div id="content-wrapper" class="d-flex flex-column lw-page-bg">
-               
-            <div id="content" class="mt-3">
-
-                <!-- Begin Page Content -->
-                <div class="lw-page-content">
-
-                    <!-- header advertisement -->
-                    @if(!getFeatureSettings('no_adds') and getStoreSettings('header_advertisement')['status'] == 'true')
-                    <div class="lw-ad-block-h90">
-                        <?= getStoreSettings('header_advertisement')['content'] ?>
-                    </div>
-                    @endif
-                    <!-- /header advertisement -->
-                    @if(isset($pageRequested))
-                    <?php echo $pageRequested; ?>
-                    @endif
-                    <!-- footer advertisement -->
-                    @if(!getFeatureSettings('no_adds') and getStoreSettings('footer_advertisement')['status'] == 'true')
-                    <div class="lw-ad-block-h90">
-                        <?= getStoreSettings('footer_advertisement')['content'] ?>
-                    </div>
-                    @endif
-                    <!-- /footer advertisement -->
-                </div>
-                <!-- /.container-fluid -->
-            </div>
+    <div class="container-fluid  w-100 min-h-100">
+    <div class="row h-100">
+        @if(isLoggedIn()) 
+        <div class="col-12">
+            <?php 
+                $time = freeTrial();
+            ?>
+            <!-- info message -->
+        <div class="alert alert-info justify-content-between text-center align-items-center">
+            Free trail : <?= $time['total'] ?>
         </div>
-        <!-- End of Content Wrapper -->
+        <!-- / info message -->
+        </div>
+        
+        @if( $sidebar != False)
+            <div class="col-3">
+                @if($file == 'connection')
+                    @include('includes.connection')
+                @endif
+               
+            </div>
+            @endif
+        @endif
+        <?php 
+            if($sidebar != False){
+                $class = 'col-9';
+            } else {
+                $class = 'col-12';
+            }
+         ?>
+            <div class="{{$class}}">
+                <div id="content-wrapper" class="d-flex flex-column lw-page-bg">
+               
+                        <div id="content" class="mt-3">
+
+                            <!-- Begin Page Content -->
+                            <div class="lw-page-content p-3">
+
+                                <!-- header advertisement -->
+                                @if(!getFeatureSettings('no_adds') and getStoreSettings('header_advertisement')['status'] == 'true')
+                                <div class="lw-ad-block-h90">
+                                    <?= getStoreSettings('header_advertisement')['content'] ?>
+                                </div>
+                                @endif
+                                <!-- /header advertisement -->
+                                @if(isset($pageRequested))
+                                <?php echo $pageRequested; ?>
+                                @endif
+                                <!-- footer advertisement -->
+                                @if(!getFeatureSettings('no_adds') and getStoreSettings('footer_advertisement')['status'] == 'true')
+                                <div class="lw-ad-block-h90">
+                                    <?= getStoreSettings('footer_advertisement')['content'] ?>
+                                </div>
+                                @endif
+                                <!-- /footer advertisement -->
+                            </div>
+                            <!-- /.container-fluid -->
+                        </div>
+                </div>
+            </div>
     </div>
+</div>
     <!-- End of Page Wrapper -->
 
     <div class="lw-cookie-policy-container row p-4" id="lwCookiePolicyContainer">

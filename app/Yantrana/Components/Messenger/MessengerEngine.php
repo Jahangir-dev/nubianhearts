@@ -19,6 +19,7 @@ use App\Yantrana\Components\User\Repositories\CreditWalletRepository;
 use App\Yantrana\Components\Media\MediaEngine;
 use App\Yantrana\Components\Messenger\Interfaces\MessengerEngineInterface;
 use App\Yantrana\Support\CommonTrait;
+use App\Yantrana\Base\BaseMailer;
 use App\Yantrana\Components\UserSetting\Repositories\UserSettingRepository;
 
 class MessengerEngine extends BaseEngine implements MessengerEngineInterface 
@@ -54,6 +55,10 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
      */
     protected $userSettingRepository;
 	
+     /**
+     * @var BaseMailer - Base Mailer
+     */
+    protected $baseMailer;
 	 /**
      * @var CommonTrait - Common Trait
      */
@@ -373,7 +378,13 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
                 
                 $createdOn = $this->formatDateTimeForMessage();
                 $inputData['created_on'] = $createdOn;
-
+                if(getUserSettings('show_message_notification', $userDetails->_id) == '1' || getUserSettings('show_message_notification', $userDetails->_id) == 1) {
+                        $emailData = [
+                            'name' => Auth::user()->username,
+                            'message' => ""
+                        ];
+                        $this->baseMailer->notifyToUser(Auth::user()->username.' '.'message you', 'account.message', $emailData, $user->email);
+                    }
                 // Send push notification to user
                 PushBroadcast::notifyViaPusher('event.user.chat.messages' ,[
                     'type'    				=> $inputData['type'],

@@ -19,6 +19,7 @@ use App\Yantrana\Components\Notification\Models\NotificationModel;
 use MenaraSolutions\Geographer\State;
 use MenaraSolutions\Geographer\City;
 use MenaraSolutions\Geographer\Earth;
+use App\SavedSearch;
 use Request;
 
 class FilterEngine extends BaseEngine implements FilterEngineInterface 
@@ -170,23 +171,93 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $city = City::build(intval($filter->city));
                     $city = $city->getName();
                 } 
-                // Prepare data for filter
-                $filterData[] = [
-                    'id'            => $filter->user_id,
-                    'username'      => $filter->username,
-                    'fullName'      => $filter->first_name.' '.$filter->last_name,
-                    'profileImage'  => $profilePictureUrl,
-					'gender' 		=> $gender,
-					'dob' 			=> $filter->dob,
-					'userAge'		=> $userAge,
-                    'lastMessage' 	=> $last_message,
-                    'lastSeen'      => $user_last_seen,
-                    'cityName'      => $city,
-                    'countryName'   => $filter->countryName,
-                    'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
-					'isPremiumUser'		=> isPremiumUser($filter->user_id),
-					'detailString'	=> implode(", ", array_filter([$userAge, $gender]))
-                ];
+
+                if(isset($inputData['new_member'])){
+                    if ($inputData['new_member'] == 'on') {
+                        if($filter->wasRecentlyCreated) {
+                             $filterData[] = [
+                                'id'            => $filter->user_id,
+                                'username'      => $filter->username,
+                                'fullName'      => $filter->first_name.' '.$filter->last_name,
+                                'profileImage'  => $profilePictureUrl,
+                                'gender'        => $gender,
+                                'dob'           => $filter->dob,
+                                'userAge'       => $userAge,
+                                'lastMessage'   => $last_message,
+                                'lastSeen'      => $user_last_seen,
+                                'cityName'      => $city,
+                                'countryName'   => $filter->countryName,
+                                'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
+                                'isPremiumUser'     => isPremiumUser($filter->user_id),
+                                'detailString'  => implode(", ", array_filter([$userAge, $gender]))
+                            ];
+                        }
+                    }
+                }
+               
+               elseif(isset($inputData['online'])){
+                    if ($inputData['online'] == 'on') {
+                        if($this->getUserOnlineStatus($filter->user_authority_updated_at) == 1)
+                        {
+                            $filterData[] = [
+                                'id'            => $filter->user_id,
+                                'username'      => $filter->username,
+                                'fullName'      => $filter->first_name.' '.$filter->last_name,
+                                'profileImage'  => $profilePictureUrl,
+                                'gender'        => $gender,
+                                'dob'           => $filter->dob,
+                                'userAge'       => $userAge,
+                                'lastMessage'   => $last_message,
+                                'lastSeen'      => $user_last_seen,
+                                'cityName'      => $city,
+                                'countryName'   => $filter->countryName,
+                                'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
+                                'isPremiumUser'     => isPremiumUser($filter->user_id),
+                                'detailString'  => implode(", ", array_filter([$userAge, $gender]))
+                            ];
+                        } 
+                    }
+                } elseif(isset($inputData['photo'])) {
+                    if ($inputData['photo'] == 'on') {
+                        if (!__isEmpty($filter->profile_picture)) {
+                            $filterData[] = [
+                                'id'            => $filter->user_id,
+                                'username'      => $filter->username,
+                                'fullName'      => $filter->first_name.' '.$filter->last_name,
+                                'profileImage'  => $profilePictureUrl,
+                                'gender'        => $gender,
+                                'dob'           => $filter->dob,
+                                'userAge'       => $userAge,
+                                'lastMessage'   => $last_message,
+                                'lastSeen'      => $user_last_seen,
+                                'cityName'      => $city,
+                                'countryName'   => $filter->countryName,
+                                'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
+                                'isPremiumUser'     => isPremiumUser($filter->user_id),
+                                'detailString'  => implode(", ", array_filter([$userAge, $gender]))
+                            ];
+                        }
+                    }
+                } else {
+                    // Prepare data for filter
+                    $filterData[] = [
+                        'id'            => $filter->user_id,
+                        'username'      => $filter->username,
+                        'fullName'      => $filter->first_name.' '.$filter->last_name,
+                        'profileImage'  => $profilePictureUrl,
+    					'gender' 		=> $gender,
+    					'dob' 			=> $filter->dob,
+    					'userAge'		=> $userAge,
+                        'lastMessage' 	=> $last_message,
+                        'lastSeen'      => $user_last_seen,
+                        'cityName'      => $city,
+                        'countryName'   => $filter->countryName,
+                        'userOnlineStatus' => $this->getUserOnlineStatus($filter->user_authority_updated_at),
+    					'isPremiumUser'		=> isPremiumUser($filter->user_id),
+    					'detailString'	=> implode(", ", array_filter([$userAge, $gender]))
+                    ];
+                }
+                
             }
 		}
 		
@@ -220,7 +291,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
             'userSpecifications'    => $this->getUserSpecificationConfig(),
             'nextPageUrl'           => $fullUrl.'&page='.$currentPage,
             'hasMorePages'          => $filterDataCollection->hasMorePages(),
-            'totalCount'            => $filterDataCollection->total()
+            'totalCount'            => count($filterData)
         ]);
     }
 
@@ -434,4 +505,18 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
             'filterData' => $filterData
         ]);
     }
+
+    public function getSearches()
+    {
+        $search = SavedSearch::with('user')->where('user_id',getUserID())->get();
+        $data['data'] = $search;
+        $data['total'] = count($search);
+        $requireColumns = ['name',
+        'action' => function($pageData) {
+                return "<a class='btn btn-primary' href='".route('user.read.searchRun',['id'=>$pageData['id']])."'>Run</a>".'&nbsp;'."<a class='btn btn-primary' href='".route('user.read.editSaved',['id'=>$pageData['id']])."'><i class='fa fa-edit'></i></a>".'&nbsp;'."<a class='btn btn-primary' href='".route('user.read.searchDelete',['id'=>$pageData['id']])."'><i class='fa fa-trash'></i></a>";
+            }
+        ];
+        return $this->dataTableSearchResponse($data, $requireColumns);
+    }
+
 }

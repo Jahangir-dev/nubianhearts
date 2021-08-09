@@ -10,7 +10,7 @@
 
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
-	<h5 class="h5 mb-0 text-gray-200">
+    <h5 class="h5 mb-0 text-gray-200">
         <span class="text-primary"><i class="fas fa-search" aria-hidden="true"></i></span>
         <?= __tr('Find Matches') ?>
     </h5>
@@ -30,9 +30,18 @@
     }
 ?>
 <!-- Page Heading -->
- <form class="" action="<?= route('user.read.find_matches') ?>">
+ <form class="" method="post" action="<?= route('user.read.saved') ?>">
+    @csrf
 <div class="card lw-find-form-container mb-4 ">
     <div class="card-body row">
+        <div class="col-12">
+            <div class="col-4 row">
+                 <label for="lookingFor"><?= __tr("Unique Name for Search (Max 30)") ?></label>
+
+                <input type="text" name="name" maxlength="10" class="form-control" value="">
+                
+            </div>
+        </div>
         <div class="col-2">
              <!-- Looking For -->
             <div class="lw-looking-for-container lw-basic-filter-field">
@@ -115,24 +124,7 @@
         </div>
         <div class="col-12">
             <!-- /Distance from my location -->
-            <div class="row mt-2">
-                <div class="col-2">
-                    <center>
-                    <button type="submit" class="btn btn-primary"><?= __tr('Search') ?></button></center>
-                </div>
-                <div class="col-2">
-                    <center>
-                     <a href="<?= route('user.read.getSaved') ?>" class="btn btn-secondary p-2" style="line-height: 2.0;"><?= __tr('Saved Searches') ?></a>
-                 </center>
-                </div>
-                <div class="col-3">
-                    
-                    <a href class="btn btn-secondary" style="<?= !__isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwShowAdvanceFilterLink" ><i class="fas fa-filter"></i> <?= __tr('Show Advance Filter') ?></a>
-                    <a href class="btn btn-secondary" style="<?= __isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwHideAdvanceFilterLink"><i class="fas fa-filter"></i> <?= __tr('Hide Advance Filter')  ?></a>
-                    
-                </div>
-                
-            </div>
+            
             
         </div>
     </div>
@@ -140,7 +132,7 @@
 
 <!-- Found matches container -->
     <!-- Advance Filter Options -->
-    <div class="lw-advance-filter-container <?= !__isEmpty(request()->is_advance_filter) ? 'lw-expand-filter' : '' ?>">
+    <div class="lw-advance-filter-container lw-expand-filter">
         <div class="lw-filter-message text-secondary">
         </div>
         <!-- Tabs for advance filter -->
@@ -336,21 +328,28 @@
                     <div class="row p-2">
                         <div class="col-sm-12 col-md-4">
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input w-20" name="online" type="checkbox" id="inlineCheckbox3" @if(isset($inputData['online']) && !__isEmpty($inputData['online']) && $inputData['online'] == 'on' ) checked @endif>
+                              <input class="form-check-input w-20" type="checkbox" id="inlineCheckbox3" @if(isset($inputData['online']) && !__isEmpty($inputData['online']) && $inputData['online'] == 'on' ) checked @endif>
                               <label class="form-check-label" for="inlineCheckbox3">Online</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input w-20" name="photo" type="checkbox" id="inlineCheckbox2" @if(isset($inputData['photo']) && !__isEmpty($inputData['photo']) && $inputData['photo'] == 'on' ) checked @endif>
+                              <input class="form-check-input w-20" type="checkbox" id="inlineCheckbox2" @if(isset($inputData['photo']) && !__isEmpty($inputData['photo']) && $inputData['photo'] == 'on' ) checked @endif>
                               <label class="form-check-label" for="inlineCheckbox2">Photo</label>
                             </div>
                             <div class="form-check form-check-inline">
-                              <input class="form-check-input w-20" name="new_member" type="checkbox" id="inlineCheckbox1" @if(isset($inputData['new_member']) && !__isEmpty($inputData['new_member']) && $inputData['new_member'] == 'on' ) checked @endif >
+                              <input class="form-check-input w-20" type="checkbox" id="inlineCheckbox1" @if(isset($inputData['new_member']) && !__isEmpty($inputData['new_member']) && $inputData['new_member'] == 'on' ) checked @endif >
                               <label class="form-check-label" for="inlineCheckbox1">New Member</label>
-                            </div>
+                            </div>       
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="custom-control">
                                 <button class="btn">Clear <i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-2">
+                            <div class="custom-control">
+                            
+                
+                        <button type="submit" class="btn btn-primary"><?= __tr('Save') ?></button>
                             </div>
                         </div>
                     </div>
@@ -359,20 +358,6 @@
         <!-- /Tabs for advance filter -->
     </div>
         </form>
-
-    <div class="alert alert-success">
-	<?= __trn('__filterCount__ Match Found','__filterCount__ Matches Found', $totalCount, ["__filterCount__" => $totalCount]) ?></div>
-    <!-- /Advance Filter Options -->
-    <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4" id="lwUserFilterContainer">
-        @if(!__isEmpty($filterData))
-            @include('filter.find-matches')
-        @endif
-    </div>
-    @if($hasMorePages)
-    <div class="lw-load-more-container">
-        <button type="button" class="btn btn-light btn-block lw-ajax-link-action" id="lwLoadMoreButton" data-action="<?= $nextPageUrl ?>" data-callback="loadMoreUsers"><?= __tr('Load More') ?></button>
-    </div>
-    @endif
 
 <!-- Found matches container -->
 @push('appScripts')

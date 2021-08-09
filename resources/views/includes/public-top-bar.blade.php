@@ -1,12 +1,10 @@
 <!-- Topbar -->
-<nav class="navbar navbar-expand navbar-light bg-purple topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-purple topbar static-top">
      <!-- Sidebar Toggle (Topbar) -->
-    <button type="button" id="sidebarToggleTop" class="btn btn-link d-block d-md-none rounded-circle mr-3">
+    <button type="button" id="sidebarToggleTop" class="btn btn-link d-block d-md-none rounded-circle mr-3" style="background-color: #fff !important; color: #000;">
     <i class="fa fa-bars"></i>
     </button>
-   <?php 
-    $time = freeTrial();
-   ?>
+
 
         <a class="sidebar-brand d-flex align-items-center bg-purple" href="<?= url('/home') ?>">
             <div class="sidebar-brand-icon">
@@ -18,7 +16,7 @@
         </a>
     
     <!-- Topbar Navbar -->
-    <div style="color: #fff; margin-left: 28%;">Free trail : <?= $time['total'] ?></div>
+    
     <ul class="navbar-nav">
          <li class="nav-item d-none d-sm-none d-md-block">
             <a href="{{route('user.read.messenger')}}" class="nav-link">
@@ -68,37 +66,6 @@
             $translationLanguages = getStoreSettings('translation_languages');
         ?>
         
-        <!-- Language Menu -->
-        @if(!__isEmpty($translationLanguages))
-            <?php 
-                $translationLanguages['en_US'] = [
-                    'id' => 'en_US',
-                    'name' => 'English',
-                    'is_rtl' => false,
-                    'status' => true
-                ];
-            ?>
-            <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <span class="d-none d-md-inline-block"><?= (isset($translationLanguages[CURRENT_LOCALE])) ? $translationLanguages[CURRENT_LOCALE]['name'] : '' ?></span>
-                     &nbsp; <i class="fas fa-language"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                    <h6 class="dropdown-header">
-                   <?= __tr('Choose your language') ?>
-                </h6>
-                <div class="dropdown-divider"></div>
-                    <?php foreach($translationLanguages as $languageId => $language) {
-                        if ($languageId == CURRENT_LOCALE or (isset($language['status']) and $language['status'] == false)) continue;
-                    ?>
-                        <a class="dropdown-item" href="<?= route('locale.change', ['localeID' => $languageId]) .'?redirectTo='.base64_encode(Request::fullUrl());  ?>">
-                            <?= $language['name'] ?>
-                        </a>
-                    <?php } ?>
-                </div>
-            </li>
-        @endif
-        <!-- Language Menu -->
         
         <!-- Nav Item - User Information -->
         <li class="nav-item dropdown no-arrow">
@@ -146,7 +113,34 @@
         </li>
     </ul>
 </nav>
+<ul class="navbar-nav sidebar sidebar-dark bg-purple accordion float-left list-inline" id="accordionSidebar">
+     <li class="nav-item text-white nav-link <?= makeLinkActive('home_page')?>">
+            <a class="nav-link" href="<?= route('home_page') ?>">
+                <i class="fas fa-home"></i>
+                <span><?= __tr('Dashboard') ?></span>
+            </a>
+        </li>
+     <li class="nav-item <?= makeLinkActive('user.read.find_matches') ?>">
+            <a class="nav-link"
+                href="<?= route('user.read.find_matches') ?>">
+                <i class="fas fa-user"></i>
+                <span><?= __tr('Browse') ?></span>
+            </a>
+        </li>
+         <li class="nav-item <?= makeLinkActive('user.my_liked_view') ?>">
+            <a class="nav-link" href="<?= route('user.my_liked_view') ?>">
+                <i class="fas fa-fw fa-heart"></i>
+                <span><?= __tr('Connections') ?></span>
+            </a>
+        </li>
 
+         <li class="nav-item d-sm-block d-md-none">
+            <a class="nav-link <?= makeLinkActive('user.read.messenger') ?>" href="{{route('user.read.messenger')}}" >
+                <i class="fas fa-envelope"></i>
+                <span><?= __tr('Messages') ?></span>
+            </a>
+        </li>
+</ul>
 <!-- Modal -->
 <div class="modal fade" id="boosterModal" tabindex="-1" role="dialog" aria-labelledby="boosterModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

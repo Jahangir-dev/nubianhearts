@@ -8,16 +8,33 @@
 @section('twitter-card-image', getStoreSettings('logo_image_url'))
 @section('page-url', url()->current())
 
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-	<h4 class="h5 mb-0 text-gray-200">
-		<span class="text-primary"><i class="fas fa-fire"></i></span> <?= __tr('Encounter') ?>
-	</h4>
-</div>
 <?php 
   $time = freeTrial();
 ?>
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<h4 class="h5 mb-0 text-gray-200">
+		<span class="text-primary"></span> <?= __tr('New members') ?>
+	</h4>
+</div>
 
+@if(!__isEmpty($filterData))
+	<div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4" id="lwUserFilterContainer">
+        @include('filter.find-matches')
+	</div>
+@else
+    <!-- info message -->
+    <div class="col-sm-12 alert alert-info">
+        <?= __tr('There are no matches found.') ?>
+    </div>
+    <!-- / info message -->
+@endif
+<!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<h4 class="h5 mb-0 text-gray-200">
+		<span class="text-primary"></span> <?= __tr('Encounters') ?>
+	</h4>
+</div>
 <!-- user encounter main container -->
 @if( $time['free_trial'] == true)
 	@if(!__isEmpty($randomUserData))
@@ -28,7 +45,7 @@
 			@endif
 			<!-- user name -->
 			<div class="lw-user-text">
-				<a class="btn btn-link lw-user-text-link" href="<?= route('user.profile_view', ['username' => $randomUserData['username']]) ?>">
+				<a class="lw-user-text-link" href="<?= route('user.profile_view', ['username' => $randomUserData['username']]) ?>">
 					<?= $randomUserData['userFullName'] ?>@if(isset($randomUserData['userAge'])),@endif
 				</a>					
 				<span class="lw-user-text-meta">
@@ -95,25 +112,6 @@
 	<!-- / info message -->
 @endif
 <!-- /user encounter main container -->
-
-<!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
-	<h4 class="h5 mb-0 text-gray-200">
-		<span class="text-primary"><i class="fas fa-users"></i></span> <?= __tr('Random Users') ?>
-	</h4>
-</div>
-
-@if(!__isEmpty($filterData))
-	<div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4" id="lwUserFilterContainer">
-        @include('filter.find-matches')
-	</div>
-@else
-    <!-- info message -->
-    <div class="col-sm-12 alert alert-info">
-        <?= __tr('There are no matches found.') ?>
-    </div>
-    <!-- / info message -->
-@endif
 
 @push('appScripts')
 <script>

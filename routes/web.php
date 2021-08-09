@@ -187,6 +187,41 @@ Route::group([
                 'as' => 'user.read.find_matches',
                 'uses' => 'FilterController@getFindMatches',
             ]);
+            Route::get('/get-searches', [
+                'as' => 'user.read.getSaved',
+                'uses' => 'FilterController@getSaved',
+            ]);
+            Route::get('/get-all-searches', [
+                'as' => 'user.read.getAllSaved',
+                'uses' => 'FilterController@getAllSaved',
+            ]);
+            Route::get('/saved-searches', [
+                'as' => 'user.read.savedSearches',
+                'uses' => 'FilterController@savedSearches',
+            ]);
+            Route::get('/edit-search', [
+                'as' => 'user.read.editSaved',
+                'uses' => 'FilterController@editSaved',
+            ]);
+            Route::post('/saved', [
+                'as' => 'user.read.saved',
+                'uses' => 'FilterController@saved',
+            ]);
+
+            Route::post('/search-update/{id}', [
+                'as' => 'user.read.searchUpdate',
+                'uses' => 'FilterController@searchUpdate',
+            ]); 
+
+            Route::get('/search-delete/{id}', [
+                'as' => 'user.read.searchDelete',
+                'uses' => 'FilterController@searchDelete',
+            ]);
+
+            Route::get('/search-run/{id}', [
+                'as' => 'user.read.searchRun',
+                'uses' => 'FilterController@searchRun',
+            ]);
         });
 
         /*

@@ -15,9 +15,9 @@
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h5 class="h5 mb-0 text-gray-200">
 		@if($route == 'user.profile_visit_view')
-		<span class="text-primary"><i class="far fa-user"></i></span> <?= __tr('Visits') ?>
+		<span class="text-primary"></span> <?= __tr('My views') ?>
 		@else
-		<span class="text-primary"><i class="far fa-user"></i></span> <?= __tr('Visitors') ?>
+		<span class="text-primary"></span> <?= __tr('They viewd me') ?>
 		@endif
 	</h5>
 </div>

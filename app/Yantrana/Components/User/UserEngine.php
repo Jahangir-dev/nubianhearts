@@ -630,6 +630,8 @@ class UserEngine extends BaseEngine
         $userData['coverPicture'] = $coverPictureUrl;
         $userData['userAge'] = isset($userProfile->dob) ? Carbon::parse($userProfile->dob)->age : null;
         
+       
+
         // check if user profile exists
         if (!\__isEmpty($userProfile)) {
             // Get country name
@@ -878,7 +880,13 @@ class UserEngine extends BaseEngine
 					//check user browser
 					$allowVisitorProfile = getFeatureSettings('browse_incognito_mode');
 					//check in setting allow visitor notification log and pusher request
-											
+					$emailData = [
+						'email' => $user->email,
+						'message' => ''
+					];
+					if(getUserSettings('show_profile_notification', $user->_id) == '1' || getUserSettings('show_profile_notification', $user->_id) == 1) {
+						$this->baseMailer->notifyToUser($loggedInUserName.' '.'visited profile', 'account.profile-visited', $emailData, $user->email);
+					}			
 						//notification log message
 						notificationLog($loggedInUserName.' '.'visited profile', route('user.profile_view', ['username' => Auth::user()->username]), null, $userId,getUserID());
 						//push data to pusher
@@ -888,7 +896,7 @@ class UserEngine extends BaseEngine
 							'subject' 				=> __tr('Profile visited successfully'),
 							'message' 				=> $loggedInUserName.' '.__tr('Visited profile'),
 							'messageType' 			=> __tr('success'),
-							'showNotification' 		=> getUserSettings('show_visitor_notification', $user->_id),
+							'showNotification' 		=> getUserSettings('show_profile_notification', $user->_id),
 							'getNotificationList' 	=> getNotificationList($user->_id)
 						]);
 					
@@ -1074,6 +1082,13 @@ class UserEngine extends BaseEngine
 				if ($like == 1) {
 					//activity log message
 					activityLog($userFullName.' '.'profile liked.',$user->_id);
+					if(getUserSettings('show_like_notification', $user->_id) == '1' || getUserSettings('show_like_notification', $user->_id) == 1) {
+						$emailData = [
+							'name' => $loggedInUserName,
+							'message' => ""
+						];
+						$this->baseMailer->notifyToUser($loggedInUserName.' '.'liked profile', 'account.profile-liked', $emailData, $user->email);
+					}	
 					//check show like feature return true
 					if ($showLikeNotification) {
 						//notification log message
@@ -1122,6 +1137,13 @@ class UserEngine extends BaseEngine
 					//activity log message
 					activityLog($userFullName.' '.'profile liked.',$user->_id);
 					//check show like feature return true
+					if(getUserSettings('show_like_notification', $user->_id) == '1' || getUserSettings('show_like_notification', $user->_id) == 1) {
+						$emailData = [
+							'name' => $loggedInUserName,
+							'message' => ""
+						];
+						$this->baseMailer->notifyToUser($loggedInUserName.' '.'liked profile', 'account.profile-liked', $emailData, $user->email);
+					}	
 					if ($showLikeNotification) {
 						//notification log message
 						notificationLog($loggedInUserFullName.' '.'liked profile', route('user.profile_view', ['username' => $loggedInUserName]), null, $user->_id,getUserID());

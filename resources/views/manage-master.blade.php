@@ -1,5 +1,5 @@
 <!-- include header -->
-@include('includes.header')
+@include('includes.header-admin')
 <!-- /include header -->
 
 <body id="page-top lw-admin-section">
