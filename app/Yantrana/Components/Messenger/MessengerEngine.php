@@ -306,7 +306,7 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
 
             $userProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
          $profilePictureUrl = noThumbImageURL();
-         $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_id]);
+         $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_uid]);
           // Check if user profile exists
         if (!__isEmpty($userProfile)) {
             if (!__isEmpty($userProfile->profile_picture)) {

@@ -857,7 +857,8 @@ class UserEngine extends BaseEngine
 			
 		 $VuserProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
         
-        $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->id]);
+        $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => $VuserProfile->_uid]);
+        //dd($profilePictureFolderPath,$VuserProfile->_id);
         $userProfilePictureUrl = noThumbImageURL();
         
         
@@ -880,7 +881,6 @@ class UserEngine extends BaseEngine
             }
         }
         
-
 		$emailData = [
 			'username' 	=>  Auth::user()->username,
 			'profile' 	=> $userProfilePictureUrl,
@@ -1089,7 +1089,7 @@ class UserEngine extends BaseEngine
 
 		$userProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
 		 $profilePictureUrl = noThumbImageURL();
-		 $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_id]);
+		 $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_uid]);
 		  // Check if user profile exists
         if (!__isEmpty($userProfile)) {
             if (!__isEmpty($userProfile->profile_picture)) {
