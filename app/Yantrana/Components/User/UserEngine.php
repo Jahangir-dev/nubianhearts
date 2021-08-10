@@ -884,7 +884,7 @@ class UserEngine extends BaseEngine
 		$emailData = [
 			'username' 	=>  Auth::user()->username,
 			'profile' 	=> $userProfilePictureUrl,
-			'userAge'	=> isset($VuserProfile->dob) ? Carbon::parse($VuserProfile->dob)->age : null;,
+			'userAge'	=> isset($VuserProfile->dob) ? Carbon::parse($VuserProfile->dob)->age : null,
 			'country' 	=> $countryName1,
 			'city'		=> $city,
 			'type'		=> 'profile'
