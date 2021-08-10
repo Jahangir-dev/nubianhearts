@@ -835,7 +835,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 			{
 				$return = str_replace('seconds ago','',$time);
 				
-				$return = $return.'s';
+				$return = 'today';
 				
 			}
 			elseif(Str::contains($time,'minutes'))
@@ -843,7 +843,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 
 				$return = str_replace('minutes ago','',$time);
 				
-				$return = '+'.$return.'m';
+				$return = 'today';
 				
 			}
 			elseif(Str::contains($time,'minute'))
@@ -851,7 +851,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 				$return = str_replace('minute ago','',$time);
 				//$return = str_replace('minutes from now','',$time);
 				
-				$return = $return.'m';
+				$return = 'today';
 				
 			}
 			
@@ -859,14 +859,7 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 			elseif(Str::contains($time,'hour'))
 			{
 				$return = str_replace('hour ago','',$time);
-				$return = str_replace('hours from now','',$time);
-				if($return > 1)
-				{
-					$return = '+'.$return.'h';
-				}else {
-
-					$return = $return.'h';
-				}
+				$return = 'today';
 			}
 			elseif(Str::contains($time,'days'))
 			{
@@ -882,43 +875,27 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 				$return = '+'.$return.'d';
 			}
 
-			elseif(Str::contains($time,'weeks'))
-			{
-				$return = str_replace('weeks ago','',$time);
-				
-				
-				$return = '+'.$return.'w';
-			}
-			elseif(Str::contains($time,'week'))
-			{
-				$return = str_replace('week ago','',$time);
-				
-				$return = $return.'w';
-			}
 			elseif(Str::contains($time,'months'))
 			{
 				$return = str_replace('months ago','',$time);
 				
-				
-				$return = '+'.$return.'mo';
+				if($return > 3)
+				{
+					$return = '+ 3m';	
+				} else {
+
+					$return = '+'.$return.'m';
+				}
 			}
 			elseif(Str::contains($time,'month'))
 			{
 				$return = str_replace('month ago','',$time);
 				
-				$return = $return.'mo';
+				$return = $return.'m';
 			}
 			elseif(Str::contains($time,'year'))
 			{
-				$return = str_replace('year ago','',$time);
-				$return = str_replace('year from now','',$time);
-				if($return > 1)
-				{
-					$return = '+'.$return.'y';
-				}else {
-
-					$return = $return.'y';
-				}
+				$return = '+ 3m';
 			}
 		}
 

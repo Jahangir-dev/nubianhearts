@@ -24,13 +24,21 @@
 	</div>
 @else
     <!-- info message -->
-    <div class="col-sm-12 alert alert-info">
-        <?= __tr('There are no matches found.') ?>
-    </div>
+   <div class="card">
+				<div class="card-body">
+					<div class="empty-state"><div class="empty-icon mb-4">
+					    <i class="fa fa-users"></i>
+					</div>
+					<h5 class="empty-title">Users not found</h5>
+					<p class="empty-subtitle">No new members found</p>
+					  
+					</div>
+				</div>
+			</div>
     <!-- / info message -->
 @endif
 <!-- Page Heading -->
-<div class="d-sm-flex align-items-center justify-content-between mb-4">
+<div class="d-sm-flex align-items-center justify-content-between mb-4 mt-4">
 	<h4 class="h5 mb-0 text-gray-200">
 		<span class="text-primary"></span> <?= __tr('Encounters') ?>
 	</h4>
@@ -100,7 +108,7 @@
 		@else
 		<!-- info message -->
 		<div class="alert alert-info">
-			<?= __tr('Your daily limit for encounters may exceed or there are no users to show.') ?>
+			<?= __tr('No encounters found.') ?>
 		</div>
 		<!-- / info message -->
 	@endif

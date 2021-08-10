@@ -58,7 +58,7 @@
 					@endif
 				</div>
 				
-				<div class="col-md-2 col-sm-2">
+				<div class="col-md-3 col-sm-3">
 					@if($user['isBlockUser'] == true)
 						<!-- message button -->
 							<a class="mr-lg-3 mt-4 btn-link" data-toggle="tooltip" title="This user is blocked!" style="font-size: 13px; cursor: pointer;"><i class="far fa-comments fa-2x"></i>

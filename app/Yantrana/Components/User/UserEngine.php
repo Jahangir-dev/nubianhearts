@@ -854,10 +854,21 @@ class UserEngine extends BaseEngine
 				'like' => $likeDislikeData->like
 			];
 		}
-
+		
+		$emailData = [
+			'username' 	=>  Auth::user()->username,
+			'profile' 	=> $profilePictureUrl,
+			'userAge'	=> $userData['userAge'],
+			'country' 	=> $countryName,
+			'city'		=> $city,
+			'type'		=> 'profile'
+		];
 		//check loggedIn User id doesn't match current user id then
 		// store visitor profile data
 		if ($userId != getUserID()) {
+			if(getUserSettings('show_profile_notification', $user->_id) == '1' || getUserSettings('show_profile_notification', $user->_id) == 1) {
+				$this->baseMailer->notifyToUser('visited profile', 'account.profile-visited', $emailData, $user->email);
+			}
 			$profileVisitorData = $this->userRepository->fetProfileVisitorByUserId($userId);
 			//check is empty then store profile visitor data
 			if (__isEmpty($profileVisitorData)) {
@@ -884,9 +895,8 @@ class UserEngine extends BaseEngine
 						'email' => $user->email,
 						'message' => ''
 					];
-					if(getUserSettings('show_profile_notification', $user->_id) == '1' || getUserSettings('show_profile_notification', $user->_id) == 1) {
-						$this->baseMailer->notifyToUser($loggedInUserName.' '.'visited profile', 'account.profile-visited', $emailData, $user->email);
-					}			
+
+							
 						//notification log message
 						notificationLog($loggedInUserName.' '.'visited profile', route('user.profile_view', ['username' => Auth::user()->username]), null, $userId,getUserID());
 						//push data to pusher
@@ -1051,6 +1061,44 @@ class UserEngine extends BaseEngine
 		//fetch like dislike data by to user id
 		$likeDislikeData = $this->userRepository->fetchLikeDislike($user->_id);
 
+		$userProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
+		 $profilePictureUrl = noThumbImageURL();
+		 $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_id]);
+		  // Check if user profile exists
+        if (!__isEmpty($userProfile)) {
+            if (!__isEmpty($userProfile->profile_picture)) {
+                $profilePictureUrl = getMediaUrl($profilePictureFolderPath, $userProfile->profile_picture);
+            }
+        }
+
+        // Set cover and profile picture url
+        $userData['profilePicture'] = $profilePictureUrl;
+        $userData['userAge'] = isset($userProfile->dob) ? Carbon::parse($userProfile->dob)->age : null;
+        
+        // check if user profile exists
+        if (!__isEmpty($userProfile)) {
+            // Get country name
+            $countryName = '';
+            if (!__isEmpty($userProfile->countries__id)) {
+                $country = $this->countryRepository->fetchById($userProfile->countries__id, ['name']);
+                $countryName = $country->name;
+         }
+           $city = '';
+          if(is_numeric($userProfile->city) && $userProfile->city != null){
+            	$city = City::build(intval($userProfile->city));
+            	$city = $city->getName();
+            }
+        }
+
+        $emailData = [
+			'username' 	=>  Auth::user()->username,
+			'profile' 	=> $profilePictureUrl,
+			'userAge'	=> $userData['userAge'],
+			'country' 	=> $countryName,
+			'city'		=> $city,
+			'type'		=> 'like'
+		];
+
 		//check if not empty
 		if (!__isEmpty($likeDislikeData)) {
 			//if user already liked then show error messages
@@ -1073,7 +1121,7 @@ class UserEngine extends BaseEngine
 					], __tr('User Disliked Removed Successfully'));
 				}
 			}
-
+			
 			//update data
 			$updateData = ['like'=> $like];
 			//update like dislike
@@ -1083,11 +1131,7 @@ class UserEngine extends BaseEngine
 					//activity log message
 					activityLog($userFullName.' '.'profile liked.',$user->_id);
 					if(getUserSettings('show_like_notification', $user->_id) == '1' || getUserSettings('show_like_notification', $user->_id) == 1) {
-						$emailData = [
-							'name' => $loggedInUserName,
-							'message' => ""
-						];
-						$this->baseMailer->notifyToUser($loggedInUserName.' '.'liked profile', 'account.profile-liked', $emailData, $user->email);
+						$this->baseMailer->notifyToUser('liked profile', 'account.profile-visited', $emailData, $user->email);
 					}	
 					//check show like feature return true
 					if ($showLikeNotification) {
@@ -1138,11 +1182,7 @@ class UserEngine extends BaseEngine
 					activityLog($userFullName.' '.'profile liked.',$user->_id);
 					//check show like feature return true
 					if(getUserSettings('show_like_notification', $user->_id) == '1' || getUserSettings('show_like_notification', $user->_id) == 1) {
-						$emailData = [
-							'name' => $loggedInUserName,
-							'message' => ""
-						];
-						$this->baseMailer->notifyToUser($loggedInUserName.' '.'liked profile', 'account.profile-liked', $emailData, $user->email);
+						$this->baseMailer->notifyToUser($loggedInUserName.' '.'liked profile', 'account.profile-visited', $emailData, $user->email);
 					}	
 					if ($showLikeNotification) {
 						//notification log message
@@ -1287,7 +1327,8 @@ class UserEngine extends BaseEngine
 					$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
 					if(count($sent_at) > 0)
 					{
-						$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+						$date = Carbon::parse($sent_at[0]->created_at);
+					$last_sent = $date->format('j F Y');
 					} else {
 						$last_sent = null;
 					}
@@ -1447,7 +1488,9 @@ class UserEngine extends BaseEngine
 				}
 				if(count($sent_at) > 0)
 				{
-					$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+					$date = Carbon::parse($sent_at[0]->created_at);
+					$last_sent = $date->format('j F Y');
+
 				} else {
 					$last_sent = null;
 				}

@@ -119,7 +119,6 @@ class BaseMailer extends CoreMailer
         $messageData['emailsTemplate'] = 'emails.'.$emailView;
         $messageData['mailForAdmin'] = false;
         $messageData['mailForCustomer'] = true;
-
         try {
         	return $this->send([
                 'recipients'  => $customerEmail,

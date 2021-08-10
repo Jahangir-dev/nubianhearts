@@ -166,7 +166,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $user_last_seen = '';
                 }
 
-                $city = '-';
+                $city = '';
                 if($filter->city && $filter->city != null){
                     $city = City::build(intval($filter->city));
                     $city = $city->getName();
@@ -475,9 +475,9 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                     $user_last_seen = '';
                 }
 
-                $city = '-';
-                if($userProfile->city && $userProfile->city != null){
-                    $city = City::build(intval($userProfile->city));
+                $city = '';
+                if($filter['city'] && $filter['city'] != null){
+                    $city = City::build(intval($filter['city']));
                     $city = $city->getName();
                 } 
                 
@@ -490,7 +490,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
 					'gender' 		=> $gender,
 					'dob' 			=> $filter['dob'],
                     'lastMessage'   => $last_message,
-                    'lastSeen'   => $user_last_seen,
+                    'lastSeen'      => $user_last_seen,
                     'cityName'      => $city,
 					'userAge'		=> $userAge,
                     'countryName' 	=> $filter['countryName'],
@@ -500,7 +500,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
                 ];                
             }
         }
-
+        
         return $this->engineReaction(1, [
             'filterData' => $filterData
         ]);

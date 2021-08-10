@@ -20,7 +20,9 @@ use App\Yantrana\Components\Media\MediaEngine;
 use App\Yantrana\Components\Messenger\Interfaces\MessengerEngineInterface;
 use App\Yantrana\Support\CommonTrait;
 use App\Yantrana\Base\BaseMailer;
+use MenaraSolutions\Geographer\City;
 use App\Yantrana\Components\UserSetting\Repositories\UserSettingRepository;
+use App\Yantrana\Support\Country\Repositories\CountryRepository;
 
 class MessengerEngine extends BaseEngine implements MessengerEngineInterface 
 {   
@@ -59,6 +61,12 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
      * @var BaseMailer - Base Mailer
      */
     protected $baseMailer;
+
+    /**
+     * @var  CountryRepository $countryRepository - Country Repository
+     */
+    protected $countryRepository;
+
 	 /**
      * @var CommonTrait - Common Trait
      */
@@ -83,7 +91,9 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
         ManageItemRepository $manageItemRepository,
         CreditWalletRepository $creditWalletRepository,
         UserSettingRepository $userSettingRepository,
-        MediaEngine $mediaEngine
+        MediaEngine $mediaEngine,
+        CountryRepository $countryRepository,
+        BaseMailer  $baseMailer
     )
     {
         $this->messengerRepository      = $messengerRepository;
@@ -92,6 +102,8 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
         $this->creditWalletRepository 	= $creditWalletRepository;
         $this->mediaEngine              = $mediaEngine;
         $this->userSettingRepository    = $userSettingRepository;
+        $this->countryRepository        = $countryRepository;
+        $this->baseMailer               = $baseMailer;
     }
 
     /**
@@ -290,6 +302,46 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
     {
         $transactionResponse = $this->messengerRepository->processTransaction(function() use ($inputData, $userId) {
             $userDetails = $this->userRepository->fetchWithProfile($userId);
+            
+
+            $userProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
+         $profilePictureUrl = noThumbImageURL();
+         $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_id]);
+          // Check if user profile exists
+        if (!__isEmpty($userProfile)) {
+            if (!__isEmpty($userProfile->profile_picture)) {
+                $profilePictureUrl = getMediaUrl($profilePictureFolderPath, $userProfile->profile_picture);
+            }
+        }
+
+        // Set cover and profile picture url
+        $userData['profilePicture'] = $profilePictureUrl;
+        $userData['userAge'] = isset($userProfile->dob) ? Carbon::parse($userProfile->dob)->age : null;
+        
+        // check if user profile exists
+        if (!__isEmpty($userProfile)) {
+            // Get country name
+            $countryName = '';
+            if (!__isEmpty($userProfile->countries__id)) {
+                $country = $this->countryRepository->fetchById($userProfile->countries__id, ['name']);
+                $countryName = $country->name;
+         }
+           $city = '';
+          if(is_numeric($userProfile->city) && $userProfile->city != null){
+                $city = City::build(intval($userProfile->city));
+                $city = $city->getName();
+            }
+        }
+
+        $emailData = [
+            'username'  =>  Auth::user()->username,
+            'profile'   => $profilePictureUrl,
+            'userAge'   => $userData['userAge'],
+            'country'   => $countryName,
+            'city'      => $city,
+            'type'      => 'message'
+        ];
+
             // Check if user exists
             if (__isEmpty($userId)) {
                 return $this->messengerRepository->transactionResponse(18, [
@@ -379,11 +431,8 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
                 $createdOn = $this->formatDateTimeForMessage();
                 $inputData['created_on'] = $createdOn;
                 if(getUserSettings('show_message_notification', $userDetails->_id) == '1' || getUserSettings('show_message_notification', $userDetails->_id) == 1) {
-                        $emailData = [
-                            'name' => Auth::user()->username,
-                            'message' => ""
-                        ];
-                        $this->baseMailer->notifyToUser(Auth::user()->username.' '.'message you', 'account.message', $emailData, $user->email);
+                        
+                        $this->baseMailer->notifyToUser(Auth::user()->username.' '.'message you', 'account.profile-visited', $emailData, $userDetails->email);
                     }
                 // Send push notification to user
                 PushBroadcast::notifyViaPusher('event.user.chat.messages' ,[

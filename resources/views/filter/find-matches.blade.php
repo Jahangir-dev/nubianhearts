@@ -23,7 +23,7 @@
                 	<a class="text-secondary" style="color: #000 !important;" href="<?= route('user.profile_view', ['username' => $filter['username']]) ?>">
                 		<?= $filter['fullName'] ?>, <?= $filter['userAge'] ?>
             		</a>
-					<?= $filter['cityName'] ?> ,
+					<?= $filter['cityName'] ?> @if($filter['cityName'] != ""),@endif
 	                @if($filter['countryName'])
 	                    <?= $filter['countryName'] ?>
 	                @endif @if($filter['isPremiumUser'] == true)<i class="fas fa-star" style="color: gold;"></i>@endif
@@ -37,7 +37,7 @@
 @else
     <!-- info message -->
     <div class="col-sm-12 alert alert-info">
-        <?= __tr('There are no matches found.') ?>
+        <?= __tr('There are no users found.') ?>
     </div>
     <!-- / info message -->
 @endif

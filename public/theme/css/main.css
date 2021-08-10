@@ -1115,8 +1115,8 @@ input[type=submit] {
   }
 }
 .custom-button {
-  background-image: -o-linear-gradient(284deg, #f22876 0%, #942dd9 100%);
-  background-image: linear-gradient(166deg, #f22876 0%, #942dd9 100%);
+  background-image: -o-linear-gradient(284deg, #5650ce 0%, #942dd9 100%);
+  background-image: linear-gradient(166deg, #5650ce 0%, #942dd9 100%);
   -webkit-box-shadow: 0.872px 9.962px 20px 0px rgba(12, 78, 165, 0.3);
           box-shadow: 0.872px 9.962px 20px 0px rgba(12, 78, 165, 0.3);
   padding: 11px 35px;
@@ -4276,7 +4276,7 @@ input[type=submit] {
 
 /*  Profile Section Start */
 .profile-section {
-  padding: 120px 0px 120px;
+  padding: 32px 0px 120px;
 }
 .profile-section .left-profile-area .profile-about-box {
   border-radius: 10px;
@@ -4374,7 +4374,7 @@ input[type=submit] {
 }
  .p-inner-content .p-b-meta-two {
   margin-top: 20px;
-  font-size: 11px;
+  font-size: 16px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -4404,8 +4404,8 @@ input[type=submit] {
   display: inline-block;
   font-weight: normal;
   padding: 5px 15px;
-  background-image: -o-linear-gradient(141deg, #f664bc 0%, #fb7bbc 35%, #ff92bb 100%) !important;
-  background-image: linear-gradient(-51deg, #f664bc 0%, #fb7bbc 35%, #ff92bb 100%) !important;
+  background-image: -o-linear-gradient(141deg, #5650ce  0%, #5650ce  35%, #5650ce  100%) !important;
+  background-image: linear-gradient(-51deg, #5650ce  0%, #5650ce  35%, #5650ce  100%) !important;
   -webkit-box-shadow: 0px 5px 20px 0px rgba(139, 122, 132, 0.5);
           box-shadow: 0px 5px 20px 0px rgba(139, 122, 132, 0.5);
 }
@@ -9011,7 +9011,7 @@ input[type=submit] {
 
 .p-inner-content {
     position: relative;
-    padding: 90px 5px 30px;
+    padding: 90px 5px 0px;
     text-align: center;
 }
 
@@ -9295,4 +9295,39 @@ a {
 
 .accordion .active a {
   color: #fff !important;
+}
+
+.w-19 {
+  width: 19.3rem;
+}
+
+.btn-link {
+  color: silver;
+}
+
+.btn-link:hover {
+  color: indigo;
+}
+
+.empty-state {
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    text-align: center;
+}
+
+.empty-state .empty-icon i.fa, .empty-state .empty-icon i.fa {
+    color: #dee2e6;
+    font-size: 48pt;
+}
+
+.empty-state .empty-title {
+    font-size: 16pt;
+}
+
+.text-muted, .empty-state .empty-subtitle {
+    color: #9aa0ac !important;
+}
+
+.empty-state .empty-subtitle {
+    font-size: 12pt;
 }

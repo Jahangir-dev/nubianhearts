@@ -87,21 +87,7 @@
 						<table cellspacing="0" cellpadding="0" width="100%" style="border-bottom:1px solid #ddd; border-collapse: collapse !important; font-family: Helvetica, Arial, sans-serif;">
 						<tbody>
 							<tr style="font-family: Helvetica, Arial, sans-serif;">
-							<td width="100%" height="80" valign="top" style="border-collapse: collapse; color: #777777; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px; text-align: center; vertical-align: middle;">
-								<center style="font-family: Helvetica, Arial, sans-serif;">
-								<table cellpadding="0" cellspacing="0" width="600" class="w320" style="border-collapse: collapse !important; font-family: Helvetica, Arial, sans-serif;">
-									<tbody>
-									<tr style="font-family: Helvetica, Arial, sans-serif;">
-										<td class="pull-left mobile-header-padding-left" style="border-collapse: collapse; color: #777777; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px; padding-left: 10px; text-align: left; vertical-align: middle; width: 290px;">
-										<h1 style="color: #ffffff; padding-top: 12px; font-family: Helvetica, Arial, sans-serif;"><?= getStoreSettings('name') ?></h1>
-										</td>
-										<td class="pull-right mobile-header-padding-right" style="border-collapse: collapse; color: #4d4d4d; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 21px; padding-left: 10px; text-align: right; width: 290px;">
-										</td>
-									</tr>
-									</tbody>
-								</table>
-								</center>
-							</td>
+							
 							</tr>
 						</tbody>
 						</table>

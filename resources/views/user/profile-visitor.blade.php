@@ -29,11 +29,33 @@
 		@include('user.partial-templates.my-liked-users')
 	</div>
 	@else
-		<!-- info message -->
-		<div class="alert alert-info">
-			<?= __tr('There are no visitors.') ?>
-		</div>
-		<!-- / info message -->
+		@if($route == 'user.profile_visit_view')
+			<div class="card">
+				<div class="card-body">
+					<div class="empty-state"><div class="empty-icon mb-4">
+					    <i class="fa fa-users"></i>
+					</div>
+					<h5 class="empty-title">Nothing to display</h5>
+					<p class="empty-subtitle">You haven’t viewed any profiles yet</p>
+					    <div class="empty-action">
+					        <a class="btn btn-primary" href="<?= route('user.read.find_matches') ?>">Browse people</a>    </div>
+					</div>
+				</div>
+			</div>
+		@else
+			<div class="card">
+				<div class="card-body">
+					<div class="empty-state"><div class="empty-icon mb-4">
+					    <i class="fa fa-users"></i>
+					</div>
+					<h5 class="empty-title">Nothing to display</h5>
+					<p class="empty-subtitle">No one has viewd you yet</p>
+					    <div class="empty-action">
+					        <a class="btn btn-primary" href="<?= route('user.read.find_matches') ?>">Browse people</a>    </div>
+					</div>
+				</div>
+			</div>
+		@endif
 	@endif
 </div>
 <!-- / profile visitors container -->

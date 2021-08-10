@@ -1073,7 +1073,7 @@
 
 	<!-- Content for sidebar -->
 	@push('sidebarProfilePage')
-		<li class="d-none d-md-block profile-section">
+		<li class="d-none d-md-block profile-section pl-5 w-19">
 			<!-- profile related -->
 			<div class="card left-profile-area ">
 				<div class="card-header top-bag">
@@ -1102,7 +1102,7 @@
 	                <div class="p-b-meta-two">
                         <div class="left">
                         	@if(!$isOwnProfile)
-							<div class="lw-like-dislike-box" style="border-left:0;padding-bottom: 0;    margin-top: 9px;margin-left: -34px;display: flex;">
+							<div class="lw-like-dislike-box" style="border-left:0;padding-bottom: 0;    margin-top: 9px;margin-left: -24px;display: flex;">
 								<!-- like button -->
 								<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $userData['userUId'],'like' => 1]) ?>" data-method="post" data-callback="onLikeCallback" title="Like" class="lw-ajax-link-action" id="lwLikeBtn" style="display: flex;">
 									<span class="lw-animated-heart lw-animated-like-heart <?= (isset($userLikeData['like']) and $userLikeData['like'] == 1) ? 'lw-is-active' : '' ?>" style="display: inline-block; margin-top: -34px;"
@@ -1118,7 +1118,9 @@
                             </div> <span class="ml-3"><?= $totalUserLike ?></span>
                     @endif
                         </div>
+
                         <div class="right">
+                        	@if($isOwnProfile)
                         	<?php 
     							$time = freeTrial();
    							?>
@@ -1137,25 +1139,19 @@
                              @endif
                             @endif
                         </div>
+                        @else
+                        	<a class="mr-lg-5 btn-link" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $userData['userId']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog"><i class="far fa-comments fa-3x"></i></a>
+
+					</div>
+                        @endif
                     </div>
 					<!-- Like and dislike buttons -->
-					@if(!$isOwnProfile)
+					
 					
 				</div> 
 				<!-- / Like and dislike buttons -->
 			</div>
-			<div class="card mt-3">
-				<div class="card-header">
-					<?= __tr('Send Message') ?>
-				</div>
-				<div class="card-body text-center">
-				<!-- message button -->
-				<a class="mr-lg-3 btn-link" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $userData['userId']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog"><i class="far fa-comments fa-3x"></i>
-					<br> <?= __tr('Message') ?></a>
-
-					</div>
-				</div>
-			@endif
+			
 		</li>
 	@endpush
 @endif

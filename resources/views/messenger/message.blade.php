@@ -1,4 +1,4 @@
-<div class="modal-content">
+<div class="modal-content" id="chatBox">
             <div class="modal-header">
                 <button id="lwChatSidebarToggle" class="btn btn-link d-md-none rounded-circle mr-3">
                     <i class="fa fa-bars"></i>
@@ -18,7 +18,18 @@
                 <div id="lwMessengerContent"></div>
             </div>
         </div>
-
+        <div class="card" id="noChat" style="display:none">
+                <div class="card-body">
+                    <div class="empty-state"><div class="empty-icon mb-4">
+                        <i class="fa fa-envelop"></i>
+                    </div>
+                    <h5 class="empty-title">No contacts</h5>
+                    <p class="empty-subtitle">You don't have any conversations yet</p>
+                        <div class="empty-action">
+                            <a class="btn btn-primary" href="<?= route('user.read.find_matches') ?>">Browse people</a>    </div>
+                    </div>
+                </div>
+            </div>
 @push('appScripts')
 <script type="text/javascript">
 	 getChatMessenger('<?= route('user.read.all_conversation') ?>', true);

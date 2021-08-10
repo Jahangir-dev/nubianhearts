@@ -1,45 +1,53 @@
 <!-- include header -->
 @include('includes.header')
-<?php $route = \Request::route()->getName(); print($route);
- $sidebar = false ;
- $file = '';
- if($route == 'user.my_liked_view' || $route == 'user.who_liked_me_view'
-                    || $route == 'user.profile_visit_view' || $route == 'user.profile_visitors_view' || $route == 'user.mutual_like_view'){
+<?php 
+$route = '';
+$route = \Request::route()->getName();
+        $sidebar = 0 ;
+        $file = '';
+            if($route == 'user.my_liked_view' || $route == 'user.who_liked_me_view'
+                || $route == 'user.profile_visit_view' || $route == 'user.profile_visitors_view' || $route == 'user.mutual_like_view'){
                     
-                     $sidebar = true;
-                   $file =  'connection';
+                    $sidebar = 1;
+                    $file =  'connection';
                }
 
+            elseif($route == 'user.profile_view')
+            {
+                
+                $sidebar = 1;
+                $file = 'profile';
+            } else{
+                $sidebar = 0;
+                $file = '';
+            }
 ?>
+
 <!-- /include header -->
 <body >
-    <!-- include top bar -->
+            <!-- include top bar -->
                 @if(isLoggedIn())
-                @include('includes.public-top-bar')
+                    @include('includes.public-top-bar')
                 @endif
-                <!-- /include top bar -->
+            <!-- /include top bar -->
     <!-- Page Wrapper -->
     <div class="container-fluid  w-100 min-h-100">
     <div class="row h-100">
         @if(isLoggedIn()) 
-        <div class="col-12">
-            <?php 
-                $time = freeTrial();
-            ?>
-            <!-- info message -->
-        <div class="alert alert-info justify-content-between text-center align-items-center">
-            Free trail : <?= $time['total'] ?>
-        </div>
-        <!-- / info message -->
-        </div>
         
-        @if( $sidebar != False)
-            <div class="col-3">
-                @if($file == 'connection')
-                    @include('includes.connection')
-                @endif
-               
-            </div>
+            @if( $sidebar != 0)
+                <div class="col-3">
+                    @if($file == 'connection')
+                        @include('includes.connection')
+                    @endif
+                    @if($file == 'profile')
+                         @if(isset($is_profile_page) and ($is_profile_page === true))
+                            @if(!$isBlockUser and !$blockByMeUser)
+                                @stack('sidebarProfilePage')
+                            @endif
+                        @endif
+                    @endif
+                </div>
             @endif
         @endif
         <?php 
@@ -83,12 +91,6 @@
 </div>
     <!-- End of Page Wrapper -->
 
-    <div class="lw-cookie-policy-container row p-4" id="lwCookiePolicyContainer">
-        <div class="col-sm-11">
-            @include('includes.cookie-policy')
-        </div>
-        <div class="col-sm-1 mt-2"><button id="lwCookiePolicyButton" class="btn btn-primary"><?= __tr('OK') ?></button></div>
-    </div>
     <!-- include footer -->
     @include('includes.footer')
     <!-- /include footer -->

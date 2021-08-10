@@ -23,9 +23,21 @@
 	</div>
 	@else
 		<!-- info message -->
-		<div class="alert alert-info">
-			<?= __tr('There are no any users who likes me.') ?>
-		</div>
+		
+			<div class="card">
+				<div class="card-body">
+					<div class="empty-state"><div class="empty-icon mb-4">
+					    <i class="fa fa-users"></i>
+					</div>
+					<h5 class="empty-title">Nothing to display</h5>
+					<p class="empty-subtitle">You haven’t liked anyone yet</p>
+					    <div class="empty-action">
+					        <a class="btn btn-primary" href="<?= route('user.read.find_matches') ?>">Browse people</a>    </div>
+					</div>
+				</div>
+			</div>
+			
+	
 		<!-- / info message -->
 	@endif
 </div>

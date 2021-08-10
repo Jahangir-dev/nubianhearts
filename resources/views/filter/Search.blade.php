@@ -17,7 +17,11 @@
 </div>
 
 <?php
-
+    if( request()->query('reset') == True)
+    {
+        $request = request();
+        $request->request->add(['is_advance_filter' => 1]);
+    }
     $lookingFor = getUserSettings('looking_for');
     $minAge = getUserSettings('min_age');
     $maxAge = getUserSettings('max_age');
@@ -342,7 +346,7 @@
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="custom-control">
-                                <button class="btn">Clear <i class="fa fa-times"></i></button>
+                                <a class="btn text-white" onclick='window.location.href = "?reset=true"'>Clear <i class="fa fa-times"></i></a>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-2">

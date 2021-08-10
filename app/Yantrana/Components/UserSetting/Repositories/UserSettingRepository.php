@@ -299,6 +299,7 @@ class UserSettingRepository extends BaseRepository
 						->leftJoin('countries', 'user_profiles.countries__id', '=', 'countries._id')
                         ->groupBy('users._id')
 						->where('users.status', 1)
+                        ->where('users.designation','=' ,null)
                         ->whereNotIn('users._id', $ignoreUserIds)
 						->select(
 							__nestedKeyValues([
@@ -308,7 +309,8 @@ class UserSettingRepository extends BaseRepository
 									'username',
 									'first_name',
 									'last_name',
-									'is_fake'
+									'is_fake',
+                                    'designation'
 								],
 								'user_profiles' => [
 									'created_at',
@@ -366,7 +368,8 @@ class UserSettingRepository extends BaseRepository
                             'username',
                             'countries__id ',
                             'city',
-                            'state'
+                            'state',
+                            'designation'
                         ];
                         
                         if (!__isEmpty($filterData)) {
@@ -444,13 +447,18 @@ class UserSettingRepository extends BaseRepository
     {
 		// prepare dates for comparison
 		$currentDate 	= Carbon::now();
+        $date = \Carbon\Carbon::today()->subDays(7);
+        //dd($date);
 		$searchQuery = UserProfile::basicFilter($filterData)
 								->join('users', 'user_profiles.users__id', '=', 'users._id')
 								->join('user_authorities', 'users._id', '=', 'user_authorities.users__id')
 								->leftJoin('countries', 'user_profiles.countries__id', '=', 'countries._id')
 								->groupBy('users._id')
+                                ->where('users.created_at', '>', $date)
 								->where('users.status', 1)
+                                ->where('users.designation','=', null)
 								->whereNotIn('users._id', $ignoreUserIds);
+                           
 								//check distance not equal to null
 								if ($filterData['distance'] != null) {
 									$searchQuery->distanceFilter($filterData);
@@ -522,6 +530,7 @@ class UserSettingRepository extends BaseRepository
 									'user_profiles.updated_at',
 									'user_profiles.profile_picture',
 									'user_profiles.gender',
+                                    'user_profiles.city',
 									'user_profiles.dob',
 									'user_profiles.countries__id',
 									'user_profiles.users__id',

@@ -260,8 +260,15 @@
         $('#lwChatDialogLoader').show();
         $('#lwMessengerContent').hide();
         __DataRequest.get(url, {}, function (responseData) {
-            $('#lwChatDialogLoader').hide();
-            $('#lwMessengerContent').show();
+            if(responseData.data.messengerUsers.length === 0)
+            {
+                $('#chatBox').hide();
+                $('#noChat').show();   
+            } else {
+                
+                $('#lwChatDialogLoader').hide();
+                $('#lwMessengerContent').show();
+            }
         });
     };
 
