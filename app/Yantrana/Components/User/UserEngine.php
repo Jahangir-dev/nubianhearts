@@ -857,7 +857,7 @@ class UserEngine extends BaseEngine
 			
 		 $VuserProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
         
-        $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => $VuserProfile->_uid]);
+        $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_uid]);
         //dd($profilePictureFolderPath,$VuserProfile->_id);
         $userProfilePictureUrl = noThumbImageURL();
         
