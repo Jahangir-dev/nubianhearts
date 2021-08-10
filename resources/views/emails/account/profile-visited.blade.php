@@ -9,7 +9,7 @@
                         
                         <td style="text-align:center">
                             <a href="{{url('/')}}" target="_blank">
-                                <img src="<?= getStoreSettings('small_logo_image_url') ?>" style="max-height:40px" alt="NubianHearts">
+                                <img src="https://ci6.googleusercontent.com/proxy/QJ2kTmE-FKNzDYJPYLbxMnhFTpNHq571Yu7hk4fO8KdNi-307J05XepLjXfbbswAZO0uwDkB50MIayMg7D0LPihVv6C1MHVYYYq8wPxMJAVTYq66=s0-d-e1-ft#http://nubhs.com/content/themes/youdate/static/images/logo@2x.png" style="max-height:40px" alt="NubianHearts">
                             </a>
                         </td>
                     </tr>
