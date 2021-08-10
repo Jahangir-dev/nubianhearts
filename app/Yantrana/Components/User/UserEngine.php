@@ -854,12 +854,38 @@ class UserEngine extends BaseEngine
 				'like' => $likeDislikeData->like
 			];
 		}
-		
+			
+		 $VuserProfile = $this->userSettingRepository->fetchUserProfile(Auth::user()->_id);
+        
+        $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => Auth::user()->_id]);
+        $userProfilePictureUrl = noThumbImageURL();
+        
+        
+        // Check if user profile exists
+        if (!__isEmpty($VuserProfile)) {
+            if (!__isEmpty($VuserProfile->profile_picture)) {
+                $userProfilePictureUrl = getMediaUrl($profilePictureFolderPath, $VuserProfile->profile_picture);
+            }
+
+            $countryName1 = '';
+            $city = '';
+            if (!__isEmpty($VuserProfile->countries__id)) {
+                $country = $this->countryRepository->fetchById($VuserProfile->countries__id, ['name']);
+                $countryName1 = $country->name;
+            }
+
+            if(is_numeric($VuserProfile->city) && $VuserProfile->city != null){
+            	$city = City::build(intval($VuserProfile->city));
+            	$city = $city->getName();
+            }
+        }
+        
+
 		$emailData = [
 			'username' 	=>  Auth::user()->username,
-			'profile' 	=> $profilePictureUrl,
-			'userAge'	=> $userData['userAge'],
-			'country' 	=> $countryName,
+			'profile' 	=> $userProfilePictureUrl,
+			'userAge'	=> isset($VuserProfile->dob) ? Carbon::parse($VuserProfile->dob)->age : null;,
+			'country' 	=> $countryName1,
 			'city'		=> $city,
 			'type'		=> 'profile'
 		];
