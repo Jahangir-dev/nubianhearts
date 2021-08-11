@@ -366,8 +366,6 @@
     </div>
         </form>
 
-    <div class="alert alert-success">
-	<?= __trn('__filterCount__ Match Found','__filterCount__ Matches Found', $totalCount, ["__filterCount__" => $totalCount]) ?></div>
     <!-- /Advance Filter Options -->
     <div class="row row-cols-sm-1 row-cols-md-2 row-cols-lg-4" id="lwUserFilterContainer">
         @if(!__isEmpty($filterData))

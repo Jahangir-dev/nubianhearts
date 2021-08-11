@@ -98,7 +98,8 @@ class FilterController extends BaseController
     public function searchUpdate(Request $request,$id)
     {
         $old_name = SavedSearch::find($id);
-       
+        $search   = SavedSearch::find($id);
+        
         if($request['name'] != $old_name['name'])
         {
             $name = SavedSearch::where('name',$request['name'])->get();
