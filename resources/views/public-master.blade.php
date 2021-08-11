@@ -24,7 +24,7 @@ $route = \Request::route()->getName();
 ?>
 
 <!-- /include header -->
-<body id="page-top">
+<body id="page-top" class="lw-page-bg lw-public-master">
             <!-- include top bar -->
                 @if(isLoggedIn())
                     @include('includes.public-top-bar')

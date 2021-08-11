@@ -9215,7 +9215,7 @@ margin: 6px 2px;
 
 .custom-select {
   width: 19rem;
-  padding-left: 0;
+ /* padding-left: 0;
     -webkit-appearance: none;
     -webkit-border-radius: 0;
     -moz-appearance: none;
@@ -9225,7 +9225,7 @@ margin: 6px 2px;
     border: 0;
     border-bottom: 1px solid #3d3b48;
     margin-top: 4px;
-    text-align: inherit;
+    text-align: inherit;*/
 }
 
 .radioInput {
@@ -9244,10 +9244,10 @@ margin: 6px 2px;
 }
 
 .selectCustom {
-  border: 0; 
+  /*border: 0; 
   border-bottom: 1px solid #3d3b48;
   margin-top: 4px;
-  text-align: inherit;
+  text-align: inherit;*/
 }
 
 .w-20 {
@@ -9330,4 +9330,8 @@ a {
 
 .empty-state .empty-subtitle {
     font-size: 12pt;
+}
+
+.dropdown-menu.show {
+  width: 100%;
 }
