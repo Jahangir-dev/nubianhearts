@@ -9334,4 +9334,5 @@ a {
 
 .dropdown-menu.show {
   width: 100%;
+  min-height: 200px; max-height: 218px;
 }
