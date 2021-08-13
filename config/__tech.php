@@ -216,7 +216,7 @@ $techAppConfig = [
 
     'age_restriction' => [
     	'minimum' => 18,
-    	'maximum' => 70
+    	'maximum' => 99
     ],
     
     /* User Settings / Profile related items

@@ -230,7 +230,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
             if (\__isEmpty($userDetails)) {
                 return $this->engineReaction(18, null, __tr('User does not exists.'));
             }
-
+            
             // check if user details updated
             /*if ($this->userSettingRepository->updateUser($user, $userDetails)) {
                 activityLog($user->first_name.' '.$user->last_name. ' update own user info.');
