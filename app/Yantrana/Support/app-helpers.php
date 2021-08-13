@@ -441,7 +441,12 @@ use App\Yantrana\Components\User\Repositories\{UserRepository};
 			if (__isEmpty($userID)) {
 				$userID = getUserID();
 			}
-
+            if($itemName == 'looking_for')
+            {
+                $userProfile = UserProfile::where('users__id',$userID)->first();
+                
+                return (int)$userProfile['looking_for'];
+            }
             $userSettingConfiguration = \App\Yantrana\Components\UserSetting\Models\UserSettingModel::select('key_name', 'value', 'data_type')->where('users__id', $userID)->get();
 
             // check if configuration settings exists in db

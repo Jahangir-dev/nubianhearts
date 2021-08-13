@@ -417,10 +417,29 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
         }
         
        
-        if(array_key_exists('location_store',$inputData))
+        if(array_key_exists('location_store',$inputData) )
         {  
-            $code = (int)$inputData['city'];
-            $city = City::build($code);
+            if(isset($inputData['country']) == false)
+            {
+                return $this->engineReaction(2, null, __tr('country required'));
+            }
+            if(isset($inputData['state']) == false)
+            {
+                return $this->engineReaction(2, null, __tr('state required'));
+            }
+            if(isset($inputData['city']) == false)
+            {
+                $code = '';
+            } else {
+             $code = (int)$inputData['city'];
+            }
+            
+            if(!__isEmpty($code))
+            {
+                $city = City::build($code);
+            } else {
+                $city = '';
+            }
     
             $isUserLocationUpdated = false;
             $userId = getUserID();

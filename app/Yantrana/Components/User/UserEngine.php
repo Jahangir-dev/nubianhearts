@@ -611,6 +611,7 @@ class UserEngine extends BaseEngine
 
         // fetch User details
         $userProfile = $this->userSettingRepository->fetchUserProfile($userId);
+
         $userSettingConfig = configItem('user_settings');
         $profilePictureFolderPath = getPathByKey('profile_photo', ['{_uid}' => $userUid]);
         $profilePictureUrl = noThumbImageURL();

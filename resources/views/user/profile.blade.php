@@ -663,12 +663,14 @@
 							    </div>
 							    <div class="form-group row">
 							        <div class="col-sm-3">
+							        	<label for="from_age"><strong><?= __tr('From Age') ?></strong></label>
 							        	<input type="number" class="form-control" name="looking_for_from_age" value="<?= $userProfileData['looking_for_from_age'] ?? '' ?>">
 							        </div>
 							        <div class="col-sm-2 text-center">
-							        	<label style="color: #6f6f6f;font-size: 17px;" class="form-label">to</label>
+							        	<label style="color: #6f6f6f;font-size: 17px;" class="form-label mt-4">to</label>
 							        </div>
 							        <div class="col-sm-3">
+							        	<label for="from_age"><strong><?= __tr('To Age') ?></strong></label>
 							        	<input type="number" class="form-control" name="looking_for_to_age" value="<?= $userProfileData['looking_for_to_age'] ?? '' ?>">
 							        </div>
 							        <?php 

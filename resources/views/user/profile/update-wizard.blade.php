@@ -409,6 +409,7 @@
     function getUserProfileData(response) {
         // If successfully stored data
         if (response.reaction == 1) {
+        	checkProfileStatus();
             __DataRequest.get("<?= route('user.get_profile_data', ['username' => getUserAuthInfo('profile.username')]) ?>", {}, function(responseData) {
                 var requestData = responseData.data;
                 var specificationUpdateData = [];

@@ -60,48 +60,36 @@
                                 @csrf
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <!--<h4 class="content-title">Acount Details</h4>-->
                                         <div class="form-group">
                                             <label for="">Username*</label>
                                             <input type="text" name="username" class="my-form-control" placeholder="Enter Your Username">
                                         </div>
-                                        <div class="form-group">
-                                            <label for="">Last Name*</label>
-                                            <input type="text" class="my-form-control" name="last_name" placeholder="<?= __tr('Last Name') ?>" required minlength="3">
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="">Email Address*</label>
-                                            <input type="email" name="email" class="my-form-control" placeholder="Enter Your Email">
-                                        </div>
-                                        <input type="hidden" name="mobile_number" value="12345678901">
-                                        <div class="form-group">
-                                            <label for="">Password*</label>
-                                            <input type="password" class="my-form-control" placeholder="Enter Your Password" name="password" required="">
-                                        </div>
-                                          <div class="form-group">
-                                            <label for="">Looking for a*</label>
-                                        
-                                            <div class="s-input nice-select-wraper">
-                                              <select class="select-bar option" name="looking_for" id="select_gender" required>
-                                                 @foreach($genders as $genderKey => $gender)
-                                                <option value="<?= $genderKey ?>"><?= $gender ?></option>
-                                                @endforeach
-                                              </select>
-                                            </div>    
-                                        </div>
-                                        
-                                        
                                     </div>
                                     <div class="col-md-6">
-                                        <!--<h4 class="content-title mt-5">Profile Details</h4>-->
                                         <div class="form-group">
                                             <label for="">First Name*</label>
                                             <input type="text" class="my-form-control" name="first_name" placeholder="<?= __tr('First Name') ?>" required minlength="3">
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Last Name*</label>
+                                            <input type="text" class="my-form-control" name="last_name" placeholder="<?= __tr('Last Name') ?>" required minlength="3">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label for="">Email Address*</label>
+                                            <input type="email" name="email" class="my-form-control" placeholder="Enter Your Email">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">Birthday*</label>
                                             <input type="date" name="dob" class="my-form-control">
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">I am a*</label>
                                                <div class="s-input nice-select-wraper">
@@ -112,20 +100,39 @@
                                                   </select>
                                                 </div>
                                         </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                         <div class="form-group">
+                                            <label for="">Looking for a*</label>
+                                        
+                                            <div class="s-input nice-select-wraper">
+                                              <select class="select-bar option" name="looking_for" id="select_gender" required>
+                                                 @foreach($genders as $genderKey => $gender)
+                                                <option value="<?= $genderKey ?>"><?= $gender ?></option>
+                                                @endforeach
+                                              </select>
+                                            </div>    
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="hidden" name="mobile_number" value="12345678901">
+                                        <div class="form-group">
+                                            <label for="">Password*</label>
+                                            <input type="password" class="my-form-control" placeholder="Enter Your Password" name="password" required="">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label for="">Confirm Password*</label>
                                             <input type="password" class="my-form-control" placeholder="Enter Your Password" name="repeat_password" required="">
                                         </div>
-                                        
-                                      
-                                        
                                     </div>
                                     <div class="col-lg-12">
                                         <div class="form-group">
                                             <div class="form-check">
                                                 <input type="hidden" name="accepted_terms"> 
                                                 <input type="checkbox" class="form-check-input" id="acceptTerms" name="accepted_terms" value="1" required> 
-                                                <label class="form-check-label" for="acceptTerms">
+                                                <label class="form-check-label ml-2" for="acceptTerms">
                                                     <?= __tr('I accept all ') ?>
                                                     <a target="_blank" href="<?= getStoreSettings('terms_and_conditions_url') ?>">
                                                     <?= __tr('terms and conditions') ?></a>
