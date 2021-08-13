@@ -78,18 +78,19 @@
             </div>
             <!-- /Age between -->
         </div>
+       
         <div class="col-2">
             <label for="" class="w-100">Located</label>
             <div class="col-12" style="margin-top: -18px; margin-left: -18px;">
                 <label class="radio-inline mb-0">
-                <input type="radio" name="locationButton" class="radioInput"  value="distance" @if(isset($inputData['countries__id']) && __isEmpty($inputData['countries__id'])) checked @endif>
+                <input type="radio" name="locationButton" class="radioInput"  value="distance" @if(isset($inputData['distance']) && !__isEmpty($inputData['distance'])) checked @endif>
                 <span class="radioText">Near me</span></label>
                 <label class="radio-inline mb-0">
                 <input type="radio" name="locationButton" class="radioInput" @if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id'])) checked @endif  value="city">
                 <span class="radioText">Country and city</span></label>
             </div>
         </div>
-        <div class="col-4 distance box" @if(isset($inputData['countries__id']) && __isEmpty($inputData['countries__id'])) style="display:block;" @else style="display:none" @endif>
+        <div class="col-4 distance box" @if(isset($inputData['distance']) && !__isEmpty($inputData['distance'])) style="display:block;" @else style="display:none" @endif>
             <!-- Distance from my location -->
             <div class="lw-distance-location-container lw-basic-filter-field">
                 <label class="justify-content-start" for="distance"><?= __tr('Distance in __distanceUnit__', ['__distanceUnit__' =>( getStoreSettings('distance_measurement') == '6371') ? 'KM' : 'Miles']) ?></label>
