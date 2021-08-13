@@ -86,7 +86,7 @@ class FilterController extends BaseController
         $name = SavedSearch::where('name',$request['name'])->get();
         if(count($name) > 0){
 
-            return back()->with('message','Name already exist');
+             return back()->withErrors(['search name already exist']);
         } else{
 
         $data['user_id'] = getUserID();
@@ -99,13 +99,12 @@ class FilterController extends BaseController
     {
         $old_name = SavedSearch::find($id);
         $search   = SavedSearch::find($id);
-        
         if($request['name'] != $old_name['name'])
         {
             $name = SavedSearch::where('name',$request['name'])->get();
             if(count($name) > 0 ){
 
-                return back()->with('message','Name already exist');
+                return back()->withErrors(['search name already exist']);
             } else{
                 
                 $search->update($request->all());

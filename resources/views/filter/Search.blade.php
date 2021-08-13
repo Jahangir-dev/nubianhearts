@@ -43,7 +43,9 @@
                  <label for="lookingFor"><?= __tr("Unique Name for Search (Max 30)") ?></label>
 
                 <input type="text" name="name" maxlength="10" class="form-control" value="">
-                
+                 @if($errors->any())
+                    <label class="text-danger"><b>{{$errors->first()}}</b></label>
+                @endif
             </div>
         </div>
         <div class="col-2">

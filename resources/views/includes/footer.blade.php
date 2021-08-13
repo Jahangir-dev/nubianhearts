@@ -6,7 +6,7 @@
                 '__storeName__' => getStoreSettings('name'),
                 '__copyrightYear__' => date('Y')
             ]) ?> </span>
-            <a href="<?= route('user.read.contact') ?>" class="pl-1"><?= __tr('Contact') ?></a>
+            <!-- <a href="<?= route('user.read.contact') ?>" class="pl-1"><?= __tr('Contact') ?></a> -->
         </div>
     </div>
 </footer>

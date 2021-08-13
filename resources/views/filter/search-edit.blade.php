@@ -46,6 +46,7 @@
 <!-- Page Heading -->
  <form class="" method="post" action="<?= route('user.read.searchUpdate',['id'=>$search['id']]) ?>">
     @csrf
+    
 <div class="card lw-find-form-container mb-4 ">
     <div class="card-body row">
         <div class="col-12">
@@ -53,7 +54,9 @@
                  <label for="lookingFor"><?= __tr("Unique Name for Search (Max 30)") ?></label>
 
                 <input type="text" name="name" maxlength="10" class="form-control" value="{{$search['name']}}">
-                
+                @if($errors->any())
+                    <label class="text-danger"><b>{{$errors->first()}}</b></label>
+                @endif
             </div>
         </div>
         <div class="col-2">
