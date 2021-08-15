@@ -4374,7 +4374,7 @@ input[type=submit] {
 }
  .p-inner-content .p-b-meta-two {
   margin-top: 20px;
-  font-size: 16px;
+  font-size: 10px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -8908,7 +8908,7 @@ input[type=submit] {
 
 @media (min-width: 1191px){
   .lw-public-master .container-fluid {
-    max-width: 100%;
+    //max-width: 100%;
   }
 
 }
@@ -9278,9 +9278,9 @@ a {
 .nav li {
   border: 0;
     padding: 0rem 1rem;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 3px;
-     font-weight: 600;
+     color: #495057;
 }
 
 .page-title {
@@ -9341,4 +9341,8 @@ a {
 #acceptTerms {
   width: 1rem !important;
   height: 20px;
+}
+
+.min-h-100 {
+  min-height: 100vh;
 }

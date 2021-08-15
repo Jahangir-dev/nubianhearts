@@ -82,7 +82,13 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     <?= __tr('Profile') ?>
                 </a>
-               
+                
+                <a class="dropdown-item"
+                        href="<?= route('user.photos_setting', ['username' => getUserAuthInfo('profile.username')]) ?>">
+                        <i class="far fa-images fa-sm fa-fw mr-2 text-gray-400"></i>
+                        <?= __tr('My Photos') ?>
+                </a>
+                
                 <a class="dropdown-item" href="<?= route('user.change_password') ?>">
                     <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                    <?= __tr('Change Password') ?>
@@ -91,12 +97,7 @@
                     <i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>
                     <?= __tr('Change Email') ?>
                 </a>
-                @if(!isAdmin())
-                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#lwDeleteAccountModel">
-                    <i class="fas fa-trash-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                    <?= __tr('Delete Account') ?>
-                </a>
-                @endif
+               
                 @if(isAdmin())
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item text-primary" target="_blank" href="<?= route('manage.dashboard') ?>">

@@ -17,7 +17,10 @@ $route = \Request::route()->getName();
                 
                 $sidebar = 1;
                 $file = 'profile';
-            } else{
+            } elseif($route = 'user.photos_setting') {
+                $sidebar = 1;
+                $file = 'account';
+            } else {
                 $sidebar = 0;
                 $file = '';
             }
@@ -40,7 +43,10 @@ $route = \Request::route()->getName();
                     @if($file == 'connection')
                         @include('includes.connection')
                     @endif
-                    @if($file == 'profile')
+                    @if($file == 'account' || $file == 'profile' && $isOwnProfile)
+                        @include('includes.account')
+                    @endif
+                    @if($file == 'profile' && !$isOwnProfile)
                          @if(isset($is_profile_page) and ($is_profile_page === true))
                             @if(!$isBlockUser and !$blockByMeUser)
                                 @stack('sidebarProfilePage')

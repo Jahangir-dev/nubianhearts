@@ -1075,7 +1075,7 @@
 
 	<!-- Content for sidebar -->
 	@push('sidebarProfilePage')
-		<li class="d-none d-md-block profile-section pl-5 w-19">
+		<li class="d-none d-md-block profile-section pl-5">
 			<!-- profile related -->
 			<div class="card left-profile-area ">
 				<div class="card-header top-bag">
