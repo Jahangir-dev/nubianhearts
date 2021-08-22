@@ -1763,6 +1763,8 @@ class UserEngine extends BaseEngine
 				$userAge = isset($blockUser->dob) ? Carbon::parse($blockUser->dob)->age : null;
 				$gender = isset($blockUser->gender) ? configItem('user_settings.gender', $blockUser->gender) : null;
 
+				$isOwnProfile = true;
+
 				$blockUserList[] = [
 					'_id' 			=> $blockUser->_id,
 					'_uid' 			=> $blockUser->_uid,
@@ -1786,6 +1788,7 @@ class UserEngine extends BaseEngine
 		
 		//success reaction
 		return $this->engineReaction(1, [
+			'isOwnProfile'          => $isOwnProfile,
 			'usersData' => $blockUserList,
 			'nextPageUrl' 	=> $blockUserCollection->nextPageUrl()
 		]);

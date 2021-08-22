@@ -3694,6 +3694,36 @@ input[type=submit] {
   .trial{
     display: none;
   }
+
+  #lwChatSidebarToggle {
+    width: 3rem;
+  }
+  #chatBox .modal-title {
+    position: absolute;
+    left: 9rem;
+    top: 2rem;
+  }
+  .lw-messenger .lw-messenger-sidebar {
+    z-index: 1111111;
+  }
+  .lw-messenger-sidebar-opened .lw-messenger-sidebar {
+    width: 100%;
+  }
+  .lw-messenger-sidebar .lw-messenger-header {
+    width: 94% !important;
+  }
+  .list-group-item-action {
+    width: 100% !important;
+  }
+  .custom-select{
+    width: 17rem !important;
+  }
+  #lwUserEditableLooking {
+    margin-left: -14px;
+  }
+  #lwUserEditableIntrest {
+    margin-left: -4px;
+  }
 }
 
 /* w-c-u Section Starts Here*/
@@ -4022,6 +4052,10 @@ input[type=submit] {
   float: left !important;
   flex-direction: inherit !important;
   }
+
+  .list-group-item-action {
+  width: 97% !important;
+}
 }
 
 
@@ -9166,9 +9200,6 @@ input[type=submit] {
   border: 1px solid #ccc !important;
 }
 
-.list-group-item-action {
-  width: 97% !important;
-}
 
 .text-black{
   color: #000 !important;

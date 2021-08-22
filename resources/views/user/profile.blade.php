@@ -405,7 +405,7 @@
 					@if($isOwnProfile)
 					<!-- User Basic Information Form -->
 					<form class="lw-ajax-form lw-form" method="post" data-show-message="true" action="<?= route('user.write.location_data') ?>" data-callback="getUserProfileData" id="lwUserEditableLocation">
-						<div class="card-body">
+						<div class="">
 							<input type="hidden" name="location_store">
 				            <div id="lwUserEditableLocation">
 				                <div class="form-group row">

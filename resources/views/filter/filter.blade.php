@@ -39,7 +39,7 @@
  <form class="" action="<?= route('user.read.find_matches') ?>">
 <div class="card lw-find-form-container mb-4 ">
     <div class="card-body row">
-        <div class="col-2">
+        <div class="col-md-2 col-sm-12">
              <!-- Looking For -->
             <div class="lw-looking-for-container lw-basic-filter-field">
                 <label for="lookingFor"><?= __tr("I'm looking for") ?></label>
@@ -52,10 +52,10 @@
             </div>
             <!-- /Looking For -->
         </div>
-        <div class="col-3">
+        <div class="col-md-3 col-sm-12">
              <!-- Age between -->
             <div class="lw-age-between-container row lw-basic-filter-field">
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label for="minAge"><?= __tr('Aged') ?></label>
                     <select name="min_age" class="form-control" id="minAge">
                         @foreach(range(18,70) as $age)
@@ -65,7 +65,7 @@
                         @endforeach
                     </select>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6 col-sm-12">
                     <label for="minAge"><?= __tr('') ?></label>
                     <select name="max_age" class="form-control mt-1" id="maxAge">
                         @foreach(range(18,70) as $age)
@@ -79,9 +79,9 @@
             <!-- /Age between -->
         </div>
        
-        <div class="col-2">
+        <div class="col-md-2 col-sm-12">
             <label for="" class="w-100">Located</label>
-            <div class="col-12" style="margin-top: -18px; margin-left: -18px;">
+            <div class="col-md-12 col-sm-12" style="margin-top: -18px; margin-left: -18px;">
                 <label class="radio-inline mb-0">
                 <input type="radio" name="locationButton" class="radioInput"  value="distance" @if(isset($inputData['distance']) && !__isEmpty($inputData['distance'])) checked @endif>
                 <span class="radioText">Near me</span></label>
@@ -90,7 +90,7 @@
                 <span class="radioText">Country and city</span></label>
             </div>
         </div>
-        <div class="col-4 distance box" @if(isset($inputData['distance']) && !__isEmpty($inputData['distance'])) style="display:block;" @else style="display:none" @endif>
+        <div class="col-md-4 col-sm-12 distance box" @if(isset($inputData['distance']) && !__isEmpty($inputData['distance'])) style="display:block;" @else style="display:none" @endif>
             <!-- Distance from my location -->
             <div class="lw-distance-location-container lw-basic-filter-field">
                 <label class="justify-content-start" for="distance"><?= __tr('Distance in __distanceUnit__', ['__distanceUnit__' =>( getStoreSettings('distance_measurement') == '6371') ? 'KM' : 'Miles']) ?></label>
@@ -99,9 +99,9 @@
             </div>
             <!-- /Distance from my location -->
         </div>
-        <div class="col-5 city box" @if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id'])) style="display:block;" @else style="display:none" @endif >
+        <div class="col-md-5 col-sm-12 city box" @if(isset($inputData['countries__id']) && !__isEmpty($inputData['countries__id'])) style="display:block;" @else style="display:none" @endif >
                 <div class="row ">
-                    <div class="col-4">
+                    <div class="col-md-4 col-sm-12">
                             <label>Select Country</label>
                         <select class="form-control selectCustom " name="countries__id" id="country">
                             <option value=""></option>
@@ -110,32 +110,32 @@
                                 @endforeach
                         </select>
                     </div>
-                     <div class="col-4">
+                     <div class="col-md-4 col-sm-12">
                         <label>Select State</label>
                         <select class="form-control selectCustom" name="state" id="state"></select>
                     </div>
-                     <div class="col-4">
+                     <div class="col-md-4 col-sm-12">
                         <label>Select City</label>
                         <select class="form-control selectCustom" name="city" id="citySave"></select>
                     </div>
                 </div>
         </div>
-        <div class="col-12">
+        <div class="col-md-12 col-sm-12">
             <!-- /Distance from my location -->
-            <div class="row mt-2">
-                <div class="col-2">
+            <div class="row mt-4">
+                <div class="col-md-2 col-sm-12 mt-1">
                     <center>
                     <button type="submit" class="btn btn-primary"><?= __tr('Search') ?></button></center>
                 </div>
-                <div class="col-2">
+                <div class="col-md-2 col-sm-12 mt-1">
                     <center>
-                     <a href="<?= route('user.read.getSaved') ?>" class="btn btn-secondary p-2" style="line-height: 2.0;"><?= __tr('Saved Searches') ?></a>
+                     <button href="<?= route('user.read.getSaved') ?>" class="btn btn-primary p-2" style="line-height: 2.0;"><?= __tr('Saved Searches') ?></button>
                  </center>
                 </div>
-                <div class="col-3">
+                <div class="col-md-3 col-sm-12 mt-1">
                     
-                    <a href class="btn btn-secondary" style="<?= !__isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwShowAdvanceFilterLink" ><i class="fas fa-filter"></i> <?= __tr('Show Advance Filter') ?></a>
-                    <a href class="btn btn-secondary" style="<?= __isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwHideAdvanceFilterLink"><i class="fas fa-filter"></i> <?= __tr('Hide Advance Filter')  ?></a>
+                    <button href class="btn btn-primary" style="<?= !__isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwShowAdvanceFilterLink" ><i class="fas fa-filter"></i> <?= __tr('Show Advance Filter') ?></button>
+                    <button href class="btn btn-primary" style="<?= __isEmpty(request()->is_advance_filter) ? 'display: none;' : '' ?> padding:0.7rem" id="lwHideAdvanceFilterLink"><i class="fas fa-filter"></i> <?= __tr('Hide Advance Filter')  ?></button>
                     
                 </div>
                 
@@ -153,14 +153,14 @@
         <!-- Tabs for advance filter -->
         
                 <div class="row p-2">
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="user_name">Search with username</label>
                             <input type="text" name="username" class="form-control" style="border: 0; border-bottom: 1px solid #3d3b48;margin-top: 4px;text-align: inherit; width:19rem;"  value="@if(isset($inputData['username']) && !__isEmpty($inputData['username'])  ) <?=$inputData['username']?> @endif">
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="relationship_status"><?= __tr('Relationship looking for') ?></label>
                             <input type="hidden" id="for_relationship_status" name="martial_status" value="">
-                            <select id="relationship_status" class="form-control col-4" multiple="multiple" style="position:relative !important;">
+                            <select id="relationship_status" class="form-control col-md-4 col-sm-12" multiple="multiple" style="position:relative !important;">
                                 <option @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'friendship' ) selected @endif value="friendship">Friendship</option>
                                 <option  @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'dating' ) selected @endif value="dating">Dating</option>
                                 <option  @if(isset($inputData['martial_status']) && !__isEmpty($inputData['martial_status']) && $inputData['martial_status'] == 'marriage' ) selected @endif value="marriage">Marriage</option>
@@ -168,7 +168,7 @@
                             </select>
                         </div>
                     
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="for_nationality"><?= __tr('Nationality')?></label>
                             <input type="hidden" id="for_nationality" name="nationality" value="">
                             <select id="looking_for_nationality" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -179,7 +179,7 @@
                         </div>
                     </div>
                     <div class="row p-2">
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="for_ethnicity"><?= __tr('Ethnicity') ?></label>
                             <input type="hidden" id="for_ethnicity" name="ethnicity" value="">
                             <select id="looking_for_ethnicity" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -189,7 +189,7 @@
                             </select>
                         </div>
                        
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_best_feature"><?= __tr('Best feature') ?></label>
                             <input type="hidden" id="for_best_feature" name="features" value="">
                             <select id="looking_for_best_feature" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -199,7 +199,7 @@
                             </select>
                         </div>
                         
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_religion"><?= __tr('Religion') ?></label>
                             <input type="hidden" id="for_religion" name="religion" value="">
                             <select id="looking_for_religion" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -211,7 +211,7 @@
                     </div>
                     
                     <div class="row p-2">
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_kids"><?= __tr('Do they have kids?') ?></label>
                             <input type="hidden" id="for_kids" name="children" value="">
                             <select id="looking_for_kids" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -220,7 +220,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_living_situation"><?= __tr('Living situation') ?></label>
                             <input type="hidden" id="for_living_situation" name="i_live_with" value="">
                             <select id="looking_for_living_situation" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -230,7 +230,7 @@
                             </select>
                         </div>
                         
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_occupation"><?= __tr('Occupation') ?></label>
                             <input type="hidden" id="for_occupation" name="your_occupation" value="">
                             <select id="looking_for_occupation" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -242,7 +242,7 @@
                     </div>
 
                     <div class="row p-2">
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_salary"><?= __tr('Annual Salary(USD)') ?></label>
                             <select id="looking_for_salary" name="annual_income" class="form-control custom-select">
                                 <option value="">Select</option>
@@ -252,7 +252,7 @@
                             </select>
                         </div>
                         
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_education"><?= __tr('Education') ?></label>
                             <input type="hidden" id="for_education" name="your_education" value="">
                             <select id="looking_for_education" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -262,7 +262,7 @@
                             </select>
                         </div>
 
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_body"><?= __tr('Body Type') ?></label>
                             <input type="hidden" id="for_body" name="body_type" value="">
                             <select id="looking_for_body" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -274,7 +274,7 @@
                     </div>
 
                     <div class="row p-2">
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_smoking"><?= __tr('Do they smoke?') ?></label>
                             <input type="hidden" id="for_smoking" name="smoke" value="">
                             <select id="looking_for_smoking" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -283,7 +283,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <label for="looking_for_alcohol"><?= __tr('Do they drink alcohol?') ?></label>
                             <input type="hidden" id="for_alcohol" name="drink" value="">
                             <select id="looking_for_alcohol" class="form-control" multiple="multiple" style="position:relative !important;">
@@ -292,7 +292,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="col-4">
+                        <div class="col-md-4 col-sm-12">
                             <div class="row">
                                 <div class="col-6">
                                     <label for="from_height"><?= __tr('Height From') ?></label>
@@ -316,7 +316,7 @@
                         </div>
                     </div>
                     <div class="row p-2">
-                       <div class="col-4">
+                       <div class="col-md-4 col-sm-12">
                             <div class="row">
                                 <div class="col-6">
                                     <label for="from_weight"><?= __tr('Weight From') ?></label>

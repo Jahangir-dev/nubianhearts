@@ -12,12 +12,11 @@ $route = \Request::route()->getName();
                     $file =  'connection';
                }
 
-            elseif($route == 'user.profile_view')
+            elseif($route == 'user.profile_view' || $route == 'user.read.block_user_list')
             {
-                
                 $sidebar = 1;
                 $file = 'profile';
-            } elseif($route = 'user.photos_setting') {
+            } elseif($route == 'user.photos_setting') {
                 $sidebar = 1;
                 $file = 'account';
             } else {
@@ -39,7 +38,7 @@ $route = \Request::route()->getName();
         @if(isLoggedIn()) 
         
             @if( $sidebar != 0)
-                <div class="col-3">
+                <div class="col-md-3 col-sm-12">
                     @if($file == 'connection')
                         @include('includes.connection')
                     @endif
@@ -58,9 +57,9 @@ $route = \Request::route()->getName();
         @endif
         <?php 
             if($sidebar != False){
-                $class = 'col-9';
+                $class = 'col-md-9 col-sm-12';
             } else {
-                $class = 'col-12';
+                $class = 'col-md-12 col-sm-12';
             }
          ?>
             <div class="{{$class}}">
