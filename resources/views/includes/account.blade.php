@@ -24,7 +24,7 @@
             </a>
         </li>
          @if(!isAdmin())        
-            <li class="nav-item <?= makeLinkActive('user.read.block_user_list') ?>">
+            <li class="nav-item">
                 <a class="nav-link" href="#" data-toggle="modal" data-target="#lwDeleteAccountModel">
                     <i class="fas fa-trash-alt"></i>
                     <span><?= __tr('Delete Account') ?></span>
