@@ -672,6 +672,11 @@ Route::group([
          * User Section End here
         ----------------------------------------------------------------------- */
 
+        // Delete User photo
+                Route::post('/{userUid}/{type}/{profileOrPhotoUid}/process-delete-photo', [
+                    'as' => 'manage.user.write.photo_delete',
+                    'uses' => 'ManageUserController@processUserPhotoDelete',
+                ]);
         /*
          * Manage / Admin Section 
         ----------------------------------------------------------------------- */
@@ -705,11 +710,7 @@ Route::group([
                     'uses' => 'ManageUserController@userPhotosList',
                 ]);
 
-                // Delete User photo
-                Route::post('/{userUid}/{type}/{profileOrPhotoUid}/process-delete-photo', [
-                    'as' => 'manage.user.write.photo_delete',
-                    'uses' => 'ManageUserController@processUserPhotoDelete',
-                ]);
+                
 
                 // Manage User List
                 Route::get('/{status}/users-list', [
