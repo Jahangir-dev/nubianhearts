@@ -1,11 +1,11 @@
 <div class="lw-messenger-header row">
     <div class="col-md-10">
-        <img src="<?= $userData['profile_picture_image'] ?>" class="lw-profile-picture lw-online  float-left" alt="">
+       <a href="<?= route('user.profile_view', ['username' => $userData['username']]) ?>"> <img src="<?= $userData['profile_picture_image'] ?>" class="lw-profile-picture lw-online  float-left" alt=""></a>
         <div class="lw-messenger-header-meta">
-            <?= $userData['full_name'] ?>
+            <?= $userData['full_name'] ?> @if(!empty($userData['age'])), <?=  $userData['age']?> @endif
             <div class="text-muted">
                 <small>
-                    <?= Str::limit($userData['about_me'], 15) ?>
+                    @if(!empty($userData['country'])) <?= $userData['country'] ?> @endif
                 </small>
             </div>
         </div>
@@ -36,6 +36,12 @@
                 <a class="dropdown-item lw-disable-link" id="lwDeleteAllChatDisableButton" readonly><i class="fas fa-trash"></i> <?= __tr('Delete All Chat') ?></a>
 				<a class="dropdown-item lw-ajax-link-action" id="lwDeleteAllChatActiveButton" href="<?= route('user.write.delete_all_messages', ['userId' => $userData['user_id']]) ?>" data-method="post" data-callback="userChatResponse" data-post-data='<?= json_encode(['to_user_id' => $userData['user_id']]) ?>' type="button"><i class="fas fa-trash"></i> <?= __tr('Delete All Chat') ?></a>
 				<!-- /delete all chat button -->
+                 @if(!$userData['isBlockUser'])
+                <a class="dropdown-item" type="button" title="<?= __tr('Block User') ?>" id="lwBlockUserBtn"><i class="fas fa-ban"></i> <?= __tr('Block User') ?></a>
+                @endif
+                <!-- report button -->
+                <a class="dropdown-item" type="button" title="" data-toggle="modal" data-target="#lwReportUserDialog"><i class="fa fa-exclamation-triangle" aria-hidden="true"></i> <?= __tr('Report') ?></a>
+                        <!-- /report button --> 
 			</div>
         </div>
     </div>
@@ -100,6 +106,9 @@
 </div>
 <div class="lw-messenger-footer">
     <div class="col-12">
+        @if($userData['isBlockUser'])
+            you have blocked this user <button class="btn btn-primary float-right btn-sm lw-ajax-link-action col-md-2 mr-2" data-callback="onUnblockUser" data-method="post" href="<?= route('user.write.unblock_user', ['userUid' =>  $userData['user_uid']]) ?>"><?= __tr('Unblock') ?></button>
+        @else
         <form class="lw-ajax-form lw-form" method="post" action="<?= route('user.write.send_message', ['userId' => $userData['user_id']]) ?>" id="lwSendMessageForm" style="display: none;">
             <div class="input-group">
                 <input type="text" name="message" class="form-control" aria-describedby="button-addon4" id="lwChatMessage">
@@ -134,7 +143,7 @@
                 </div>
             </div>
         </form>
-
+        @endif
         <!--  Accept Message Request Button -->
         <a href="<?= route('user.write.accept_decline_message_request', ['userId' => $userData['user_id']]) ?>" type="button" class="btn btn-success btn-sm lw-ajax-link-action" id="lwAcceptChatRequestBtn" data-post-data='<?= json_encode(['message_request_status' => 1]) ?>' style="display: none;" data-method="post" data-callback="__Messenger.acceptMessageRequest"><?= __tr('Accept') ?></a>
         <!--  /Accept Message Request Button -->
@@ -159,6 +168,40 @@
         <!-- <div class="lw-overlay offset-md-4"></div> -->
     </div>
 </div>
+
+<!-- user report Modal-->
+    <div class="modal fade" id="lwReportUserDialog" tabindex="-1" role="dialog" aria-labelledby="userReportModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="userReportModalLabel"><?= __tr('Abuse Report to __username__', [
+                    '__username__' => $userData['username']]) ?></h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close" style="margin: -1rem 0rem -1rem auto;width: 20px;">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <form class="lw-ajax-form lw-form" id="lwReportUserForm" method="post" data-callback="userReportCallback" action="<?= route('user.write.report_user', ['sendUserUId' => $userData['user_id']]) ?>">
+                    <div class="modal-body">
+                        <!-- reason input field -->
+                        <div class="form-group">
+                            <label for="lwUserReportReason"><?= __tr('Reason') ?></label>
+                            <textarea class="form-control" rows="3" id="lwUserReportReason" name="report_reason" required></textarea>
+                        </div>
+                        <!-- / reason input field -->
+                    </div>
+
+                    <!-- modal footer -->
+                    <div class="modal-footer mt-3">
+                        <button class="btn btn-light btn-sm" id="lwCloseUserReportDialog"><?= __tr('Cancel') ?></button>
+                        <button type="submit" class="btn btn-primary btn-sm lw-ajax-form-submit-action btn-user lw-btn-block-mobile"><?= __tr('Report') ?></button>
+                    </div>
+                </form>
+                <!-- modal footer -->
+            </div>
+        </div>
+    </div>
+    <!-- /user report Modal-->
+
 <!-- /Bottom sheet for Sticker / Gif Image -->
 <!-- Modal -->
 <div class="modal fade" id="lwUserNotAcceptedMsgRequest" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -178,7 +221,40 @@
 		</div>
 	</div>
 </div>
-
+<div id="lwBlockUserConfirmationText" style="display: none;">
+        <h3><?= __tr('Are You Sure!') ?></h3>
+        <strong><?= __tr('You want to block this user.') ?></strong>
+    </div>
 <script>
 __Messenger.recipientUserProfilePicture = "<?= $userData['profile_picture_image'] ?>";
+//block user confirmation
+    $("#lwBlockUserBtn").on('click', function(e) {
+        var confirmText = $('#lwBlockUserConfirmationText');
+        //show confirmation 
+        showConfirmation(confirmText, function() {
+            var requestUrl = '<?= route('user.write.block_user') ?>',
+                formData = {
+                    'block_user_id' : '<?= $userData['user_uid'] ?>',
+                };                  
+            // post ajax request
+            __DataRequest.post(requestUrl, formData, function(response) {
+                if (response.reaction == 1) {
+                    __Utils.viewReload();
+                }
+            });
+        });
+    });
+    //on un block user callback
+    function onUnblockUser(response) {
+        //check reaction code is 1
+        if (response.reaction == 1) {
+            var requestData = response.data;
+            
+            //apply class row fade in
+            $("#lwBlockUser_"+requestData.blockUserUid).hide();
+            if (requestData.blockUserLength == 0) {
+                location.reload();
+            }
+        }
+    } 
 </script>

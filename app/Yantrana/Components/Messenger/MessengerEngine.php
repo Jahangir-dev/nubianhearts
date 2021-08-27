@@ -131,12 +131,21 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
                 if (!\__isEmpty($user->profile_picture)) {
                     $profilePictureUrl = getMediaUrl($profilePictureFolderPath, $user->profile_picture);
                 }
+                $age = isset($user->dob) ? Carbon::parse($user->dob)->age : null;
+                $countryName = '';
+                if (!__isEmpty($user->countries__id)) {
+                $country = $this->countryRepository->fetchById($user->countries__id, ['name']);
+                $countryName = $country->name;
+                }
+                
                 $messengerUsers[] = [
                     'user_id'           => $user->user_id,
                     'user_uid'          => $user->user_uid,
                     'user_full_name'    => $user->first_name.' '.$user->last_name,
                     'profile_picture'   => $profilePictureUrl,
                     'about_me'          => $user->about_me,
+                    'age'               => $age,
+                    'country'           => $countryName,
                     'is_online'         => $this->getUserOnlineStatus($user->updated_at)
                 ];
             }
@@ -213,16 +222,34 @@ class MessengerEngine extends BaseEngine implements MessengerEngineInterface
                     break;
             }
         }
-        
+         $age = isset($userDetails->dob) ? Carbon::parse($userDetails->dob)->age : null;
+                $countryName = '';
+                if (!__isEmpty($userDetails->countries__id)) {
+                $country = $this->countryRepository->fetchById($userDetails->countries__id, ['name']);
+                $countryName = $country->name;
+                }
+            
+        //fetch block me users
+            $blockbyMeUser =  $this->userRepository->fetchBlockUser($userDetails->_id);
+            
+            $isBlockUser = false;
+            //check if not empty then set variable is true
+            if (!__isEmpty($blockbyMeUser)) {
+                $isBlockUser = true;
+            }
         // Prepare user data
         $userData = [
             'user_id' => $userDetails->_id,
             'user_uid' => $userDetails->_uid,
+            'username' => $userDetails->username,
             'full_name' => $userDetails->first_name.' '.$userDetails->last_name,
             'about_me' => $userDetails->about_me,
             'profile_picture_image' => $profilePictureUrl,
             'messageRequestStatus' => $messageRequestStatus,
-            'enableAudioVideoLinks' => $enableAudioVideoLinks
+            'enableAudioVideoLinks' => $enableAudioVideoLinks,
+            'age'                   => $age,
+            'country'       => $countryName,
+            'isBlockUser'   => $isBlockUser
         ];
         // Fetch message collection
         $messageCollection = $this->messengerRepository->fetchConversations($userId);

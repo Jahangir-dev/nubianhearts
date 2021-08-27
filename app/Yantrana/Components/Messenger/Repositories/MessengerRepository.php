@@ -52,7 +52,9 @@ class MessengerRepository extends BaseRepository
                                 'user_profiles' => [
                                     'users__id AS user_profile_user_id',
                                     'profile_picture',
-                                    'about_me'
+                                    'about_me',
+                                    'dob',
+                                    'countries__id'
                                 ],
                                 'user_authorities' => [
                                     'users__id AS user_authority_user_id',

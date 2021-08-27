@@ -17,7 +17,7 @@
 
 <div class="card mb-3">
     <div class="card-body">
-    @if($photosCount <= 10)
+    @if($photosCount <= 7)
         <input type="file" class="lw-file-uploader" data-instant-upload="true" data-action="<?= route('user.upload_photos') ?>" data-default-image-url="" data-allowed-media='<?= getMediaRestriction('photos') ?>' multiple data-callback="afterFileUpload" data-remove-all-media="true">
     @endif
 
@@ -25,27 +25,44 @@
         </div>
     </div>
 </div>
+<!-- User Soft delete Container -->
+<div id="lwPhotoDeleteContainer" style="display: none;">
+    <h3><?= __tr('Are You Sure!') ?></h3>
+    <strong><?= __tr('You want to delete this Photo') ?></strong>
+</div>
+<!-- User Soft delete Container -->
 
 <script type="text/_template" id="lwPhotosContainer">
 <% if(!_.isEmpty(__tData.userPhotos)) { %>
     <% _.forEach(__tData.userPhotos, function(item, index) { %>
+
         <img class="lw-user-photo lw-photoswipe-gallery-img lw-lazy-img" data-img-index="<%= index %>" src="<%= item.image_url %>" alt="">
+        <a class="btn btn-danger btn-sm delete lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoDeleteContainer" data-method="post" data-action="<%= item.delete_url %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-trash-alt"></i></a>
     <% }); %>
 <% } else { %>
     <?= __tr('There are no photos found.') ?>
 <% } %>
 </script>
-
+<style type="text/css">
+    .delete {
+        height: 2rem;
+        margin-left: -1.8rem;
+        border: 0 !important;
+    }
+</style>
 @push('appScripts')
 <script>
     var userPhotos = <?= json_encode($userPhotos) ?>;
+
     function preparePhotosList() {
         var photoContainer = _.template($('#lwPhotosContainer').html()),
             compiledHtml = photoContainer({'userPhotos': userPhotos});
             $('#lwUserPhotos').html(compiledHtml);
     }
     preparePhotosList();
-
+    onSuccessAction = function (response) {
+        window.location.reload();
+    };
     // After successfully uploaded file
     function afterFileUpload(responseData) {
         if (!_.isUndefined(responseData.data.stored_photo)) {

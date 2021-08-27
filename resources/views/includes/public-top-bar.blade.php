@@ -18,12 +18,12 @@
     <!-- Topbar Navbar -->
     
     <ul class="navbar-nav">
-         <li class="nav-item d-none d-sm-none d-md-block">
+         <!-- <li class="nav-item d-none d-sm-none d-md-block">
             <a href="{{route('user.read.messenger')}}" class="nav-link">
                 <i class="far fa-comments"></i>
             </a>
            
-        </li>
+        </li> -->
         <!-- Notification Link -->
         <li class="nav-item dropdown no-arrow mx-1 d-none d-sm-none d-md-block">
             <a class="nav-link dropdown-toggle lw-ajax-link-action" href="<?= route('user.notification.write.read_all_notification') ?>" data-callback="onReadAllNotificationCallback" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-method="post">

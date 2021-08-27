@@ -107,7 +107,9 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
                                     '_id AS user_profile_id',
                                     '_uid AS user_profile_uid',
                                     'profile_picture',
-                                    'about_me'
+                                    'about_me',
+                                    'dob',
+                                    'countries__id'
                                 ]
                             ])
                         )
@@ -138,7 +140,9 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
                                     '_id AS user_profile_id',
                                     '_uid AS user_profile_uid',
                                     'profile_picture',
-                                    'about_me'
+                                    'about_me',
+                                    'dob',
+                                    'countries__id'
                                 ],
                                 'user_authorities' => [
                                     'users__id AS user_authority_user_id',
