@@ -151,7 +151,7 @@ class ManageUserController extends BaseController
      * @return json object
      *---------------------------------------------------------------- */
     public function processUserPhotoDelete($userUid, $type, $profileOrPhotoUid) 
-    {    
+    {
         $processReaction = $this->manageUserEngine->processUserPhotoDelete($userUid, $type, $profileOrPhotoUid);
         
         return $this->responseAction(

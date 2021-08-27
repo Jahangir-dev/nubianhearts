@@ -61,6 +61,7 @@
     }
     preparePhotosList();
     onSuccessAction = function (response) {
+        console.log(response);
         window.location.reload();
     };
     // After successfully uploaded file

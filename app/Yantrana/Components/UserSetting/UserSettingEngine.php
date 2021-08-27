@@ -654,7 +654,6 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
         // check if user photos exists
         if (!__isEmpty($userPhotoCollection)) {
             foreach ($userPhotoCollection as $photo) {
-                
                 $userPhotos[] = [
                     '_id' => $photo->_id,
                     'image_url' => getMediaUrl($userPhotosFolderPath, $photo->file),
