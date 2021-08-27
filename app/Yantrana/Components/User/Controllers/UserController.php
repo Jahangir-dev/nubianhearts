@@ -23,22 +23,24 @@ use App\Yantrana\Components\User\Requests\{
 use App\Yantrana\Components\User\UserEngine;
 use App\Yantrana\Support\CommonUnsecuredPostRequest;
 use Auth;
-
+use App\Yantrana\Components\User\ManageUserEngine;
 class UserController extends BaseController
 {
     /**
      * @var UserEngine - User Engine
      */
     protected $userEngine;
+    protected $manageUserEngine;
 
     /**
      * Constructor.
      *
      * @param UserEngine $userEngine - User Engine
      *-----------------------------------------------------------------------*/
-    public function __construct(UserEngine $userEngine)
+    public function __construct(UserEngine $userEngine,manageUserEngine $manageUserEngine)
     {
         $this->userEngine = $userEngine;
+        $this->manageUserEngine = $manageUserEngine;
     }
     
     /**
@@ -730,6 +732,15 @@ class UserController extends BaseController
 		return $this->responseAction(
 			$this->processResponse($processReaction, [], [], true)
 		);
+    }
+
+    public function processUserPhotoDelete($userUid, $type, $profileOrPhotoUid) 
+    {
+        $processReaction = $this->manageUserEngine->processUserPhotoDelete($userUid, $type, $profileOrPhotoUid);
+        
+        return $this->responseAction(
+            $this->processResponse($processReaction, [], [], true)
+        );
     }
 
     /**

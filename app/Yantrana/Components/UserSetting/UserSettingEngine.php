@@ -657,7 +657,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                 $userPhotos[] = [
                     '_id' => $photo->_id,
                     'image_url' => getMediaUrl($userPhotosFolderPath, $photo->file),
-                    'delete_url' => route('manage.user.write.photo_delete', [
+                    'delete_url' => route('user.write.photo_delete', [
                         'userUid' => authUID(),
                         'type' => 'photo',
                         'profileOrPhotoUid' => $photo->_uid
@@ -704,7 +704,7 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
                     'stored_photo' => [
                         '_id' => $newUserPhoto->_id,
                         'image_url' => $uploadedFile['data']['path'],
-                        'delete_url' => route('manage.user.write.photo_delete', [
+                        'delete_url' => route('user.write.photo_delete', [
                         'userUid' => authUID(),
                         'type' => 'photo',
                         'profileOrPhotoUid' => $newUserPhoto->_uid
