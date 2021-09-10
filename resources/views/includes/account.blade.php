@@ -16,7 +16,13 @@
                 <span><?= __tr('My Photos') ?></span>
             </a>
         </li>
-       
+        <li class="nav-item <?= makeLinkActive('user.settings') ?>">
+            <a class="nav-link"
+                href="<?= route('user.settings', ['username' => getUserAuthInfo('profile.username')]) ?>">
+                <i class="fas fa-cog"></i>
+                <span><?= __tr('Account') ?></span>
+            </a>
+        </li>
         <li class="nav-item <?= makeLinkActive('user.read.block_user_list') ?>">
             <a class="nav-link" href="<?= route('user.read.block_user_list') ?>">
                 <i class="fas fa-ban"></i>

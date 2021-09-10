@@ -16,7 +16,7 @@ $route = \Request::route()->getName();
             {
                 $sidebar = 1;
                 $file = 'profile';
-            } elseif($route == 'user.photos_setting') {
+            } elseif($route == 'user.photos_setting' || $route == 'user.settings') {
                 $sidebar = 1;
                 $file = 'account';
             } else {

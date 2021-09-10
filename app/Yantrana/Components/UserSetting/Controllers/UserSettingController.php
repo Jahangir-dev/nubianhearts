@@ -14,8 +14,11 @@ use App\Yantrana\Components\UserSetting\Requests\{
 	UserSettingRequest,
 	UserProfileWizardRequest
 };
+use App\Yantrana\Support\CommonTrait;
+use Auth;
 use App\Yantrana\Support\CommonUnsecuredPostRequest;
 use App\Yantrana\Components\UserSetting\UserSettingEngine;
+use App\Yantrana\Components\UserSetting\Repositories\UserSettingRepository;
 
 class UserSettingController extends BaseController
 {    
@@ -23,6 +26,10 @@ class UserSettingController extends BaseController
      * @var  UserSettingEngine $userSettingEngine - UserSetting Engine
      */
     protected $userSettingEngine;
+
+    use CommonTrait;
+
+     protected $userSettingRepository;
 
     /**
       * Constructor
@@ -32,9 +39,10 @@ class UserSettingController extends BaseController
       * @return  void
       *-----------------------------------------------------------------------*/
 
-    function __construct(UserSettingEngine $userSettingEngine)
+    function __construct(UserSettingEngine $userSettingEngine,UserSettingRepository $userSettingRepository)
     {
         $this->userSettingEngine = $userSettingEngine;
+        $this->userSettingRepository    = $userSettingRepository;
 	}
 	
 	/**
@@ -158,6 +166,52 @@ class UserSettingController extends BaseController
         $processReaction = $this->userSettingEngine->prepareUserPhotosSettings();
         
         return $this->loadPublicView('user.settings.photos', $processReaction['data']);
+    }
+
+    public function getUserSetting()
+    {
+        
+        $user = Auth::user();
+        $data = [];
+        if ($user->password == 'NO_PASSWORD') {
+            $data = [
+                'userPassword' => $user->password
+            ];
+        }
+        $data = [
+            'userEmail' => $user->email
+        ];
+
+        $pageType = 'notification';
+        // Get settings from config
+        $defaultSettings = $this->getDefaultSettings($this->getUserSettingConfig()['items'][$pageType]);
+
+        // check if default settings exists
+        if (__isEmpty($defaultSettings)) {
+            return $this->engineReaction(18, ['show_message'=> true], __tr('Invalid page type.'));
+        }
+
+        $userSettings = $dbUserSettings = [];
+        // Check if default settings exists
+        if (!__isEmpty($defaultSettings)) {
+            // Get selected default settings
+            $userSettingCollection = $this->userSettingRepository->fetchUserSettingByName(array_keys($defaultSettings));
+            
+            // check if configuration collection exists
+            if (!__isEmpty($userSettingCollection)) {
+                foreach($userSettingCollection as $configuration) {
+                    $dbUserSettings[$configuration->key_name] = $this->castValue($configuration->data_type, $configuration->value);
+                }
+            }
+          
+            // Loop over the default settings
+            foreach($defaultSettings as $defaultSetting) {
+                $userSettings[$defaultSetting['key']] = $this->prepareDataForConfiguration($dbUserSettings, $defaultSetting);
+            }
+        }
+        $userSettingData = $userSettings;
+
+        return $this->loadPublicView('user.account.index', compact('data','userSettingData'));
     }
 
     /**

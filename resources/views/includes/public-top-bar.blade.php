@@ -89,7 +89,7 @@
                         <?= __tr('Photos') ?>
                 </a>
                 <a class="dropdown-item"
-                        href="<?= route('user.photos_setting', ['username' => getUserAuthInfo('profile.username')]) ?>">
+                        href="<?= route('user.settings', ['username' => getUserAuthInfo('profile.username')]) ?>">
                         <i class="fa fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                         <?= __tr('Settings') ?>
                 </a>

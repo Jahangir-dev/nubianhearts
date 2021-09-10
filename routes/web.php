@@ -176,6 +176,11 @@ Route::group([
             'uses' => 'UserSetting\Controllers\UserSettingController@getUserPhotosSetting',
         ]);
 
+         Route::get('/@{username}/settings', [
+            'as' => 'user.settings',
+            'uses' => 'UserSetting\Controllers\UserSettingController@getUserSetting',
+        ]);
+
         /*
         Filter Components Public Section Related Routes
         ----------------------------------------------------------------------- */
