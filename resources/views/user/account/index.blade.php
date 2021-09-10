@@ -179,7 +179,7 @@
 </div>
 
 				  </div>
-				  <div class="tab-pane" id="billing" role="tabpanel" aria-labelledby="billing-tab">...3</div>
+				  <div class="tab-pane" id="billing" role="tabpanel" aria-labelledby="billing-tab">billing</div>
 				 
 				</div>
 			</div>

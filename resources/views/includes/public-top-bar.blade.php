@@ -56,6 +56,11 @@
                         <!-- info message -->
                         <a class="dropdown-item text-center small text-gray-500"><?= __tr('There are no notification.') ?></a>
                         <!-- /info message -->
+
+                        <!-- show all notification link -->
+                        <a class="dropdown-item text-center small text-gray-500" href="<?= route('user.notification.read.view') ?>" id="lwShowAllNotifyLink" data-show-if="showAllNotifyLink"><?= __tr('Show All Notifications.') ?></a>
+                        <!-- /show all notification link -->
+
                     <% } %>
                 </script>
                 <!-- /Notification block -->
@@ -93,14 +98,14 @@
                         <i class="fa fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
                         <?= __tr('Settings') ?>
                 </a>
-                <a class="dropdown-item" href="<?= route('user.change_password') ?>">
+               <!--  <a class="dropdown-item" href="<?= route('user.change_password') ?>">
                     <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                    <?= __tr('Change Password') ?>
                 </a>
                 <a class="dropdown-item" href="<?= route('user.change_email') ?>">
                     <i class="fas fa-envelope fa-sm fa-fw mr-2 text-gray-400"></i>
                     <?= __tr('Change Email') ?>
-                </a>
+                </a> -->
                
                 @if(isAdmin())
                     <div class="dropdown-divider"></div>
