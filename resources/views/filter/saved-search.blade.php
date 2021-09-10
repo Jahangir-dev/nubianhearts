@@ -50,6 +50,13 @@
 
 @push('appScripts')
 <script>
+     $(document).ready(function(){
+        function deleteRecord()
+        {
+            alert('yes');
+        }
+    });
+
     var dtColumnsData = [
         {
             "name"      : "name",

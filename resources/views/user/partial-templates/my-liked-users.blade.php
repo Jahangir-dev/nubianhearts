@@ -17,28 +17,42 @@
 		<a href="<?= route('user.profile_view', ['username' => $user['username']]) ?>">
 				<img data-src="<?= imageOrNoImageAvailable($user['userImageUrl']) ?>" class="lw-user-thumbnail lw-lazy-img"/>
 		</a>
-					
-				
-		<div class="card-title" style="border-top: 1px solid #898996;">
-			<div class="row justify-content-md-center">
-				<div class="col-md-2 col-sm-2">
+		<div class="row" style="margin-top:-63px;">
+			<div class="col-md-6 col-sm-12">
+						@if($user['isBlockUser'] == true)
+						<!-- like button -->
+						<a data-toggle="tooltip" title="This user is blocked!"  title="Like" class=" lw-like-dislike-box" id="lwLikeBtn" style="border:0; margin-top:13px;">
+							<span class="lw-animated-heart lw-animated-like-heart <?= (isset($user['like']) and $user['like'] == 1) ? 'lw-is-active' : '' ?>"
+								></span>
+						</a>
+						<!-- /like button -->
+						@else
+						<!-- like button -->
+						<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $user['liked_user'],'like' => 1]) ?>" data-method="post" data-callback="onLikeCallback" title="Like" class="lw-ajax-link-action lw-like-dislike-box" id="lwLikeBtn" style="border:0; margin-top:13px;">
+							<span class="lw-animated-heart lw-animated-like-heart <?= (isset($user['like']) and $user['like'] == 1) ? 'lw-is-active' : '' ?>"
+								></span>
+						</a>
+						<!-- /like button -->
+						@endif
+					</div>		
+			<div class="col-md-6 col-sm-12">
 					@if($user['isBlockUser'] == true)
-					<!-- like button -->
-					<a data-toggle="tooltip" title="This user is blocked!"  title="Like" class=" lw-like-dislike-box" id="lwLikeBtn" style="border:0; margin-top:13px;">
-						<span class="lw-animated-heart lw-animated-like-heart <?= (isset($user['like']) and $user['like'] == 1) ? 'lw-is-active' : '' ?>"
-							></span>
-					</a>
-					<!-- /like button -->
+						<!-- message button -->
+							<a class="btn-link messageBox" data-toggle="tooltip" title="This user is blocked!" style="font-size: 18px; margin-top: 1.9rem !important; cursor: pointer;"><i class="far fa-comments fa-2x"></i>
+								<br> <?= __tr('Message') ?></a>
+						<!-- /message button -->
 					@else
-					<!-- like button -->
-					<a href data-action="<?= route('user.write.like_dislike', ['toUserUid' => $user['liked_user'],'like' => 1]) ?>" data-method="post" data-callback="onLikeCallback" title="Like" class="lw-ajax-link-action lw-like-dislike-box" id="lwLikeBtn" style="border:0; margin-top:13px;">
-						<span class="lw-animated-heart lw-animated-like-heart <?= (isset($user['like']) and $user['like'] == 1) ? 'lw-is-active' : '' ?>"
-							></span>
-					</a>
-					<!-- /like button -->
+					<!-- message button -->
+						<a class=" btn-link messageBox" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $user['liked_user']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog" style="font-size: 18px;  margin-top: 1.9rem !important;"><i class="far fa-comments fa-2x"></i>
+							</a>
+					<!-- /message button -->
 					@endif
 				</div>
-				<div class="col-md-6 col-sm-6">
+		</div>
+		<div class="card-title" style="border-top: 1px solid #898996;">
+			<div class="row justify-content-md-center">
+				
+				<div class="col-md-12 col-sm-12">
 					<h5>
 			           	<a class="text-secondary name-changes" style="color: black !important;" href="<?= route('user.profile_view', ['username' => $user['username']]) ?>">
 			                <?= $user['userFullName'] ?>
@@ -55,22 +69,12 @@
 					@else
 						<span>Sent :<?= $user['last_sent'] ?></span>
 					@endif
+					@else
+						<span>Recieved:</span>
 					@endif
 				</div>
 				
-				<div class="col-md-3 col-sm-3">
-					@if($user['isBlockUser'] == true)
-						<!-- message button -->
-							<a class="mr-lg-3 mt-4 btn-link" data-toggle="tooltip" title="This user is blocked!" style="font-size: 13px; cursor: pointer;"><i class="far fa-comments fa-2x"></i>
-								<br> <?= __tr('Message') ?></a>
-						<!-- /message button -->
-					@else
-					<!-- message button -->
-						<a class="mr-lg-3 mt-4 btn-link" onclick="getChatMessenger('<?= route('user.read.individual_conversation', ['specificUserId' => $user['liked_user']]) ?>')" href id="lwMessageChatButton" data-chat-loaded="false" data-toggle="modal" data-target="#messengerDialog" style="font-size: 13px;"><i class="far fa-comments fa-2x"></i>
-							<br> <?= __tr('Message') ?></a>
-					<!-- /message button -->
-					@endif
-				</div>
+				
 			</div>
 		</div>
 	</div>
@@ -91,5 +95,15 @@
 		border-bottom:0 !important;
 		padding-bottom: 0 !important;
 		margin-top : 33px;
+	}
+	.lw-like-dislike-box {
+		padding-bottom: 0 !important;
+		margin-top: 0px !important; 
+	}
+	.lw-animated-heart {
+		height: 64px !important;
+	}
+	.messageBox {
+		margin-right: -2.5rem !important;
 	}
 </style>

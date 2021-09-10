@@ -86,9 +86,13 @@
                 <a class="dropdown-item"
                         href="<?= route('user.photos_setting', ['username' => getUserAuthInfo('profile.username')]) ?>">
                         <i class="far fa-images fa-sm fa-fw mr-2 text-gray-400"></i>
-                        <?= __tr('My Photos') ?>
+                        <?= __tr('Photos') ?>
                 </a>
-                
+                <a class="dropdown-item"
+                        href="<?= route('user.photos_setting', ['username' => getUserAuthInfo('profile.username')]) ?>">
+                        <i class="fa fa-cog fa-sm fa-fw mr-2 text-gray-400"></i>
+                        <?= __tr('Settings') ?>
+                </a>
                 <a class="dropdown-item" href="<?= route('user.change_password') ?>">
                     <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                    <?= __tr('Change Password') ?>

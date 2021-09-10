@@ -513,7 +513,7 @@ class FilterEngine extends BaseEngine implements FilterEngineInterface
         $data['total'] = count($search);
         $requireColumns = ['name',
         'action' => function($pageData) {
-                return "<a class='btn btn-primary' href='".route('user.read.searchRun',['id'=>$pageData['id']])."'>Run</a>".'&nbsp;'."<a class='btn btn-primary' href='".route('user.read.editSaved',['id'=>$pageData['id']])."'><i class='fa fa-edit'></i></a>".'&nbsp;'."<a class='btn btn-primary' href='".route('user.read.searchDelete',['id'=>$pageData['id']])."'><i class='fa fa-trash'></i></a>";
+                return "<a class='btn btn-primary' href='".route('user.read.searchRun',['id'=>$pageData['id']])."'>Run</a>".'&nbsp;'."<a class='btn btn-primary' href='".route('user.read.editSaved',['id'=>$pageData['id']])."'><i class='fa fa-edit'></i></a>".'&nbsp;'."<a class='btn btn-primary confirm' onclick='return confirm(Are you sure?)' href='".route('user.read.searchDelete',['id'=>0])."'><i class='fa fa-trash'></i></a>";
             }
         ];
         return $this->dataTableSearchResponse($data, $requireColumns);

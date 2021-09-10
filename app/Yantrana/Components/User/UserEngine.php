@@ -1355,7 +1355,7 @@ class UserEngine extends BaseEngine
 					if(count($sent_at) > 0)
 					{
 						$date = Carbon::parse($sent_at[0]->created_at);
-					$last_sent = $date->format('j F Y');
+					$last_sent = $date->format('j-F-Y');
 					} else {
 						$last_sent = null;
 					}
@@ -1516,7 +1516,7 @@ class UserEngine extends BaseEngine
 				if(count($sent_at) > 0)
 				{
 					$date = Carbon::parse($sent_at[0]->created_at);
-					$last_sent = $date->format('j F Y');
+					$last_sent = $date->format('j-F-Y');
 
 				} else {
 					$last_sent = null;

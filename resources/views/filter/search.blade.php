@@ -144,7 +144,7 @@
                 <div class="row p-2">
                         <div class="col-4">
                             <label for="user_name">Search with username</label>
-                            <input type="text" name="username" class="form-control" style="border: 0; border-bottom: 1px solid #3d3b48;margin-top: 4px;text-align: inherit; width:19rem;"  value="@if(isset($inputData['username']) && !__isEmpty($inputData['username'])  ) <?=$inputData['username']?> @endif">
+                            <input type="text" name="username" class="form-control" style="margin-top: 4px;text-align: inherit; width:19rem;"  value="@if(isset($inputData['username']) && !__isEmpty($inputData['username'])  ) <?=$inputData['username']?> @endif">
                         </div>
                         <div class="col-4">
                             <label for="relationship_status"><?= __tr('Relationship looking for') ?></label>
