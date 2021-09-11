@@ -11,7 +11,7 @@
 <!-- Page Heading -->
 <div class="d-sm-flex align-items-center justify-content-between mb-4">
 	<h4 class="h5 mb-0 text-gray-200">
-		<span class="text-primary"><i class="far fa-images"></i></span> <?= __tr('My Photos') ?>
+		<span class="text-primary"><i class="far fa-images"></i></span> <?= __tr('Photos (Max 7)') ?>
 	</h4>
 </div>
 
@@ -61,7 +61,6 @@
     }
     preparePhotosList();
     onSuccessAction = function (response) {
-        console.log(response);
         window.location.reload();
     };
     // After successfully uploaded file
