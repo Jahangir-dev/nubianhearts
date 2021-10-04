@@ -19,10 +19,14 @@ $route = \Request::route()->getName();
             } elseif($route == 'user.photos_setting' || $route == 'user.settings') {
                 $sidebar = 1;
                 $file = 'account';
+            } elseif($route == 'faq' || $route == "bug-report" || $route == 'feedback' || $route == 'contact-us'){
+                $sidebar = 1;
+                $file = 'help';
             } else {
                 $sidebar = 0;
                 $file = '';
             }
+
 ?>
 
 <!-- /include header -->
@@ -44,6 +48,9 @@ $route = \Request::route()->getName();
                     @endif
                     @if($file == 'account' || $file == 'profile' && $isOwnProfile)
                         @include('includes.account')
+                    @endif
+                     @if($file == 'help')
+                        @include('includes.help')
                     @endif
                     @if($file == 'profile' && !$isOwnProfile)
                          @if(isset($is_profile_page) and ($is_profile_page === true))

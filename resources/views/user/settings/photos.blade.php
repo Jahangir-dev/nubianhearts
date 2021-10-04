@@ -35,9 +35,14 @@
 <script type="text/_template" id="lwPhotosContainer">
 <% if(!_.isEmpty(__tData.userPhotos)) { %>
     <% _.forEach(__tData.userPhotos, function(item, index) { %>
+        <div class="card">
+            <img class="lw-user-photo card-img-top lw-photoswipe-gallery-img lw-lazy-img" data-img-index="<%= index %>" src="<%= item.image_url %>" alt="">
+         <div class="card-footer">
+            <a class="btn btn-danger float-right btn-sm lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoDeleteContainer" data-method="post" data-action="<%= item.delete_url %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-trash-alt"></i></a>
 
-        <img class="lw-user-photo lw-photoswipe-gallery-img lw-lazy-img" data-img-index="<%= index %>" src="<%= item.image_url %>" alt="">
-        <a class="btn btn-danger btn-sm delete lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoDeleteContainer" data-method="post" data-action="<%= item.delete_url %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-trash-alt"></i></a>
+            <a class="btn btn-danger float-right mr-2 btn-sm lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoDeleteContainer" data-method="post" data-action="<%= item.delete_url %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-user-alt"></i></a>
+        </div>
+        </div>
     <% }); %>
 <% } else { %>
     <?= __tr('There are no photos found.') ?>
@@ -48,6 +53,10 @@
         height: 2rem;
         margin-left: -1.8rem;
         border: 0 !important;
+    }
+    .card-footer {
+        padding: 0.25rem 0.25rem;
+        background-color: #fff;
     }
 </style>
 @push('appScripts')

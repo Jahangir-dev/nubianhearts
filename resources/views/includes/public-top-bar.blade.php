@@ -115,6 +115,10 @@
                     </a>
                 @endif
                 <div class="dropdown-divider"></div>
+                <a class="dropdown-item text-primary" target="#" href="<?= route('faq',['username' => getUserAuthInfo('profile.username')]) ?>">
+                        <i class="fa fa-question-circle fa-sm fa-fw mr-2 text-gray-400"></i>
+                        <?= __tr('Need help?') ?>
+                    </a>
                 <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                     <?= __tr('Logout') ?>
