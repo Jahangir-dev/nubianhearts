@@ -24,7 +24,7 @@
             </a>
         </li>
         <li class="nav-item <?= makeLinkActive('faq') ?>">
-            <a class="nav-link" href="<?= route('user.read.block_user_list') ?>">
+            <a class="nav-link" href="<?= route('faq', ['username' => getUserAuthInfo('profile.username')]) ?>">
                 <i class="fa fa-check"></i>
                 <span><?= __tr('FAQs') ?></span>
             </a>

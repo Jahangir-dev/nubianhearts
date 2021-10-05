@@ -46,29 +46,6 @@ Route::group([
         'uses' => 'Home\Controllers\HomeController@previewPage',
     ]);
 
-    //faq
-    Route::get('/@{username}/faq', [
-        'as' => 'faq',
-        'uses' => 'User\Controllers\HelpController@faq',
-    ]);
-
-     //Bug
-    Route::get('/@{username}/bug-report', [
-        'as' => 'bug-report',
-        'uses' => 'User\Controllers\HelpController@bug',
-    ]);
-
-    //feedback
-    Route::get('/@{username}/feedback', [
-        'as' => 'feedback',
-        'uses' => 'User\Controllers\HelpController@feedback',
-    ]);
-
-    //contact-us
-    Route::get('/@{username}/contact-us', [
-        'as' => 'contact-us',
-        'uses' => 'User\Controllers\HelpController@contact',
-    ]);
     /*
     User Components Public Section Related Routes
     ----------------------------------------------------------------------- */
@@ -176,6 +153,30 @@ Route::group([
     -------------------------------------------------------------------------- */
 
     Route::group(['middleware' => 'auth'], function () {
+
+         //faq
+    Route::get('/@{username}/faq', [
+        'as' => 'faq',
+        'uses' => 'User\Controllers\HelpController@faq',
+    ]);
+
+     //Bug
+    Route::get('/@{username}/bug-report', [
+        'as' => 'bug-report',
+        'uses' => 'User\Controllers\HelpController@bug',
+    ]);
+
+    //feedback
+    Route::get('/@{username}/feedback', [
+        'as' => 'feedback',
+        'uses' => 'User\Controllers\HelpController@feedback',
+    ]);
+
+    //contact-us
+    Route::get('/@{username}/contact-us', [
+        'as' => 'contact-us',
+        'uses' => 'User\Controllers\HelpController@contact',
+    ]);
         
         // Home page for logged in user
         Route::get('/home', [
