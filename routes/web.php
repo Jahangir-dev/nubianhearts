@@ -177,6 +177,24 @@ Route::group([
         'as' => 'contact-us',
         'uses' => 'User\Controllers\HelpController@contact',
     ]);
+
+    //contact-us
+    Route::post('/contact-add', [
+        'as' => 'contact-add',
+        'uses' => 'User\Controllers\HelpController@contact_add',
+    ]);
+
+    //feedback-add
+    Route::post('/feedback-add', [
+        'as' => 'feedback-add',
+        'uses' => 'User\Controllers\HelpController@feedback_add',
+    ]);
+
+    //feedback-add
+    Route::post('/bug-add', [
+        'as' => 'bug-add',
+        'uses' => 'User\Controllers\HelpController@bug_add',
+    ]);
         
         // Home page for logged in user
         Route::get('/home', [

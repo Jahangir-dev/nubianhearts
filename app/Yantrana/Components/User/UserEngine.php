@@ -22,6 +22,7 @@ use App\Yantrana\Components\Item\Repositories\ManageItemRepository;
 use App\Yantrana\Components\AbuseReport\Repositories\ManageAbuseReportRepository;
 use App\Yantrana\Support\Country\Repositories\CountryRepository;
 use App\Yantrana\Components\User\Models\ActivityLog;
+use App\Yantrana\Components\User\Models\UserQuery;
 use App\Yantrana\Support\CommonTrait;
 use \Illuminate\Support\Facades\URL;
 use YesTokenAuth;
@@ -2639,5 +2640,16 @@ class UserEngine extends BaseEngine
 			'countries'             => $this->countryRepository->fetchAll()->toArray(),
 			'user_settings'			=> configItem('user_settings')
         ]);
+    }
+
+    public function processQuery($requestData)
+    {
+    	if(UserQuery::create($requestData))
+    	{
+    		 return  $this->engineReaction(1, [
+            	'show_message' => true,
+            ], __tr('Submitted successfully.'));
+    	}
+    	dd($requestData);
     }
 }

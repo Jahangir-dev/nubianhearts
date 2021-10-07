@@ -8,22 +8,21 @@
 @section('twitter-card-image', getStoreSettings('logo_image_url'))
 @section('page-url', url()->current())
 <h3 style="text-align: center;">Contact Us Form</h3>
-<form>
+<form class="lw-ajax-form lw-form"  method="post" data-show-message="true" action="<?= route('contact-add') ?>" data-callback="getResponse"  id="lwUserContactForm">
     <div class="form-group field-bugreportform-name required">
-
-        <input type="text" id="bugreportform-name" class="form-control bg-light" name="name" value="{{getUserAuthInfo('profile.username')}}" disabled="" autofocus="autofocus" placeholder="Your name here" aria-required="true">
+        <input type="text" id="bugreportform-name" class="form-control bg-light" name="user_name" value="{{getUserAuthInfo('profile.username')}}" disabled="" autofocus="autofocus" placeholder="Your name here" aria-required="true">
     <div class="help-block"></div>
     </div>
 
     <div class="form-group field-bugreportform-email required">
 
-        <input type="email" id="bugreportform-email" class="form-control" name="email" value="{{getUserAuthInfo('profile.email')}}" disabled="" autofocus="autofocus" placeholder="Your email here" aria-required="true">
+        <input type="email" id="bugreportform-email" class="form-control" name="user_email" value="{{getUserAuthInfo('profile.email')}}" disabled="" autofocus="autofocus" placeholder="Your email here" aria-required="true">
 
         <div class="help-block"></div>
     </div>
     <div class="form-group field-bugreportform-bug required">
 
-        <textarea id="bugreportform-bug" class="form-control" name="bug" rows="6" placeholder="Your message here" aria-required="true"></textarea>
+        <textarea id="bugreportform-bug" class="form-control" name="inq_message" rows="6" placeholder="Your message here" aria-required="true"></textarea>
 
         <div class="help-block"></div>
     </div>
@@ -50,3 +49,11 @@ h3,.h3 {
     font-weight: 400 !important;
 }
 </style>
+<script type="text/javascript">
+    function getResponse(response) {
+        if (response.reaction == 1) {
+            $('#bugreportform-bug').val('');
+        }
+        
+    }
+</script>
