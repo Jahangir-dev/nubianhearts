@@ -32,6 +32,13 @@
 </div>
 <!-- User Soft delete Container -->
 
+<!-- User Soft delete Container -->
+<div id="lwPhotoProfileContainer" style="display: none;">
+    <h3><?= __tr('Are You Sure!') ?></h3>
+    <strong><?= __tr('You want to make this profile Photo') ?></strong>
+</div>
+<!-- User Soft delete Container -->
+
 <script type="text/_template" id="lwPhotosContainer">
 <% if(!_.isEmpty(__tData.userPhotos)) { %>
     <% _.forEach(__tData.userPhotos, function(item, index) { %>
@@ -39,8 +46,11 @@
             <img class="lw-user-photo card-img-top lw-photoswipe-gallery-img lw-lazy-img" data-img-index="<%= index %>" src="<%= item.image_url %>" alt="">
          <div class="card-footer">
             <a class="btn btn-danger float-right btn-sm lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoDeleteContainer" data-method="post" data-action="<%= item.delete_url %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-trash-alt"></i></a>
-
-            <a class="btn btn-danger float-right mr-2 btn-sm lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoDeleteContainer" data-method="post" data-action="<%= item.delete_url %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-user-alt"></i></a>
+           <% if(item.isProfile == false) { %>
+                <a class="btn btn-danger float-right mr-2 btn-sm lw-ajax-link-action-via-confirm" data-confirm="#lwPhotoProfileContainer" data-method="post" data-action="<%= item.image_name %>" data-callback="onSuccessAction" href data-method="post"><i class="fas fa-user-alt"></i></a>
+            <%} else { %>
+                <a class="btn btn-danger float-right mr-2 btn-sm lw-ajax-link-action-via-confirm color-green" href><i class="fas fa-check"></i></a>
+            <%} %>
         </div>
         </div>
     <% }); %>
@@ -57,6 +67,9 @@
     .card-footer {
         padding: 0.25rem 0.25rem;
         background-color: #fff;
+    }
+    .color-green {
+        background-color: green !important;
     }
 </style>
 @push('appScripts')
@@ -77,6 +90,7 @@
         if (!_.isUndefined(responseData.data.stored_photo)) {
             userPhotos.push(responseData.data.stored_photo);
             preparePhotosList();
+            window.location.reload();
         }        
     }
 </script>

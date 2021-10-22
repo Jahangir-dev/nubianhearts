@@ -242,7 +242,7 @@ class MediaEngine extends BaseEngine implements MediaEngineInterface
      *
      * @return array
      *---------------------------------------------------------------- */
-    public function processUploadFileOnLocalServer($input, $allowedExtension = '')
+    public function processUploadFileOnLocalServer($input, $allowedExtension = '', $change = '')
     {
         // if request file not found it will throw error.
         if (!array_has($input, 'filepond') && __isEmpty($input['filepond'])) {
@@ -259,7 +259,7 @@ class MediaEngine extends BaseEngine implements MediaEngineInterface
         $fileOriginalName = $uploadedFile->getClientOriginalName();
         $fileExtension    = $uploadedFile->getClientOriginalExtension();
         $fileBaseName     = str_slug(basename($fileOriginalName, '.'.$fileExtension));
-        $fileName         = $fileBaseName.".$fileExtension";
+        $fileName         = uniqid().$fileBaseName.".$fileExtension";
 
         $restrictions     = $this->elements[$allowedExtension]['restrictions'];
         $allowedFileTypes = $restrictions['allowedFileTypes'];
@@ -273,11 +273,12 @@ class MediaEngine extends BaseEngine implements MediaEngineInterface
         }
 
         $path = getPathByKey('user_temp_uploads', ['{_uid}' => authUID()]);
+
         
         if (!File::isDirectory($path)) {
             File::makeDirectory($path, $mode = 0777, true, true);
         }
-
+        
         if ($uploadedFile->move($path, $fileName)) {
             return $this->engineReaction(1, [
                 'fileName' => $fileName
@@ -292,9 +293,9 @@ class MediaEngine extends BaseEngine implements MediaEngineInterface
      *
      * @return array
      *---------------------------------------------------------------- */
-    public function processUploadProfile($inputFile, $requestFor)
+    public function processUploadProfile($inputFile, $requestFor, $change = '')
     {
-        $uploadedFileOnLocalServer = $this->processUploadFileOnLocalServer($inputFile, $requestFor);
+        $uploadedFileOnLocalServer = $this->processUploadFileOnLocalServer($inputFile, $requestFor,$change);
 
         if ($uploadedFileOnLocalServer['reaction_code'] == 1) {
             $fileName = $uploadedFileOnLocalServer['data']['fileName'];

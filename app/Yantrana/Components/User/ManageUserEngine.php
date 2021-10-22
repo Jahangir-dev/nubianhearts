@@ -15,9 +15,17 @@ use Faker\Generator as Faker;
 use Carbon\Carbon;
 use App\Yantrana\Support\CommonTrait;
 use App\Yantrana\Components\Media\MediaEngine;
+use File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use App\Yantrana\Components\UserSetting\UserSettingEngine;
+use App\Yantrana\Components\UserSetting\Repositories\UserSettingRepository;
 
 class ManageUserEngine extends BaseEngine 
-{   
+{ 
+    /**
+     * @var  UserSettingEngine $userSettingEngine - UserSetting Engine
+     */
+    protected $userSettingEngine;  
 	/**
 	* @var CommonTrait - Common Trait
 	*/
@@ -59,8 +67,9 @@ class ManageUserEngine extends BaseEngine
       * @return  void
       *-----------------------------------------------------------------------*/
 
-    function __construct(ManageUserRepository $manageUserRepository, CountryRepository $countryRepository, Faker $faker, CreditWalletRepository $creditWalletRepository, MediaEngine $mediaEngine)
+    function __construct(UserSettingEngine $userSettingEngine,ManageUserRepository $manageUserRepository, CountryRepository $countryRepository, Faker $faker, CreditWalletRepository $creditWalletRepository, MediaEngine $mediaEngine)
     {
+        $this->userSettingEngine = $userSettingEngine;
         $this->manageUserRepository 	= $manageUserRepository;
         $this->countryRepository 		= $countryRepository;
 		$this->faker 					= $faker;
@@ -859,6 +868,84 @@ class ManageUserEngine extends BaseEngine
         });
 
         return $this->engineReaction($transactionResponse);
+
+    }
+
+    public function processUserPhotoProfile($userUid, $type, $profileOrPhotoUid)
+    {
+        $userDetails = $this->manageUserRepository->fetchUser($userUid);
+        
+        $profile = $this->manageUserRepository->fetchUserProfile($userDetails->_id);
+        
+        $imagePath = getPathByKey('user_photos', [ '{_uid}' => $userDetails->_uid ]);
+        
+        $imageMediaPath = public_path() .'/'.$imagePath.'/'.$profileOrPhotoUid;
+        $path = $imagePath = getPathByKey('user_temp_uploads', [ '{_uid}' => $userDetails->_uid ]);
+        $fileObject = $this->createFileObject($imageMediaPath,$path);
+
+    if($fileObject == true)
+    {
+        if ($this->manageUserRepository->updateUserProfile($profile, ['profile_picture' => $profileOrPhotoUid])) {
+
+          $processReaction = $this->manageUserRepository->transactionResponse(1, ['show_message' => true], __tr('Profile picture updated'));
+        } else {
+
+        $processReaction = $this->manageUserRepository->transactionResponse(2, ['show_message' => true], __tr('Something went wrong on server.'));
+        }
+    }
+    else{
+
+        $processReaction = $this->manageUserRepository->transactionResponse(2, ['show_message' => true], __tr('Something went wrong on server.'));
+    }
+
+        return $this->engineReaction($processReaction);        
+    }
+
+     public function createFileObject($url,$temp_path){
+
+        $path_parts = pathinfo($url);
+        $temp_path = pathinfo($temp_path);
+        
+        $newPath = $temp_path['dirname'].'/profile/';
+        
+        if(!is_dir ($newPath)){
+
+            mkdir($newPath, 0777);
+
+        }
+
+        $files = glob($newPath.'/*'); // get all file names
+        foreach($files as $file){ // iterate files
+          if(is_file($file)) {
+            unlink($file); // delete file
+          }
+        }
+
+        $newUrl = $newPath . $path_parts['basename'];
+
+        copy($url, $newUrl);
+
+        $imgInfo = getimagesize($newUrl);
+
+
+        $file = new UploadedFile(
+
+            $newUrl,
+
+            $path_parts['basename'],
+
+            $imgInfo['mime'],
+
+            filesize($url),
+
+            true,
+
+            TRUE
+
+        );
+  
+
+        return true;
 
     }
 }

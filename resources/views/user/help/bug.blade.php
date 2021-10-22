@@ -10,7 +10,6 @@
 <h3 style="text-align: center;">Bug Report Form</h3>
 <form class="lw-ajax-form lw-form"  method="post" data-show-message="true" action="<?= route('bug-add') ?>" data-callback="getResponse"  id="lwUserContactForm">
     <div class="form-group field-bugreportform-name required">
-    <div class="form-group field-bugreportform-name required">
 
         <input type="text" id="bugreportform-name" class="form-control bg-light" name="user_name" value="{{getUserAuthInfo('profile.username')}}" disabled="" autofocus="autofocus" placeholder="Your name here" aria-required="true">
     <div class="help-block"></div>

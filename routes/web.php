@@ -296,6 +296,12 @@ Route::group([
                     'uses' => 'UserController@processUserPhotoDelete',
                 ]);
 
+                // Change User photo
+                Route::post('/{userUid}/{type}/{profileOrPhotoUid}/process-profile-photo', [
+                    'as' => 'user.write.photo_profile',
+                    'uses' => 'UserController@processUserPhotoProfile',
+                ]);
+
 		        // Get user profile data
 		        Route::get('/check-profile-updated', [
 		            'as' => 'user.profile.wizard_completed',

@@ -743,6 +743,15 @@ class UserController extends BaseController
         );
     }
 
+    public function processUserPhotoProfile($userUid, $type, $profileOrPhotoUid) 
+    {
+        $processReaction = $this->manageUserEngine->processUserPhotoProfile($userUid, $type, $profileOrPhotoUid);
+        
+        return $this->responseAction(
+            $this->processResponse($processReaction, [], [], true)
+        );
+    }
+
     /**
      * Handle process contact request.
      *

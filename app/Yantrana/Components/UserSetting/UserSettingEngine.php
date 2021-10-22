@@ -490,9 +490,9 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
      * 
      * @return json object
      *---------------------------------------------------------------- */
-    public function processUploadProfileImage($inputData, $requestType)
+    public function processUploadProfileImage($inputData, $requestType,$change = '')
     {
-        $uploadedFile = $this->mediaEngine->processUploadProfile($inputData, $requestType);
+        $uploadedFile = $this->mediaEngine->processUploadProfile($inputData, $requestType,$change);
         $isProfilePictureUpdated = false;
         // check if file uploaded successfully
         if ($uploadedFile['reaction_code'] == 1) {
@@ -649,14 +649,28 @@ class UserSettingEngine extends BaseEngine implements UserSettingEngineInterface
     public function prepareUserPhotosSettings()
     {
         $userPhotoCollection = $this->userSettingRepository->fetchUserPhotos(getUserID());
+        $userProfilePic = $this->userSettingRepository->fetchUserProfile(getUserID());
+        $profilePic = $userProfilePic['profile_picture'];
         $userPhotos = [];
         $userPhotosFolderPath = getPathByKey('user_photos', ['{_uid}' => authUID()]);
         // check if user photos exists
         if (!__isEmpty($userPhotoCollection)) {
             foreach ($userPhotoCollection as $photo) {
+                $isProfile = false;
+                if($profilePic == $photo->file)
+                {
+                    $isProfile = true;
+                }
+                
                 $userPhotos[] = [
                     '_id' => $photo->_id,
+                    'isProfile' => $isProfile,
+                    'image_name' => route('user.write.photo_profile', ['userUid' => authUID(),
+                        'type' => 'photo',
+                        'profileOrPhotoUid' => $photo->file
+                    ]),
                     'image_url' => getMediaUrl($userPhotosFolderPath, $photo->file),
+                    'isProfile' => $isProfile,
                     'delete_url' => route('user.write.photo_delete', [
                         'userUid' => authUID(),
                         'type' => 'photo',
