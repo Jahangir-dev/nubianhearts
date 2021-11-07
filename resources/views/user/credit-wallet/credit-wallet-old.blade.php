@@ -13,7 +13,10 @@
          content: "<?= __tr('Selected') ?>";
      }
  </style>
-
+ <!-- Page Heading -->
+<div class="d-sm-flex align-items-center justify-content-between mb-4">
+	<h1 class="h3 mb-0 text-gray-200"><?= __tr('Credit Wallet') ?></h1>
+</div>
 
  <!-- Show loader when process payment request -->
 <div class="d-flex justify-content-center">
@@ -22,6 +25,22 @@
 	</div>
 </div>
 <!-- Show loader when process payment request -->
+
+<div class="d-block text-center lw-credit-balance">
+    <h2 class="text-gray-200">
+        <?= __tr('Your Wallet Balance') ?>
+    </h2> 
+    <h1 class="text-primary">
+        <?php $totalUserCreditsAvailable = totalUserCredits(); ?>
+   <i class="fas fa-coins fa-fw mr-2"></i> <?= __trn('__creditBalance__ Credit', '__creditBalance__ Credits', $totalUserCreditsAvailable, [
+            '__creditBalance__' => $totalUserCreditsAvailable
+        ]) ?>
+    </h1>
+    <hr>
+    <p class="text-muted ">
+        <?= __tr("You can use these credits on this website for the various purchases like to buy Premium Membership, Profile Booster, Gift & Sticker purchases etc") ?>
+    </p>
+</div>
 
 <!-- buy credits card -->
 <div>
@@ -54,7 +73,7 @@
 		<!--  error messages  -->
 		<div class="alert alert-danger alert-dismissible fade show" id="lwErrorMessage" style="display:none;"></div>
 		<!--  /error messages  -->
-		 <h4><?= __tr('Buy Package') ?></h4>
+		 <h4><?= __tr('Buy More Credits') ?></h4>
          <hr>
 		<!-- select package form -->
 		<form class="lw-ajax-form lw-form text-center" name="credit_wallet_form" method="post" action="<?= route('user.credit_wallet.write.payment_process') ?>" data-callback="onSuccessCallback">
@@ -66,13 +85,11 @@
 						<span class="lw-credit-package-name"><?= $package['package_name'] ?></span>
 						<input type="radio" value="<?= $package['_uid'] ?>" data-package-price="<?= $package['price'] ?>"  data-package-name="<?= $package['package_name'] ?>" name="select_package"/>
 						<div>
-                            <h3 class="text-success mt-2">
-								 @if($package["credit"] == 0) Free @endif
-								 @if($package["credit"] == 1) 1 Month @endif
-								 @if($package["credit"] == 2) 3 Month @endif
-								 @if($package["credit"] == 3) 6 Month  @endif
-								 @if($package["credit"] == 4) 1 year @endif
-								 @if($package["credit"] == 5) Lifetime @endif
+							<img src="<?= $package['packageImageUrl'] ?>"/>
+                            <h3 class="text-success">
+                                <?= __trn('__credits__ Credit', '__credits__ Credits', $package['credit'], [
+                                    '__credits__' => $package['credit']
+                                ]) ?>
                             </h3>
 							<span>
 								<?= __tr('for __currencyCode__ __price__ only', [
@@ -118,7 +135,31 @@
 </div>
 <!-- /buy credits card -->
 
-
+<!-- transaction list card -->
+<div class="card mb-4 mt-4">
+	<!-- card body -->
+	<div class="card-body">
+ 		<!-- financial transaction list -->
+		<h4 class="mt-3"><?= __tr('Wallet Transactions') ?></h4><hr>
+		<!-- / financial transaction list -->
+		 
+		<!-- financial transaction table -->
+ 		<table class="table table-hover" id="lwUserTransactionTable">
+			<thead>
+				<tr>
+					<th><?= __tr('Transaction On') ?></th>
+					<th><?= __tr('Transaction For') ?></th>
+					<th width="190px;"><?= __tr('Credits (credited/debited)') ?></th>
+					<th><?= __tr('Action') ?></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<!-- financial transaction table -->
+	</div>
+	<!-- / card body -->
+</div>
+<!-- / transaction list card -->
 
 <!-- Transaction Details Action Column -->
 <script type="text/_template" id="transactionDetailsActionColumnTemplate">
@@ -501,16 +542,15 @@
 		$("#lwPaymentOption").removeClass('lw-disabled-block-content');
 		//check reaction code is 1
 		if (response.reaction == 1) {
-			//show confirmation
-			window.location.href = "{{ route('home_page')}}"; 
-			// showConfirmation('<?= __tr('Payment Successful') ?>', null, {
-			// 	buttons: [
-			// 		Noty.button('<?= __tr('Reload to Update') ?>', 'btn btn-secondary btn-sm', function () {
-			// 			__Utils.viewReload();
-			// 			return;
-			// 		})
-			// 	]
-			// });
+			//show confirmation 
+			showConfirmation('<?= __tr('Payment Successful, Credits has been added successfully to your wallet') ?>', null, {
+				buttons: [
+					Noty.button('<?= __tr('Reload to Update') ?>', 'btn btn-secondary btn-sm', function () {
+						__Utils.viewReload();
+						return;
+					})
+				]
+			});
 			//load transaction list data function
 			_.defer(function() {
 				reloadTransactionTable();

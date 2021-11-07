@@ -8,12 +8,13 @@
 namespace App\Yantrana\Components\User;
 
 use App\Yantrana\Base\BaseEngine;
-use App\Yantrana\Components\User\Repositories\{CreditWalletRepository, ManageUserRepository};
+use App\Yantrana\Components\User\Repositories\{CreditWalletRepository, ManageUserRepository, UserRepository};
 use App\Yantrana\Components\Configuration\Repositories\ConfigurationRepository;
 use App\Yantrana\Components\CreditPackage\Repositories\CreditPackageRepository;
 use App\Yantrana\Components\User\PaypalEngine;
 use App\Yantrana\Components\User\StripeEngine;
 use App\Yantrana\Components\User\RazorpayEngine;
+use Carbon\Carbon;
 
 class CreditWalletEngine extends BaseEngine 
 {   
@@ -21,6 +22,11 @@ class CreditWalletEngine extends BaseEngine
      * @var  CreditWalletRepository $creditWalletRepository - CreditWallet Repository
      */
 	protected $creditWalletRepository;
+
+	/**
+     * @var UserRepository - User Repository
+     */
+	protected $userRepository;
 
 	/**
      * @var ManageUserRepository - Manage User Repository
@@ -72,7 +78,8 @@ class CreditWalletEngine extends BaseEngine
 		PaypalEngine $paypalEngine,
 		StripeEngine $stripeEngine,
 		CreditPackageRepository $creditPackageRepository,
-		RazorpayEngine $razorpayEngine
+		RazorpayEngine $razorpayEngine,
+		UserRepository $userRepository
 	)
     {
 		$this->creditWalletRepository 	= $creditWalletRepository;
@@ -82,6 +89,7 @@ class CreditWalletEngine extends BaseEngine
 		$this->stripeEngine 			= $stripeEngine;
 		$this->creditPackageRepository 	= $creditPackageRepository;
 		$this->razorpayEngine 			= $razorpayEngine;
+		$this->userRepository        	= $userRepository;
 	}
 	
 	/**
@@ -153,7 +161,25 @@ class CreditWalletEngine extends BaseEngine
             'created_at' => function($key) {
                 return formatDate($key['created_at']);
             },
-			'credits',
+			'credits'  => function($key) {
+				switch ($key['credits']) {
+					case '1':
+						return '1 Month';
+					break;
+					case '2':
+						return '3 Month';
+					break;
+					case '3':
+						return '6 Month';
+					break;
+					case '4':
+						return '1 Year';
+					break;
+					case '5':
+						return 'Life Time';
+					break;
+				}
+			},
 			'credit_type',
 			'transactionType' => function($key) {
 				$type = null;
@@ -565,11 +591,42 @@ class CreditWalletEngine extends BaseEngine
 					'packageName'	 => $packageCollection['title']
 				]
 			];
-			
+			$financialTransactionId = $this->creditWalletRepository->storeTransaction($storeData, $packageCollection);
 			//store transaction process
-			if ($financialTransactionId = $this->creditWalletRepository->storeTransaction($storeData, $packageCollection)) {
+			if ($financialTransactionId !== false) {
 				//fetch updated user total credits by helper function
-				totalUserCredits();
+				//totalUserCredits();
+				
+				$expiryTime = null;
+					$currentDateTime = Carbon::now();
+					// get expiry time on current selected plan
+					switch ($packageCollection['credits']) {
+						case '1':
+							$expiryTime = $currentDateTime->addMonths(1);
+						break;
+						case '2':
+							$expiryTime = $currentDateTime->addMonths(3);
+						break;
+						case '3':
+							$expiryTime = $currentDateTime->addMonths(6);
+						break;
+						case '4':
+							$expiryTime = $currentDateTime->addYears(1);
+						break;
+						case '5':
+							$expiryTime = $currentDateTime->addYears(100);
+						break;
+					}
+
+				$storeSubscriptionData = [
+					'status' => 1,
+					'users__id' => getUserID(),
+					'expiry_at' => $expiryTime,
+					'plan_id'	=> $packageCollection['_id'],
+					'credit_wallet_transactions__id' => $financialTransactionId
+				];
+
+				$this->userRepository->storeUserSubscription($storeSubscriptionData);
 				//success function
 				return $this->engineReaction(1, null, __tr('Transaction store successfully.'));
 			}

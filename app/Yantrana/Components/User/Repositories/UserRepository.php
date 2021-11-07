@@ -830,77 +830,51 @@ class UserRepository extends BaseRepository implements UserRepositoryBlueprint
 	public function lastLogin($id)
 	{
 		$login = LoginLog::where('user_id', $id)->first();
-		$return = '';
+		$return = '+3m';
 		if(!empty($login))
 		{
-			$time = $login->created_at->diffForHumans();
-			//dd($time);
-			if(Str::contains($time,'seconds'))
-			{
-				$return = str_replace('seconds ago','',$time);
-				
-				$return = 'today';
-				
-			}
-			elseif(Str::contains($time,'minutes'))
-			{
+			$time = $login->created_at->diffInYears();
+            $months = $login->created_at->diffInMonths();
+            $weeks  = $login->created_at->diffInWeeks();
+            $days   = $login->created_at->diffInDays();
+            $hrs   = $login->created_at->diffInHours();
+            $minutes   = $login->created_at->diffInMinutes();
+            $seconds   = $login->created_at->diffInSeconds();
+	
+            
+            if ($seconds <= 60) {
+                return $seconds . "sec";
+            }
 
-				$return = str_replace('minutes ago','',$time);
-				
-				$return = 'today';
-				
-			}
-			elseif(Str::contains($time,'minute'))
-			{
-				$return = str_replace('minute ago','',$time);
-				//$return = str_replace('minutes from now','',$time);
-				
-				$return = 'today';
-				
-			}
-			
+            // Check for minutes 
+            else if ($minutes <= 60) {
+                return $minutes . 'min';
+            }
 
-			elseif(Str::contains($time,'hour'))
-			{
-				$return = str_replace('hour ago','',$time);
-				$return = 'today';
-			}
-			elseif(Str::contains($time,'days'))
-			{
-				$return = str_replace('days ago','',$time);
-				
-				
-				$return = $return.'d';
-			}
-			elseif(Str::contains($time,'day'))
-			{
-				$return = str_replace('day ago','',$time);
-				
-				$return = '+'.$return.'d';
-			}
+            // Check for hours 
+            else if ($hrs <= 24) {
+                return $hrs . 'h';
+            }
 
-			elseif(Str::contains($time,'months'))
-			{
-				$return = str_replace('months ago','',$time);
-				
-				if($return > 3)
-				{
-					$return = '+ 3m';	
-				} else {
+            // Check for days 
+            else if ($days <= 7) {
+                return $days . 'd';
+            }
 
-					$return = '+'.$return.'m';
-				}
-			}
-			elseif(Str::contains($time,'month'))
-			{
-				$return = str_replace('month ago','',$time);
-				
-				$return = $return.'m';
-			}
-			elseif(Str::contains($time,'year'))
-			{
-				$return = '+ 3m';
-			}
+            // Check for weeks 
+            else if ($weeks <= 4.3) {
+                return $weeks . "w";
+            }
+
+            // Check for months 
+            else if ($months <= 12) {
+                if ($months > 3) {
+                    return "+3m";
+                }
+                else{
+                    return $months . 'm';
+                }
+            }
 		}
 
 		return $return;

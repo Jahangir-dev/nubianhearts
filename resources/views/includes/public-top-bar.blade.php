@@ -18,13 +18,20 @@
     <!-- Topbar Navbar -->
     
     <ul class="navbar-nav">
-         <!-- <li class="nav-item d-none d-sm-none d-md-block">
-            <a href="{{route('user.read.messenger')}}" class="nav-link">
-                <i class="far fa-comments"></i>
+         
+        @if(!isPremiumUser())
+        <li class="nav-item d-none d-sm-none d-md-block">
+            <a class="nav-link" href="<?= route('user.credit_wallet.read.view') ?>">
+                <i class="fas fa-money-bill fa-fw mr-2"></i>
             </a>
-           
-        </li> -->
-        <!-- Notification Link -->
+        </li>
+        @else
+        <li class="nav-item d-none d-sm-none d-md-block">
+            <a class="nav-link" data-toggle="tooltip" title="You already purchased package.">
+                <i class="fas fa-money-bill fa-fw mr-2" style="color:#b8b9c3"></i>
+            </a>
+        </li>
+        @endif
         <li class="nav-item dropdown no-arrow mx-1 d-none d-sm-none d-md-block">
             <a class="nav-link dropdown-toggle lw-ajax-link-action" href="<?= route('user.notification.write.read_all_notification') ?>" data-callback="onReadAllNotificationCallback" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-method="post">
                 <i class="fas fa-bell fa-fw"></i>
@@ -169,8 +176,8 @@
 
             <!-- insufficient balance error message -->
             <div class="alert alert-info" id="lwBoosterCreditsNotAvailable" style="display: none;">
-                <?= __tr('Your credit balance is too low, please') ?>
-                <a href="<?= route('user.credit_wallet.read.view') ?>"><?= __tr('purchase credits') ?></a>
+                <?= __tr('No Package') ?>
+                <a href="<?= route('user.credit_wallet.read.view') ?>"><?= __tr('Package') ?></a>
             </div>
             <!-- / insufficient balance error message -->
 

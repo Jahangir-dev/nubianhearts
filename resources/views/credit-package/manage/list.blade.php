@@ -25,7 +25,7 @@
 							<th><?= __tr('Title') ?></th>
 							<th><?= __tr('Created On') ?></th>
 							<th><?= __tr('Price') ?></th>
-							<th><?= __tr('Credits') ?></th>
+							<th><?= __tr('For') ?></th>
 							<th><?= __tr('Status') ?></th>
 							<th><?= __tr('Action') ?></th>
 						</tr>
@@ -40,7 +40,14 @@
 									<td><?= $package['title'] ?></td>
 									<td><?= $package['created_at'] ?></td>
 									<td><?= $package['price'] ?></td>
-									<td><?= $package['credits'] ?></td>
+									<td>
+										@if($package["credits"] == 0)  Free	@endif
+										@if($package["credits"] == 1)  1 Month	@endif
+										@if($package["credits"] == 2)  3 Month	@endif
+										@if($package["credits"] == 3)  6 Month 	@endif
+										@if($package["credits"] == 4)  1 year	@endif
+										@if($package["credits"] == 5)  Lifetime	@endif
+									</td>
 									<td><?= $package['status'] ?></td>
 									<td>
 										<div class="btn-group">

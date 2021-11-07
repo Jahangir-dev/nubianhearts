@@ -41,8 +41,15 @@
 						
 						<!-- credits field -->
 						<div class="col-sm-6 mb-3 mb-sm-0">
-							<label for="lwPremiumPrice"><?= __tr('Credits') ?></label>
-							<input type="number" value="<?= $packageEditData['credits'] ?>" id="lwPremiumPrice" class="form-control" name="credits" required digits="true">
+							<label for="lwCredit"><?= __tr('For') ?></label>	
+							<select name="credits" id="lwPremiumPrice" class="form-control" required>
+								<option @if($packageEditData["credits"] == 0) selected="selected" @endif value="0">Free</option>
+								<option @if($packageEditData["credits"] == 1) selected="selected" @endif value="1">1 Month</option>
+								<option @if($packageEditData["credits"] == 2) selected="selected" @endif value="2">3 Month</option>
+								<option @if($packageEditData["credits"] == 3) selected="selected" @endif value="3">6 Month </option>
+								<option @if($packageEditData["credits"] == 4) selected="selected" @endif value="4">1 year</option>
+								<option @if($packageEditData["credits"] == 5) selected="selected" @endif value="5">Lifetime</option>
+							</select>
 						</div>
 						<!-- / credits field -->
 					</div>

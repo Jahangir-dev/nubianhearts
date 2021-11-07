@@ -179,7 +179,111 @@
 </div>
 
 				  </div>
-				  <div class="tab-pane" id="billing" role="tabpanel" aria-labelledby="billing-tab">billing</div>
+				  <div class="tab-pane" id="billing" role="tabpanel" aria-labelledby="billing-tab">
+						<!-- transaction list card -->
+<div class="card mb-4 mt-4">
+	<!-- card body -->
+	<div class="card-body">
+ 		<!-- financial transaction list -->
+		<h4 class="mt-3"><?= __tr('Wallet Transactions') ?></h4><hr>
+		<!-- / financial transaction list -->
+		 
+		<!-- financial transaction table -->
+ 		<table class="table table-hover" id="lwUserTransactionTable">
+			<thead>
+				<tr>
+					<th><?= __tr('Transaction On') ?></th>
+					<th><?= __tr('Transaction For') ?></th>
+					<th width="190px;"><?= __tr('Package') ?></th>
+					<th><?= __tr('Action') ?></th>
+				</tr>
+			</thead>
+			<tbody></tbody>
+		</table>
+		<!-- financial transaction table -->
+	</div>
+	<!-- / card body -->
+</div>
+<!-- / transaction list card -->
+
+<!-- Transaction Details Action Column -->
+<script type="text/_template" id="transactionDetailsActionColumnTemplate">
+	<!-- action dropdown -->
+	<% if(__tData.transactionType == 1 && !_.isEmpty(__tData.financialTransactionDetail)) { %>
+	<div class="btn-group">
+		<button type="button" class="btn btn-black dropdown-toggle lw-datatable-action-dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<i class="fas fa-ellipsis-v"></i>
+		</button>
+		<div class="dropdown-menu dropdown-menu-right">
+			<!-- Transaction Detail Button -->
+			<a href class="dropdown-item" data-toggle="modal" data-financial-transaction='<%= JSON.stringify(__tData.financialTransactionDetail) %>' data-target="#userTransactionDetailDialog" data-transaction-detail><i class="far fa-edit"  id="lwTransactionDetailBtn"></i> <?= __tr('Financial Transaction') ?></a>
+			<!-- /Transaction Detail Button -->
+		</div>
+	</div>
+	<% } else { %>
+		-
+	<% } %>
+	<!-- /action dropdown -->
+</script>
+<!-- Transaction Details Action Column -->
+
+<!-- user transaction Modal-->
+<div class="modal fade" id="userTransactionDetailDialog" tabindex="-1" role="dialog" aria-labelledby="userTransactionModalLabel" aria-hidden="true">
+ 	<div class="modal-dialog modal-lg" role="document">
+ 		<div class="modal-content">
+ 			<div class="modal-header">
+				<h5 class="modal-title" id="userTransactionModalLabel"><?= __tr('Financial Transaction') ?></h5>
+				<button class="close" type="button" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">×</span>
+				</button>
+			</div>
+			<div class="modal-body" id="lwUserTransactionContent"></div>
+			<script type="text/_template" 
+					id="lwTransactionDetailTemplate" 
+					data-replace-target="#lwUserTransactionContent"
+					data-modal-id="#userTransactionDetailDialog">
+					<div>
+						<div class="card-body">
+							<ul class="list-group list-group-flush">
+								<li class="list-group-item">
+									<?= __tr('Created On') ?>
+									<span class="float-right"><%- __tData.financialTransactionData.created_at %></span>
+								</li>
+								<li class="list-group-item">
+									<?= __tr('Amount') ?>
+									<span class="float-right"><%= __tData.financialTransactionData.amount %></span>
+								</li>
+								<li class="list-group-item">
+									<?= __tr('Currency') ?>
+									<span class="float-right"><%= __tData.financialTransactionData.currency_code %></span>
+								</li>
+								<li class="list-group-item">
+									<?= __tr('Status') ?>
+									<span class="float-right"><%= __tData.financialTransactionData.status %></span>
+								</li>
+								<li class="list-group-item">
+									<?= __tr('Method') ?>
+									<span class="float-right"><%= __tData.financialTransactionData.method %></span>
+								</li>
+								<li class="list-group-item">
+									<?= __tr('Mode') ?>
+									<span class="float-right"><%= __tData.financialTransactionData.payment_mode %></span>
+								</li>
+							</ul>
+						</div>
+					</div>
+			</script>
+			<!-- modal footer -->
+			<div class="modal-footer mt-3">
+				<button class="btn btn-light btn-sm" class="close" type="button" data-dismiss="modal"><?= __tr('Close') ?></button>
+			</div>
+			<!-- modal footer -->
+		</div>
+	</div>
+</div>
+<!-- / user transaction Modal-->
+
+				  </div>
 				 
 				</div>
 			</div>
@@ -214,5 +318,52 @@
 			$("#lwChangePasswordForm")[0].reset();
 		}
 	}
+
+//user transaction dialog details
+__Utils.modalTemplatize('#lwTransactionDetailTemplate', function(e, data) {
+		return { 
+            'financialTransactionData': data['financialTransaction']
+        };
+	}, function(e, myData) { });
+		//transaction list data table columns data
+		var dtColumnsData = [
+		{
+			"name"      : "created_at",
+			"orderable" : true
+		},
+		{
+			"name"      : "formattedTransactionType",
+			"orderable" : false
+		},
+		{
+			"name"      : 'credits',
+			"orderable" : true
+		},
+        {
+            "name"      : 'action',
+            "template"  : '#transactionDetailsActionColumnTemplate'
+        }
+	],
+	transactionListDataTable = '';
+
+	//fetch transaction list data
+	function fetchTransactionList() {
+		transactionListDataTable = dataTable('#lwUserTransactionTable', {
+			url         : "<?= route('user.credit_wallet.read.wallet_transaction_list') ?>",
+			dtOptions   : {
+				"searching": false,
+				"order": [[ 0, 'desc' ]],
+				"pageLength" : 10,
+				rowCallback : function(row, data, index) {
+					$('td:eq(2)', row).css("text-align", "right")
+				}
+			},
+			columnsData : dtColumnsData, 
+			scope       : this
+		});
+	}
+
+	//load transaction list data function
+	fetchTransactionList();
 </script>
 @endpush

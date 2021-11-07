@@ -138,7 +138,7 @@ class CreditWalletRepository extends BaseRepository
 			$CreditWalletTransaction = new CreditWalletTransaction;
             // Check if new User added
 			if ($CreditWalletTransaction->assignInputsAndSave([], $keyValues)) {
-				return true;
+				return $financialTransaction->_id;
 			}
         }
         return false;   // on failed

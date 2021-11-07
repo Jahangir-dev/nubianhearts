@@ -9,6 +9,7 @@ namespace App\Yantrana\Components\User\Controllers;
 
 use App\Yantrana\Base\BaseController;
 use App\Yantrana\Components\User\CreditWalletEngine;
+use App\Yantrana\Components\User\PremiumPlanEngine;
 use App\Yantrana\Components\User\Requests\{PaypalTransactionRequest, PaymentProcessRequest};
 // form Requests
 use App\Yantrana\Support\CommonPostRequest;
@@ -20,6 +21,11 @@ class CreditWalletController extends BaseController
      */
     protected $creditWalletEngine;
 
+     /**
+     * @var  PremiumPlanEngine $premiumPlanEngine - PremiumPlan Engine
+     */
+    protected $premiumPlanEngine;
+
     /**
       * Constructor
       *
@@ -28,9 +34,10 @@ class CreditWalletController extends BaseController
       * @return  void
       *-----------------------------------------------------------------------*/
 
-    function __construct(CreditWalletEngine $creditWalletEngine)
+    function __construct(CreditWalletEngine $creditWalletEngine, PremiumPlanEngine $premiumPlanEngine)
     {
         $this->creditWalletEngine = $creditWalletEngine;
+        $this->premiumPlanEngine = $premiumPlanEngine;
 	}
 	
 	/**
@@ -41,7 +48,8 @@ class CreditWalletController extends BaseController
     public function creditWalletView() 
     {
        $processReaction = $this->creditWalletEngine->prepareCreditWalletUserData();
-        
+       //$processReaction = $this->premiumPlanEngine->preparePremiumPlanUserData();
+       //dd($processReaction['data']);
         return $this->loadPublicView('user.credit-wallet.credit-wallet', $processReaction['data']);
 	}
 
