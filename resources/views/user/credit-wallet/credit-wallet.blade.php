@@ -62,14 +62,14 @@
 			<div class="btn-group-toggle lw-img-credits-radio-btns-container" data-toggle="buttons">
 				@if(isset($creditWalletData) and !__isEmpty($creditWalletData['creditPackages']))
 					@foreach($creditWalletData['creditPackages'] as $key => $package)
-					<span class="btn lw-group-radio-option-img">
-						<span class="lw-credit-package-name"><?= $package['package_name'] ?></span>
+					<span class="btn lw-group-radio-option-img bg-purple">
+						<span class="lw-credit-package-name text-black"><?= $package['package_name'] ?></span>
 						<input type="radio" value="<?= $package['_uid'] ?>" data-package-price="<?= $package['price'] ?>"  data-package-name="<?= $package['package_name'] ?>" name="select_package"/>
 						<div>
-                            <h3 class="text-success mt-2">
-								 @if($package["credit"] == 0) Free @endif
-								 @if($package["credit"] == 1) 1 Month @endif
-								 @if($package["credit"] == 2) 3 Month @endif
+                            <h3 class="text-white mt-2">
+								 @if($package["credit"] == 0) Free Trial (6 months) @endif
+								 @if($package["credit"] == 1) 30 Days @endif
+								 @if($package["credit"] == 2) 60 Days @endif
 								 @if($package["credit"] == 3) 6 Month  @endif
 								 @if($package["credit"] == 4) 1 year @endif
 								 @if($package["credit"] == 5) Lifetime @endif

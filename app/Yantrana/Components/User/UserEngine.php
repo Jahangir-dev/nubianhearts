@@ -1353,10 +1353,11 @@ class UserEngine extends BaseEngine
 
 					
 					$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
+					
 					if(count($sent_at) > 0)
 					{
 						$date = Carbon::parse($sent_at[0]->created_at);
-					$last_sent = $date->format('j-F-Y');
+						$last_sent = $date->format('j-F-Y');
 					} else {
 						$last_sent = null;
 					}
@@ -1398,6 +1399,7 @@ class UserEngine extends BaseEngine
 		
 		return $this->engineReaction(1, [
 			'usersData' => $userData,
+			'likedme'	=> true,
 			'nextPageUrl' => $profileVisitors->nextPageUrl()
 		]);		
 	}
@@ -1441,7 +1443,8 @@ class UserEngine extends BaseEngine
 					$sent_at = ActivityLog::where('user_id',$user['by_users__id'])->where('for_user',$user['to_users__id'])->get();
 					if(count($sent_at) > 0)
 					{
-						$last_sent =formatDiffForHumans($sent_at[0]->created_at);
+						$date = Carbon::parse($sent_at[0]->created_at);
+						$last_sent = $date->format('j-F-Y');
 					} else {
 						$last_sent = null;
 					}
@@ -1483,6 +1486,7 @@ class UserEngine extends BaseEngine
 		
 		return $this->engineReaction(1, [
 			'usersData' => $userData,
+			'likedme'	=> false,
 			'nextPageUrl' => $profileVisitors->nextPageUrl()
 		]);		
 	}

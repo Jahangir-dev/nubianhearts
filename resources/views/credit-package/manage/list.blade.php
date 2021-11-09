@@ -42,8 +42,8 @@
 									<td><?= $package['price'] ?></td>
 									<td>
 										@if($package["credits"] == 0)  Free	@endif
-										@if($package["credits"] == 1)  1 Month	@endif
-										@if($package["credits"] == 2)  3 Month	@endif
+										@if($package["credits"] == 1)  30 Days	@endif
+										@if($package["credits"] == 2)  60 Days	@endif
 										@if($package["credits"] == 3)  6 Month 	@endif
 										@if($package["credits"] == 4)  1 year	@endif
 										@if($package["credits"] == 5)  Lifetime	@endif

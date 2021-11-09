@@ -39,7 +39,7 @@
 					@if($user['isBlockUser'] == true)
 						<!-- message button -->
 							<a class="btn-link messageBox" data-toggle="tooltip" title="This user is blocked!" style="font-size: 18px; margin-top: 1.9rem !important; cursor: pointer;"><i class="far fa-comments fa-2x"></i>
-								<br> <?= __tr('Message') ?></a>
+								</a>
 						<!-- /message button -->
 					@else
 					<!-- message button -->
@@ -62,15 +62,14 @@
 			                <?= $user['countryName'] ?>
 			            @endif
 					</h5>
-					
 					@if($user['last_sent'] != null)
 					@if(isset($likedme) && $likedme == true)
 						<span>Recieved :<?= $user['last_sent'] ?></span>
 					@else
 						<span>Sent :<?= $user['last_sent'] ?></span>
 					@endif
-					@else
-						<span>Recieved:</span>
+					
+						<!-- <span>Recieved:</span> -->
 					@endif
 				</div>
 				

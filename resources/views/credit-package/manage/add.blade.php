@@ -43,8 +43,8 @@
 							<label for="lwCredit"><?= __tr('For') ?></label>	
 							<select name="credits" class="form-control" required>
 								<option value="0">Free</option>
-								<option value="1">1 Month</option>
-								<option value="2">3 Month</option>
+								<option value="1">30 Days</option>
+								<option value="2">60 Days</option>
 								<option value="3">6 Month </option>
 								<option value="4">1 year</option>
 								<option value="5">Lifetime</option>
