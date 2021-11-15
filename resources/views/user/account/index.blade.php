@@ -189,7 +189,7 @@
 		<!-- / financial transaction list -->
 		 
 		<!-- financial transaction table -->
- 		<table class="table table-hover" id="lwUserTransactionTable">
+ 		<table class="table table-hover table-responsive" id="lwUserTransactionTable">
 			<thead>
 				<tr>
 					<th><?= __tr('Transaction On') ?></th>
@@ -367,3 +367,11 @@ __Utils.modalTemplatize('#lwTransactionDetailTemplate', function(e, data) {
 	fetchTransactionList();
 </script>
 @endpush
+<style>
+	div.dataTables_wrapper div.dataTables_length select {
+		width: auto !important;
+	}
+	.form-control {
+		width: 100% !important;
+	}
+</style>

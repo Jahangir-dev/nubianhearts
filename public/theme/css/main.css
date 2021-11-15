@@ -3729,7 +3729,13 @@ input[type=submit] {
     width: 100% !important;
   }
   .custom-select{
-    width: 17rem !important;
+    width: 20.5rem !important;
+  }
+  .saved{
+    width: 100% !important;
+  }
+  .form-control {
+    width: 20.5rem !important;
   }
   #lwUserEditableLooking {
     margin-left: -14px;

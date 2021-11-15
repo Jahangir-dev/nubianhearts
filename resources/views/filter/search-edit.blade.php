@@ -149,7 +149,7 @@
 
 <!-- Found matches container -->
     <!-- Advance Filter Options -->
-    <div class="lw-advance-filter-container lw-expand-filter">
+    <div class="lw-advance-filter-container lw-expand-filter col-md-12 col-sm-12">
         <div class="lw-filter-message text-secondary">
         </div>
         <!-- Tabs for advance filter -->
@@ -357,16 +357,14 @@
                               <label class="form-check-label" for="inlineCheckbox1">New Member</label>
                             </div>
                         </div>
-                        <div class="col-sm-12 col-md-2">
+                        <div class="col-sm-12 col-md-2 mb-2">
                             <div class="custom-control">
                                 <a class="btn text-white" onclick='window.location.href = "?reset=true"'>Clear <i class="fa fa-times"></i></a>
                             </div>
                         </div>
                         <div class="col-sm-12 col-md-2">
                             <div class="custom-control">
-                            
-                
-                        <button type="submit" class="btn btn-primary"><?= __tr('Update') ?></button>
+                                <button type="submit" class="btn btn-primary"><?= __tr('Update') ?></button>
                             </div>
                         </div>
                     </div>

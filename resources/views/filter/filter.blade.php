@@ -129,7 +129,7 @@
                 </div>
                 <div class="col-md-2 col-sm-12 mt-1">
                     <center>
-                     <a href="<?= route('user.read.getSaved') ?>" class="btn btn-primary p-2" style="line-height: 2.0;"><?= __tr('Saved Searches') ?></a>
+                     <a href="<?= route('user.read.getSaved') ?>" class="btn btn-primary p-2 saved" style="line-height: 2.0;"><?= __tr('Saved Searches') ?></a>
                  </center>
                 </div>
                 <div class="col-md-3 col-sm-12 mt-1">

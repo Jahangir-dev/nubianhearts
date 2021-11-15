@@ -13,8 +13,8 @@
     <h5 class="h5 mb-0 text-gray-200">
     <span class="text-primary"><i class="far fa-bell"></i></span> <?= __tr('Saved Searches') ?></h5>
 </div>
-<div class="col-2 mb-2 ml-0">
-     <a href="<?= route('user.read.savedSearches') ?>" class="btn btn-secondary p-2"><?= __tr('Save New Search') ?></a>
+<div class="col-2 col-sm-12 mb-2 ml-0">
+     <a href="<?= route('user.read.savedSearches') ?>" class="btn btn-secondary p-2 sm-width"><?= __tr('Save New Search') ?></a>
 </div>
  <!-- Start of Notification Wrapper -->
 <div class="card mb-4">
@@ -106,3 +106,16 @@
     }
 </script>
 @endpush
+<style>
+    @media (max-width: 575px) {
+        .form-control {
+            width: 100% !important;
+    }
+    .custom-select {
+            width: auto !important;
+    }
+    .sm-width {
+        min-width: 165px !important;
+    }
+    }
+</style>
