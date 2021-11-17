@@ -1923,12 +1923,12 @@ class UserEngine extends BaseEngine
      *	Check profile status
      *
      *-----------------------------------------------------------------------*/
-	public function checkProfileStatus()
+	public function  checkProfileStatus()
 	{
 		
 		//get profile
 		$userProfile = $this->userSettingRepository->fetchUserProfile(getUserID());
-
+	
 		if (__isEmpty($userProfile)) {
 			$userProfile = $this->userRepository->storeUserProfile([
 				'users__id' => getUserID(),
@@ -1944,11 +1944,14 @@ class UserEngine extends BaseEngine
 				'step_two' 		=> true
 			];
 		} else {
-
-			
-
 			//for step one
-			$profileStatus['step_one'] = $this->isStepCompleted($userProfile->toArray(), $steps['step_one']);
+			
+			if ($userProfile->status == 1) {
+				$profileStatus['step_one'] 	= true;
+			} else {
+				$profileStatus['step_one'] = $this->isStepCompleted($userProfile->toArray(), $steps['step_one']);
+			}
+			
 		}
 
 		//preview options
